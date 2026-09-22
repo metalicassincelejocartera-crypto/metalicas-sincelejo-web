@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Almacén Metálicas Sincelejo — Calidad y Servicio</title>
+<link rel="icon" href="logo.png" type="image/png">
+<meta name="description" content="Electrodomésticos y línea blanca en Sincelejo. Neveras, lavadoras, estufas, TV, aires y más. Contado y crédito. Atención por WhatsApp.">
+<meta name="theme-color" content="#2E3095">
+
+<!-- Vista previa al compartir el link en WhatsApp / Facebook / redes. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Almacén Metálicas Sincelejo">
+<meta property="og:title" content="Almacén Metálicas Sincelejo — Calidad y Servicio">
+<meta property="og:description" content="Electrodomésticos y línea blanca en Sincelejo. Contado o crédito. Atención directa por WhatsApp.">
+<meta property="og:image" content="https://metalicassincelejo.com/logo.png">
+<meta property="og:url" content="https://metalicassincelejo.com/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Almacén Metálicas Sincelejo — Calidad y Servicio">
+<meta name="twitter:description" content="Electrodomésticos y línea blanca en Sincelejo. Contado o crédito. Atención por WhatsApp.">
+<meta name="twitter:image" content="https://metalicassincelejo.com/logo.png">
+
+<!-- ============================================================
+     CONFIGURACIÓN — lo único que hay que revisar antes de publicar
+     ============================================================ -->
+<script>
+  // Números de WhatsApp de los 3 canales, en formato internacional SIN + ni espacios.
+  // El de Ventas ya está tomado del número que usa el dashboard interno (telJefe).
+  // Julio: confirma este y completa Cartera y Soporte con los números reales de esos bots.
+  window.WHATSAPP_NUMEROS = {
+    ventas:  '573215383870', // TODO confirmar
+    cartera: '573000000000', // TODO reemplazar por el número real del bot de Cartera
+    soporte: '573000000000'  // TODO reemplazar por el número real del bot de Soporte
+  };
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+<style>
+  :root{
+    --white:#ffffff;
+    --paper:#F6F7F9;
+    --ink:#14181F;
+    --ink-soft:#5B6472;
+    --red:#E4131F;
+    --red-deep:#A80D16;
+    --blue:#2E3095;
+    --blue-deep:#1F2168;
+    --blue-soft:#EAEAF7;
+    --wa:#25D366;
+    --wa-deep:#128C7E;
+    --radius:14px;
+    --maxw:1200px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--white);color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Archivo',sans-serif;letter-spacing:-0.01em}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 24px;border-radius:10px;border:none;
+    font-family:'Manrope';font-weight:700;font-size:15px;cursor:pointer;
+    text-decoration:none;transition:transform .15s ease, filter .15s ease;
+  }
+  .btn:active{transform:scale(.97)}
+  .btn-red{background:var(--red);color:#fff}
+  .btn-red:hover{filter:brightness(1.08)}
+  .btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}
+  .btn-outline:hover{background:var(--blue-soft)}
+  .btn-wa{background:var(--wa);color:#fff}
+  .btn-wa:hover{background:var(--wa-deep)}
+  .btn-block{width:100%;justify-content:center}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
+    backdrop-filter:blur(8px);border-bottom:1px solid #ECECEF;
+  }
+  .headbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand-logo{height:46px;width:auto}
+  .head-cta{display:none}
+  @media(min-width:720px){.head-cta{display:inline-flex}}
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--paper);padding:52px 0 60px;overflow:hidden}
+  .hero-grid{display:grid;gap:36px;align-items:center}
+  @media(min-width:900px){.hero-grid{grid-template-columns:1.1fr .9fr}}
+  .eyebrow-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .eyebrow-bar .dash{width:34px;height:5px;background:var(--red);border-radius:3px}
+  .eyebrow-bar span{font-weight:700;color:var(--blue);font-size:14px}
+  .hero h1{font-size:clamp(32px,5.2vw,54px);font-weight:900;color:var(--ink);line-height:1.04;margin:0 0 16px}
+  .hero h1 em{font-style:normal;color:var(--red)}
+  .hero p{font-size:17px;color:var(--ink-soft);max-width:46ch;margin:0 0 26px;line-height:1.55}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px}
+  .hero-art{
+    position:relative;border-radius:24px;overflow:hidden;min-height:260px;
+    border:6px solid var(--blue);box-shadow:0 18px 40px rgba(15,20,60,.18);
+  }
+  .hero-photo{width:100%;height:100%;object-fit:cover;display:block;min-height:260px}
+  .hero-art-tag{
+    position:absolute;left:0;right:0;bottom:0;z-index:1;
+    background:var(--red);color:#fff;padding:14px 20px;
+    font-weight:800;font-family:'Archivo';font-size:15px;
+  }
+  .hero-art-tag small{display:block;font-family:'Manrope';font-weight:600;font-size:12px;opacity:.9;margin-top:2px}
+
+  /* ---------- marcas ---------- */
+  .marcas-section{padding:26px 0}
+  .marcas-label{font-size:12px;font-weight:800;color:var(--ink-soft);margin-bottom:12px}
+  .marcas-row{display:flex;gap:10px;flex-wrap:wrap}
+  .marca-badge{
+    white-space:nowrap;flex:0 0 auto;padding:9px 20px;border-radius:999px;
+    border:1.5px solid #E1E3E8;background:#fff;font-family:'Archivo';font-weight:800;
+    font-size:14px;color:var(--ink);cursor:pointer;transition:.15s;
+  }
+  .marca-badge:nth-child(odd):hover{border-color:var(--red);color:var(--red)}
+  .marca-badge:nth-child(even):hover{border-color:var(--blue);color:var(--blue)}
+
+  /* ---------- negocio band ---------- */
+  .negocio-band{background:var(--ink);color:#fff;padding:40px 0 30px}
+  .negocio-grid{display:grid;gap:20px;align-items:center;margin-bottom:22px}
+  @media(min-width:820px){.negocio-grid{grid-template-columns:1fr auto}}
+  .eyebrow-light span{color:#FF8A8F !important}
+  .negocio-band h2{font-size:26px;margin:0 0 8px;font-weight:900}
+  .negocio-band p{margin:0;color:#B7BCC6;max-width:56ch;line-height:1.55}
+  .negocio-tags{display:flex;gap:10px;flex-wrap:wrap}
+  .negocio-tag{
+    white-space:nowrap;flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.06);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;transition:.15s;
+  }
+  .negocio-tag:hover{background:var(--red);border-color:var(--red)}
+
+  /* ---------- categorías (tiles) ---------- */
+  .cats-section{padding:40px 0 10px}
+  .catalog-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+  .catalog-head h2{font-size:26px;font-weight:900;margin:0}
+  .catalog-count{color:var(--ink-soft);font-size:13.5px;font-weight:600}
+  .cat-tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(min-width:640px){.cat-tiles{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:960px){.cat-tiles{grid-template-columns:repeat(4,1fr)}}
+  .cat-tile{
+    position:relative;text-align:left;border:1.5px solid #ECECEF;border-radius:16px;
+    padding:16px;min-height:132px;cursor:pointer;background:var(--paper) center/cover no-repeat;
+    display:flex;flex-direction:column;justify-content:flex-end;gap:2px;overflow:hidden;transition:.15s;
+  }
+  .cat-tile.has-thumb{color:#fff}
+  .cat-tile.has-thumb::before{
+    content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,24,31,.15) 0%,rgba(20,24,31,.82) 100%);
+  }
+  .cat-tile.has-thumb .cat-tile-icon,.cat-tile.has-thumb .cat-tile-name,.cat-tile.has-thumb .cat-tile-count,.cat-tile.has-thumb .cat-tile-badge{position:relative;z-index:1}
+  .cat-tile:hover{border-color:var(--blue)}
+  .cat-tile.active{border-color:var(--red);box-shadow:0 0 0 2px var(--red) inset}
+  .cat-tile-icon{font-size:18px;color:var(--blue);margin-bottom:6px}
+  .cat-tile.has-thumb .cat-tile-icon{color:#fff}
+  .cat-tile-name{font-weight:800;font-size:14px;line-height:1.25;white-space:normal;word-break:break-word}
+  .cat-tile-count{font-size:11.5px;font-weight:600;opacity:.75}
+  .cat-tile-badge{
+    position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:9.5px;
+    font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;
+  }
+  .cat-tile-todo{background:var(--blue-soft)}
+
+  /* ---------- productos / toolbar ---------- */
+  .catalog-section{padding:26px 0 60px}
+  .catalog-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .catalog-breadcrumb{font-weight:800;font-size:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .breadcrumb-hint{font-weight:600;font-size:14px;color:var(--ink-soft)}
+  .link-reset{background:none;border:none;color:var(--blue);font-weight:700;font-size:13px;cursor:pointer;padding:0;text-decoration:underline}
+  .toolbar-controls{display:flex;gap:10px;flex-wrap:wrap;flex:1;justify-content:flex-end}
+  .toolbar-controls input, .toolbar-controls select{
+    padding:11px 14px;border-radius:10px;border:1.5px solid #E1E3E8;
+    font-size:13.5px;font-family:'Manrope';background:#fff;color:var(--ink);
+  }
+  .toolbar-controls input{flex:1;min-width:180px}
+  .toolbar-controls input:focus, .toolbar-controls select:focus{outline:none;border-color:var(--blue)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(min-width:720px){.grid{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:1020px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+  .card{
+    background:#fff;border:1px solid #ECECEF;border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;position:relative;
+    transition:border-color .15s ease;
+  }
+  .card:hover{border-color:var(--blue)}
+  .card-media{
+    aspect-ratio:1;background:var(--paper);display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .card-media img{width:100%;height:100%;object-fit:cover}
+  .card-media .ph{font-size:34px;color:#C7CCD4}
+  .promo-tag{
+    position:absolute;top:10px;left:-6px;background:var(--red);color:#fff;
+    font-weight:800;font-size:11.5px;padding:5px 12px 5px 16px;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+  }
+  .promo-tag::after{
+    content:"";position:absolute;left:0;bottom:-6px;border-left:6px solid var(--red-deep);
+    border-bottom:6px solid transparent;
+  }
+  .card-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .card-cat{font-size:11px;font-weight:700;color:var(--blue)}
+  .card-name{font-weight:800;font-size:14.5px;line-height:1.25;min-height:2.4em}
+  .card-price{margin-top:2px}
+  .card-price b{font-size:17px;color:var(--ink)}
+  .card-price .credito{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
+  .card-cta{margin-top:10px}
+  .card-cta .btn{width:100%;padding:11px 12px;font-size:13px;justify-content:center}
+  .empty-state, .loading-state{
+    text-align:center;padding:60px 20px;color:var(--ink-soft);font-weight:600;grid-column:1/-1;
+  }
+
+  /* ---------- credito band ---------- */
+  .credito-band{background:var(--blue);color:#fff;padding:44px 0}
+  .credito-grid{display:grid;gap:22px;align-items:center}
+  @media(min-width:820px){.credito-grid{grid-template-columns:1fr auto}}
+  .credito-band h2{font-size:26px;margin:0 0 8px;font-weight:900}
+  .credito-band p{margin:0;color:#C8D6EA;max-width:58ch;line-height:1.55}
+
+  /* ---------- canales ---------- */
+  .canales-section{padding:56px 0;background:var(--paper)}
+  .canales-head{text-align:left;max-width:640px;margin-bottom:30px}
+  .canales-head h2{font-size:28px;font-weight:900;margin:0 0 8px}
+  .canales-head p{color:var(--ink-soft);margin:0;line-height:1.55}
+  .canales-grid{display:grid;gap:16px}
+  @media(min-width:820px){.canales-grid{grid-template-columns:repeat(3,1fr)}}
+  .canal-card{border-radius:18px;padding:26px;color:#fff;display:flex;flex-direction:column;gap:12px;min-height:210px}
+  .canal-card i.top-icon{font-size:26px;opacity:.9}
+  .canal-card h3{margin:0;font-size:19px;font-weight:800}
+  .canal-card p{margin:0;font-size:13.5px;line-height:1.5;opacity:.92;flex:1}
+  .canal-ventas{background:var(--red)}
+  .canal-cartera{background:var(--blue)}
+  .canal-soporte{background:var(--ink)}
+  .canal-card .btn{align-self:flex-start;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.4)}
+  .canal-card .btn:hover{background:rgba(255,255,255,.26)}
+
+  /* ---------- visitanos ---------- */
+  .visitanos-section{padding:56px 0}
+  .visitanos-grid{display:grid;gap:16px;grid-template-columns:1fr}
+  @media(min-width:720px){.visitanos-grid{grid-template-columns:1fr 1fr}}
+  .visitanos-grid img{width:100%;height:280px;object-fit:cover;border-radius:16px;border:1px solid #ECECEF}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink);color:#C7CCD4;padding:42px 0 26px}
+  .foot-grid{display:grid;gap:24px}
+  @media(min-width:720px){.foot-grid{grid-template-columns:2fr 1fr 1fr}}
+  footer h4{color:#fff;font-family:'Archivo';font-size:14px;margin:0 0 10px}
+  footer p, footer li{font-size:13.5px;line-height:1.7;color:#9BA3AF}
+  footer ul{list-style:none;padding:0;margin:0}
+  .foot-bottom{
+    border-top:1px solid rgba(255,255,255,.08);margin-top:30px;padding-top:18px;
+    font-size:12px;color:#6B7280;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  }
+
+  /* ---------- floating WA ---------- */
+  .fab-wa{
+    position:fixed;right:18px;bottom:18px;z-index:60;width:58px;height:58px;border-radius:50%;
+    background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:26px;box-shadow:0 8px 22px rgba(0,0,0,.22);text-decoration:none;
+  }
+  .fab-wa:hover{background:var(--wa-deep)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap headbar">
+    <div class="brand">
+      <img src="logo.png" alt="Almacén Metálicas Sincelejo — Calidad y Servicio" class="brand-logo">
+    </div>
+    <a class="btn btn-red head-cta" id="headCta" href="#" target="_blank" rel="noopener">
+      <i class="fa-brands fa-whatsapp"></i> Hablar por WhatsApp
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow-bar"><span class="dash"></span><span>Sincelejo, Sucre</span></div>
+      <h1>Equipa tu casa sin<br><em>complicarte.</em></h1>
+      <p>Neveras, lavadoras, estufas, aires y tecnología para el hogar — a contado o a crédito. Escríbenos y un asesor te atiende directo por WhatsApp.</p>
+      <div class="hero-actions">
+        <a href="#catalogo" class="btn btn-red">Ver catálogo</a>
+        <a href="#canales" class="btn btn-outline">Hablar con un asesor</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="fachada1.jpg" alt="Fachada del Almacén Metálicas Sincelejo" class="hero-photo">
+      <div class="hero-art-tag">Contado o crédito
+        <small>Financiación directa con la tienda</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="marcas-section">
+  <div class="wrap">
+    <div class="marcas-label">Marcas que manejamos</div>
+    <div class="marcas-row" id="marcasRow">
+      <button class="marca-badge">Haceb</button>
+      <button class="marca-badge">Mabe</button>
+      <button class="marca-badge">Challenger</button>
+      <button class="marca-badge">AKT</button>
+      <button class="marca-badge">Boxer</button>
+      <button class="marca-badge">Inducol</button>
+    </div>
+  </div>
+</section>
+
+<section class="negocio-band">
+  <div class="wrap negocio-grid">
+    <div>
+      <div class="eyebrow-bar eyebrow-light"><span class="dash"></span><span>Línea comercial</span></div>
+      <h2>Equipamos tu negocio</h2>
+      <p>Congeladores, enfriadores y botelleros para tiendas, restaurantes, licoreras y distribuidores.</p>
+    </div>
+    <a class="btn btn-red" id="waNegocios" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Cotizar para mi negocio</a>
+  </div>
+  <div class="wrap negocio-tags" id="negocioTags">
+    <button class="negocio-tag" data-kw="congelador"><i class="fa-solid fa-icicles"></i> Congeladores</button>
+    <button class="negocio-tag" data-kw="enfriador"><i class="fa-solid fa-temperature-low"></i> Enfriadores</button>
+    <button class="negocio-tag" data-kw="botellero"><i class="fa-solid fa-wine-bottle"></i> Botelleros</button>
+  </div>
+</section>
+
+<section class="cats-section wrap" id="catalogo">
+  <div class="catalog-head">
+    <h2>Categorías</h2>
+    <span class="catalog-count" id="catCount"></span>
+  </div>
+  <div class="cat-tiles" id="catTiles">
+    <div class="loading-state">Cargando categorías…</div>
+  </div>
+</section>
+
+<section class="catalog-section wrap" id="productos">
+  <div class="catalog-toolbar">
+    <div class="catalog-breadcrumb" id="breadcrumb"></div>
+    <div class="toolbar-controls">
+      <input type="text" id="searchInput" placeholder="Buscar por nombre o marca…">
+      <select id="sortSelect">
+        <option value="relevancia">Relevancia</option>
+        <option value="precio-asc">Precio: menor a mayor</option>
+        <option value="precio-desc">Precio: mayor a menor</option>
+      </select>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="credito-band">
+  <div class="wrap credito-grid">
+    <div>
+      <h2>¿No tienes todo el contado? Financiamos contigo.</h2>
+      <p>Manejamos crédito directo, sin tantas vueltas. Cuéntale a un asesor qué producto te interesa y te decimos cuotas y requisitos al momento.</p>
+    </div>
+    <a class="btn btn-red" id="creditoCta" href="#" target="_blank" rel="noopener">
+      <i class="fa-brands fa-whatsapp"></i> Consultar crédito
+    </a>
+  </div>
+</section>
+
+<section class="canales-section" id="canales">
+  <div class="wrap">
+    <div class="canales-head">
+      <h2>¿Con quién necesitas hablar?</h2>
+      <p>Tenemos un canal de WhatsApp para cada cosa, así te atiende directo la persona indicada.</p>
+    </div>
+    <div class="canales-grid">
+      <div class="canal-card canal-ventas">
+        <i class="fa-solid fa-cart-shopping top-icon"></i>
+        <h3>Ventas</h3>
+        <p>Quieres comprar, cotizar un producto o preguntar por una promoción.</p>
+        <a class="btn" id="waVentas" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Escribir a Ventas</a>
+      </div>
+      <div class="canal-card canal-cartera">
+        <i class="fa-solid fa-file-invoice-dollar top-icon"></i>
+        <h3>Cartera</h3>
+        <p>Ya eres cliente y quieres consultar tu saldo, tu cuota o hacer un pago.</p>
+        <a class="btn" id="waCartera" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Escribir a Cartera</a>
+      </div>
+      <div class="canal-card canal-soporte">
+        <i class="fa-solid fa-screwdriver-wrench top-icon"></i>
+        <h3>Soporte</h3>
+        <p>Tu producto tiene una falla, necesitas garantía o servicio técnico.</p>
+        <a class="btn" id="waSoporte" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Escribir a Soporte</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="visitanos-section">
+  <div class="wrap">
+    <div class="canales-head">
+      <h2>Visítanos en Sincelejo</h2>
+      <p>Dos puntos de atención, mismo compromiso: calidad y servicio.</p>
+    </div>
+    <div class="visitanos-grid">
+      <img src="fachada1.jpg" alt="Sede principal — Almacén Metálicas Sincelejo">
+      <img src="fachada2.jpg" alt="Sede — Almacén Metálicas Sincelejo">
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <h4>Metálicas Sincelejo</h4>
+      <p>Electrodomésticos y línea blanca en Sincelejo, Sucre. Calidad y servicio, contado y crédito.</p>
+    </div>
+    <div>
+      <h4>Canales</h4>
+      <ul>
+        <li>Ventas — WhatsApp</li>
+        <li>Cartera — WhatsApp</li>
+        <li>Soporte — WhatsApp</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Ubicación</h4>
+      <ul>
+        <li>Sincelejo, Sucre, Colombia</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© <span id="year"></span> Almacén Metálicas Sincelejo</span>
+    <span>Calidad y Servicio</span>
+  </div>
+</footer>
+
+<a class="fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import { getFirestore, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+  // Mismo proyecto y misma colección "catalogo" que usa el dashboard interno
+  // (panel-firebase / ElectroGestion) y el bot de WhatsApp. Esta página es
+  // SOLO LECTURA: las fotos y datos se siguen administrando desde el dashboard,
+  // esta vitrina solo las muestra.
+  const firebaseConfig = {
+    apiKey: "AIzaSyA0-xfeXa5KcHVo011p0RTIHQ81-8pvsjY",
+    authDomain: "prueba-para-debido.firebaseapp.com",
+    projectId: "prueba-para-debido",
+    storageBucket: "prueba-para-debido.firebasestorage.app",
+    messagingSenderId: "288841494742",
+    appId: "1:288841494742:web:cecc6a0d789f037a1bd977"
+  };
+  const COLECCION_CATALOGO = 'catalogo';
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const money = n => Number(n||0).toLocaleString('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0});
+  const norm  = s => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const esc   = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const NUM = window.WHATSAPP_NUMEROS;
+  const waLink = (numero, texto) => `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+
+  // Enlaces fijos (header, banda de crédito, banda de negocio, canales, botón flotante)
+  document.getElementById('headCta').href    = waLink(NUM.ventas, 'Hola, quiero información sobre productos de Metálicas Sincelejo.');
+  document.getElementById('fabWa').href      = waLink(NUM.ventas, 'Hola, quiero información sobre productos de Metálicas Sincelejo.');
+  document.getElementById('creditoCta').href = waLink(NUM.ventas, 'Hola, quiero consultar sobre crédito para un producto.');
+  document.getElementById('waNegocios').href = waLink(NUM.ventas, 'Hola, tengo un negocio y quiero cotizar congeladores/enfriadores/botelleros.');
+  document.getElementById('waVentas').href   = waLink(NUM.ventas,  'Hola, quiero comprar / cotizar un producto.');
+  document.getElementById('waCartera').href  = waLink(NUM.cartera, 'Hola, quiero consultar mi cuenta / cartera.');
+  document.getElementById('waSoporte').href  = waLink(NUM.soporte, 'Hola, necesito soporte técnico o garantía.');
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ── Íconos por tipo de categoría (coincidencia por palabra clave, sin acentos) ──
+  const MAPA_ICONOS = [
+    [['congelador'], 'fa-icicles'],
+    [['enfriador','exhibidor','vitrina refrigerada'], 'fa-temperature-low'],
+    [['botellero'], 'fa-wine-bottle'],
+    [['nevera','refrigera'], 'fa-snowflake'],
+    [['lavador'], 'fa-shirt'],
+    [['estufa','cocina','horno'], 'fa-fire-burner'],
+    [['television','tv','tecnolog','sonido','audio'], 'fa-tv'],
+    [['aire','ventilador','clima'], 'fa-wind'],
+    [['licuadora','blender'], 'fa-blender'],
+    [['moto','bicicleta'], 'fa-motorcycle'],
+    [['colchon'], 'fa-bed'],
+    [['mueble'], 'fa-couch'],
+  ];
+  const KW_COMERCIAL = ['congelador','enfriador','botellero','exhibidor','industrial','comercial'];
+  function iconoCategoria(nombre){
+    const n = norm(nombre);
+    for (const [claves, icono] of MAPA_ICONOS) if (claves.some(k => n.includes(k))) return icono;
+    return 'fa-box';
+  }
+  function esComercial(nombre){
+    const n = norm(nombre);
+    return KW_COMERCIAL.some(k => n.includes(k));
+  }
+  function precioDe(p){ return (p.promoHoy!=null) ? Number(p.promoHoy) : Number(p.contado||0); }
+
+  let catalogo = [];
+  let categoriaActiva = null;   // null = todavía no elige nada · 'todas' · o el nombre exacto de una categoría
+  let busqueda = '';
+  let orden = 'relevancia';
+
+  function categoriasConDatos(){
+    const map = new Map();
+    catalogo.forEach(p => {
+      const cat = p.categoria || 'General';
+      if (!map.has(cat)) map.set(cat, { nombre:cat, count:0, thumb:null });
+      const e = map.get(cat);
+      e.count++;
+      if (!e.thumb && p.imagen) e.thumb = p.imagen;
+    });
+    return Array.from(map.values()).sort((a,b) => b.count - a.count || a.nombre.localeCompare(b.nombre));
+  }
+
+  function irACategoria(cat){
+    categoriaActiva = cat;
+    busqueda = '';
+    document.getElementById('searchInput').value = '';
+    renderAll();
+    document.getElementById('productos').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function irABusqueda(texto){
+    categoriaActiva = null;
+    busqueda = texto;
+    document.getElementById('searchInput').value = texto;
+    renderAll();
+    document.getElementById('productos').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function renderTiles(){
+    const wrap = document.getElementById('catTiles');
+    const cats = categoriasConDatos();
+    document.getElementById('catCount').textContent = cats.length ? `${cats.length} categoría${cats.length===1?'':'s'}` : '';
+
+    if (!catalogo.length){
+      wrap.innerHTML = `<div class="empty-state">Aún no hay productos publicados. Aparecerán aquí automáticamente en cuanto se agreguen desde el panel.</div>`;
+      return;
+    }
+
+    const todoActivo = categoriaActiva === 'todas';
+    const tiles = [`
+      <button class="cat-tile cat-tile-todo ${todoActivo?'active':''}" data-cat="todas">
+        <div class="cat-tile-icon"><i class="fa-solid fa-grip"></i></div>
+        <div class="cat-tile-name">Ver todo</div>
+        <div class="cat-tile-count">${catalogo.length} producto${catalogo.length===1?'':'s'}</div>
+      </button>`
+    ];
+    cats.forEach(c => {
+      const icono = iconoCategoria(c.nombre);
+      const activa = categoriaActiva === c.nombre;
+      const styleAttr = c.thumb ? ` style="background-image:url('${esc(c.thumb)}')"` : '';
+      tiles.push(`
+      <button class="cat-tile ${c.thumb?'has-thumb':''} ${activa?'active':''}" data-cat="${esc(c.nombre)}"${styleAttr}>
+        ${esComercial(c.nombre) ? '<span class="cat-tile-badge">Para tu negocio</span>' : ''}
+        <div class="cat-tile-icon"><i class="fa-solid ${icono}"></i></div>
+        <div class="cat-tile-name">${esc(c.nombre)}</div>
+        <div class="cat-tile-count">${c.count} producto${c.count===1?'':'s'}</div>
+      </button>`);
+    });
+    wrap.innerHTML = tiles.join('');
+    wrap.querySelectorAll('.cat-tile').forEach(b => {
+      b.addEventListener('click', () => irACategoria(b.dataset.cat));
+    });
+  }
+
+  function renderBreadcrumb(){
+    const el = document.getElementById('breadcrumb');
+    if (busqueda.trim() && categoriaActiva === null){
+      el.innerHTML = `Resultados para "${esc(busqueda)}" <button class="link-reset" id="resetView">Ver categorías</button>`;
+    } else if (categoriaActiva === 'todas'){
+      el.innerHTML = `Todos los productos <button class="link-reset" id="resetView">‹ Ver categorías</button>`;
+    } else if (categoriaActiva){
+      el.innerHTML = `${esc(categoriaActiva)} <button class="link-reset" id="resetView">‹ Ver categorías</button>`;
+    } else {
+      el.innerHTML = `<span class="breadcrumb-hint">👆 Elige una categoría arriba o usa el buscador</span>`;
+    }
+    const btn = document.getElementById('resetView');
+    if (btn) btn.addEventListener('click', () => {
+      categoriaActiva = null; busqueda = '';
+      document.getElementById('searchInput').value = '';
+      renderAll();
+      document.getElementById('catalogo').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  }
+
+  function mostrarProductos(){
+    return categoriaActiva !== null || busqueda.trim() !== '';
+  }
+
+  function productoFiltrado(p){
+    if (categoriaActiva && categoriaActiva !== 'todas' && (p.categoria||'General') !== categoriaActiva) return false;
+    if (busqueda.trim()) {
+      const q = norm(busqueda);
+      const hay = norm(p.nombre) + ' ' + norm(p.marca) + ' ' + norm(p.categoria);
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  }
+
+  function cardHtml(p){
+    const media = p.imagen
+      ? `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">`
+      : `<div class="ph"><i class="fa-solid fa-image"></i></div>`;
+    const promo = (p.promoHoy!=null) ? `<div class="promo-tag">Promo hoy</div>` : '';
+    const creditoLinea = (p.credito!=null)
+      ? `<span class="credito">o ${money(p.credito)} a crédito${p.mesesCredito?' · '+p.mesesCredito+' meses':''}${p.creditoEstimado?' (estimado)':''}</span>`
+      : '';
+    const precioMostrar = precioDe(p);
+    const nombreCompleto = p.nombre + (p.marca ? ' — '+p.marca : '');
+    const mensajeWa = `Hola, quiero información sobre: ${nombreCompleto}. Precio: ${money(precioMostrar)}. ¿Está disponible?`;
+    return `
+      <div class="card">
+        <div class="card-media">${media}${promo}</div>
+        <div class="card-body">
+          <div class="card-cat">${esc(p.categoria || 'General')}</div>
+          <div class="card-name">${esc(nombreCompleto)}</div>
+          <div class="card-price"><b>${money(precioMostrar)}</b>${creditoLinea}</div>
+          <div class="card-cta">
+            <a class="btn btn-wa" href="${waLink(NUM.ventas, mensajeWa)}" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> Preguntar
+            </a>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderGrid(){
+    const grid = document.getElementById('grid');
+    if (!catalogo.length){ grid.innerHTML = ''; return; }
+    if (!mostrarProductos()){ grid.innerHTML = ''; return; }
+
+    let lista = catalogo.filter(productoFiltrado);
+    if (orden === 'precio-asc') lista = lista.slice().sort((a,b)=>precioDe(a)-precioDe(b));
+    else if (orden === 'precio-desc') lista = lista.slice().sort((a,b)=>precioDe(b)-precioDe(a));
+
+    if (!lista.length){
+      grid.innerHTML = `<div class="empty-state">Sin resultados${busqueda?` para "${esc(busqueda)}"`:''}.</div>`;
+      return;
+    }
+    grid.innerHTML = lista.map(cardHtml).join('');
+  }
+
+  function renderAll(){ renderTiles(); renderBreadcrumb(); renderGrid(); }
+
+  document.getElementById('searchInput').addEventListener('input', e => {
+    busqueda = e.target.value;
+    categoriaActiva = null;
+    renderAll();
+  });
+  document.getElementById('sortSelect').addEventListener('change', e => {
+    orden = e.target.value;
+    renderGrid();
+  });
+  document.querySelectorAll('.negocio-tag').forEach(b => {
+    b.addEventListener('click', () => irABusqueda(b.dataset.kw));
+  });
+  document.querySelectorAll('.marca-badge').forEach(b => {
+    b.addEventListener('click', () => irABusqueda(b.textContent.trim()));
+  });
+
+  // Escucha en vivo: en cuanto se agrega/edita/activa-desactiva un producto
+  // desde el panel interno, esta vitrina se actualiza sola sin recargar.
+  onSnapshot(collection(db, COLECCION_CATALOGO), snap => {
+    catalogo = snap.docs
+      .map(d => ({ id:d.id, ...d.data() }))
+      .filter(p => p.estado !== 'inactivo')
+      .sort((a,b) => (a.categoria||'').localeCompare(b.categoria||'') || (a.nombre||'').localeCompare(b.nombre||''));
+    renderAll();
+  }, err => {
+    console.error('Error leyendo catálogo:', err);
+    document.getElementById('catTiles').innerHTML = `<div class="empty-state">No se pudo cargar el catálogo. Intenta más tarde.</div>`;
+  });
+
+  renderAll();
+</script>
+</body>
+</html>
