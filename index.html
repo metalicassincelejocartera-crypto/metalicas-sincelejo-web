@@ -28,9 +28,9 @@
   // El de Ventas ya está tomado del número que usa el dashboard interno (telJefe).
   // Julio: confirma este y completa Cartera y Soporte con los números reales de esos bots.
   window.WHATSAPP_NUMEROS = {
-    ventas:  '3163327031', // TODO confirmar
-    cartera: '3052399487', // TODO reemplazar por el número real del bot de Cartera
-    soporte: '3215383876'  // TODO reemplazar por el número real del bot de Soporte
+    ventas:  '573215383870', // TODO confirmar
+    cartera: '573000000000', // TODO reemplazar por el número real del bot de Cartera
+    soporte: '573000000000'  // TODO reemplazar por el número real del bot de Soporte
   };
 </script>
 
@@ -85,10 +85,17 @@
     position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
     backdrop-filter:blur(8px);border-bottom:1px solid #ECECEF;
   }
-  .headbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-  .brand{display:flex;align-items:center;gap:10px}
-  .brand-logo{height:46px;width:auto}
-  .head-cta{display:none}
+  .headbar{display:flex;align-items:center;gap:14px;padding:14px 0;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .brand-logo{height:58px;width:auto}
+  .head-search{order:3;flex:1 1 100%;margin-top:2px}
+  @media(min-width:720px){.head-search{order:0;flex:1 1 auto;max-width:420px;margin-top:0}}
+  .head-search input{
+    width:100%;padding:11px 16px;border-radius:999px;border:1.5px solid #E1E3E8;
+    font-family:'Manrope';font-size:14px;background:var(--paper);
+  }
+  .head-search input:focus{outline:none;border-color:var(--blue);background:#fff}
+  .head-cta{display:none;flex-shrink:0}
   @media(min-width:720px){.head-cta{display:inline-flex}}
 
   /* ---------- hero ---------- */
@@ -102,6 +109,9 @@
   .hero h1 em{font-style:normal;color:var(--red)}
   .hero p{font-size:17px;color:var(--ink-soft);max-width:46ch;margin:0 0 26px;line-height:1.55}
   .hero-actions{display:flex;flex-wrap:wrap;gap:14px}
+  .hero-trust{display:flex;flex-wrap:wrap;gap:10px 18px;margin-bottom:22px}
+  .hero-trust span{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--blue-deep)}
+  .hero-trust i{color:var(--red)}
   .hero-art{
     position:relative;border-radius:24px;overflow:hidden;min-height:260px;
     border:6px solid var(--blue);box-shadow:0 18px 40px rgba(15,20,60,.18);
@@ -114,32 +124,34 @@
   }
   .hero-art-tag small{display:block;font-family:'Manrope';font-weight:600;font-size:12px;opacity:.9;margin-top:2px}
 
-  /* ---------- marcas ---------- */
-  .marcas-section{padding:26px 0}
-  .marcas-label{font-size:12px;font-weight:800;color:var(--ink-soft);margin-bottom:12px}
-  .marcas-row{display:flex;gap:10px;flex-wrap:wrap}
+  /* ---------- marcas (línea dentro de categorías) ---------- */
+  .marcas-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:2px 0 18px}
+  .marcas-label-inline{font-size:12px;font-weight:800;color:var(--ink-soft);margin-right:2px}
   .marca-badge{
-    white-space:nowrap;flex:0 0 auto;padding:9px 20px;border-radius:999px;
+    white-space:nowrap;flex:0 0 auto;padding:7px 16px;border-radius:999px;
     border:1.5px solid #E1E3E8;background:#fff;font-family:'Archivo';font-weight:800;
-    font-size:14px;color:var(--ink);cursor:pointer;transition:.15s;
+    font-size:13px;color:var(--ink);cursor:pointer;transition:.15s;
   }
   .marca-badge:nth-child(odd):hover{border-color:var(--red);color:var(--red)}
   .marca-badge:nth-child(even):hover{border-color:var(--blue);color:var(--blue)}
 
-  /* ---------- negocio band ---------- */
-  .negocio-band{background:var(--ink);color:#fff;padding:40px 0 30px}
-  .negocio-grid{display:grid;gap:20px;align-items:center;margin-bottom:22px}
-  @media(min-width:820px){.negocio-grid{grid-template-columns:1fr auto}}
-  .eyebrow-light span{color:#FF8A8F !important}
-  .negocio-band h2{font-size:26px;margin:0 0 8px;font-weight:900}
-  .negocio-band p{margin:0;color:#B7BCC6;max-width:56ch;line-height:1.55}
-  .negocio-tags{display:flex;gap:10px;flex-wrap:wrap}
-  .negocio-tag{
-    white-space:nowrap;flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;
-    padding:10px 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.25);
-    background:rgba(255,255,255,.06);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;transition:.15s;
+  /* ---------- tarjeta "equipamos tu negocio" (dentro de categorías) ---------- */
+  .negocio-card{
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px;
+    background:var(--blue-soft);border:1.5px solid var(--blue);border-radius:16px;
+    padding:18px 20px;margin-bottom:24px;
   }
-  .negocio-tag:hover{background:var(--red);border-color:var(--red)}
+  .negocio-card-text{flex:1 1 220px}
+  .negocio-card-text strong{display:block;font-family:'Archivo';font-weight:900;font-size:16px;color:var(--blue-deep)}
+  .negocio-card-text span{font-size:13.5px;color:var(--ink-soft)}
+  .negocio-card-tags{display:flex;gap:8px;flex-wrap:wrap}
+  .negocio-tag{
+    white-space:nowrap;display:inline-flex;align-items:center;gap:6px;
+    padding:8px 14px;border-radius:999px;border:1.5px solid var(--blue);
+    background:#fff;color:var(--blue);font-weight:700;font-size:12.5px;cursor:pointer;transition:.15s;
+  }
+  .negocio-tag:hover{background:var(--blue);color:#fff}
+  .negocio-card .btn{padding:10px 18px;font-size:13px}
 
   /* ---------- categorías (tiles) ---------- */
   .cats-section{padding:40px 0 10px}
@@ -177,13 +189,12 @@
   .catalog-breadcrumb{font-weight:800;font-size:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .breadcrumb-hint{font-weight:600;font-size:14px;color:var(--ink-soft)}
   .link-reset{background:none;border:none;color:var(--blue);font-weight:700;font-size:13px;cursor:pointer;padding:0;text-decoration:underline}
-  .toolbar-controls{display:flex;gap:10px;flex-wrap:wrap;flex:1;justify-content:flex-end}
-  .toolbar-controls input, .toolbar-controls select{
+  .toolbar-controls{display:flex;gap:10px;flex-wrap:wrap}
+  .toolbar-controls select{
     padding:11px 14px;border-radius:10px;border:1.5px solid #E1E3E8;
     font-size:13.5px;font-family:'Manrope';background:#fff;color:var(--ink);
   }
-  .toolbar-controls input{flex:1;min-width:180px}
-  .toolbar-controls input:focus, .toolbar-controls select:focus{outline:none;border-color:var(--blue)}
+  .toolbar-controls select:focus{outline:none;border-color:var(--blue)}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
   @media(min-width:720px){.grid{grid-template-columns:repeat(3,1fr)}}
   @media(min-width:1020px){.grid{grid-template-columns:repeat(4,1fr)}}
@@ -213,7 +224,9 @@
   .card-cat{font-size:11px;font-weight:700;color:var(--blue)}
   .card-name{font-weight:800;font-size:14.5px;line-height:1.25;min-height:2.4em}
   .card-price{margin-top:2px}
-  .card-price b{font-size:17px;color:var(--ink)}
+  .price-before{font-size:12px;color:var(--ink-soft);text-decoration:line-through;margin-right:6px}
+  .price-now{font-size:17px;color:var(--ink)}
+  .price-off{display:inline-block;background:var(--red);color:#fff;font-size:10.5px;font-weight:800;padding:2px 6px;border-radius:5px;margin-left:5px;vertical-align:middle}
   .card-price .credito{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
   .card-cta{margin-top:10px}
   .card-cta .btn{width:100%;padding:11px 12px;font-size:13px;justify-content:center}
@@ -227,6 +240,15 @@
   @media(min-width:820px){.credito-grid{grid-template-columns:1fr auto}}
   .credito-band h2{font-size:26px;margin:0 0 8px;font-weight:900}
   .credito-band p{margin:0;color:#C8D6EA;max-width:58ch;line-height:1.55}
+
+  /* ---------- testimonios ---------- */
+  .testimonios-section{padding:56px 0}
+  .testimonios-grid{display:grid;gap:16px}
+  @media(min-width:820px){.testimonios-grid{grid-template-columns:repeat(3,1fr)}}
+  .testimonio-card{border:1.5px solid #ECECEF;border-radius:16px;padding:22px}
+  .testimonio-stars{color:#F5A623;font-size:13px;margin-bottom:10px}
+  .testimonio-card p{font-size:14px;color:var(--ink);line-height:1.55;margin:0 0 12px;font-style:italic}
+  .testimonio-card span{font-size:13px;font-weight:700;color:var(--ink-soft)}
 
   /* ---------- canales ---------- */
   .canales-section{padding:56px 0;background:var(--paper)}
@@ -250,6 +272,39 @@
   .visitanos-grid{display:grid;gap:16px;grid-template-columns:1fr}
   @media(min-width:720px){.visitanos-grid{grid-template-columns:1fr 1fr}}
   .visitanos-grid img{width:100%;height:280px;object-fit:cover;border-radius:16px;border:1px solid #ECECEF}
+  .visitanos-address{margin-top:18px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+  .visitanos-address i{color:var(--red)}
+
+  /* ---------- modal de producto ---------- */
+  .card{cursor:pointer}
+  .modal-overlay{
+    display:none;position:fixed;inset:0;z-index:100;background:rgba(20,24,31,.6);
+    align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.open{display:flex}
+  .modal-box{
+    background:#fff;border-radius:18px;max-width:760px;width:100%;max-height:90vh;overflow:auto;
+    display:grid;position:relative;
+  }
+  @media(min-width:720px){.modal-box{grid-template-columns:1fr 1fr}}
+  .modal-close{
+    position:absolute;top:12px;right:12px;z-index:2;width:34px;height:34px;border-radius:50%;
+    border:none;background:rgba(20,24,31,.55);color:#fff;font-size:20px;line-height:1;cursor:pointer;
+  }
+  .modal-media{position:relative;background:var(--paper);aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+  .modal-media img{width:100%;height:100%;object-fit:cover}
+  .modal-media .ph{font-size:44px;color:#C7CCD4}
+  .modal-nav{
+    position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;
+    border:none;background:rgba(255,255,255,.85);cursor:pointer;font-size:14px;color:var(--ink);
+  }
+  .modal-prev{left:10px} .modal-next{right:10px}
+  .modal-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+  .modal-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.6)}
+  .modal-dot.active{background:#fff}
+  .modal-info{padding:24px;display:flex;flex-direction:column;gap:10px}
+  .modal-info h3{margin:0;font-size:20px;font-weight:900}
+  .modal-desc{font-size:14px;color:var(--ink-soft);line-height:1.6;margin:0}
 
   /* ---------- footer ---------- */
   footer{background:var(--ink);color:#C7CCD4;padding:42px 0 26px}
@@ -279,6 +334,9 @@
     <div class="brand">
       <img src="logo.png" alt="Almacén Metálicas Sincelejo — Calidad y Servicio" class="brand-logo">
     </div>
+    <div class="head-search">
+      <input type="text" id="searchInput" placeholder="Buscar por nombre o marca…">
+    </div>
     <a class="btn btn-red head-cta" id="headCta" href="#" target="_blank" rel="noopener">
       <i class="fa-brands fa-whatsapp"></i> Hablar por WhatsApp
     </a>
@@ -290,7 +348,12 @@
     <div>
       <div class="eyebrow-bar"><span class="dash"></span><span>Sincelejo, Sucre</span></div>
       <h1>Equipa tu casa sin<br><em>complicarte.</em></h1>
-      <p>Neveras, lavadoras, estufas, aires y tecnología para el hogar — a contado o a crédito. Escríbenos y un asesor te atiende directo por WhatsApp.</p>
+      <p>Neveras, lavadoras, estufas, aires y tecnología para el hogar — a contado o a crédito directo, con cuotas súper cómodas. Escríbenos y un asesor te atiende directo por WhatsApp.</p>
+      <div class="hero-trust">
+        <span><i class="fa-solid fa-award"></i> +30 años de trayectoria</span>
+        <span><i class="fa-solid fa-hand-holding-dollar"></i> Crédito directo</span>
+        <span><i class="fa-solid fa-truck"></i> Entrega a domicilio</span>
+      </div>
       <div class="hero-actions">
         <a href="#catalogo" class="btn btn-red">Ver catálogo</a>
         <a href="#canales" class="btn btn-outline">Hablar con un asesor</a>
@@ -305,41 +368,39 @@
   </div>
 </section>
 
-<section class="marcas-section">
-  <div class="wrap">
-    <div class="marcas-label">Marcas que manejamos</div>
-    <div class="marcas-row" id="marcasRow">
-      <button class="marca-badge">Haceb</button>
-      <button class="marca-badge">Mabe</button>
-      <button class="marca-badge">Challenger</button>
-      <button class="marca-badge">AKT</button>
-      <button class="marca-badge">Boxer</button>
-      <button class="marca-badge">Inducol</button>
-    </div>
-  </div>
-</section>
-
-<section class="negocio-band">
-  <div class="wrap negocio-grid">
-    <div>
-      <div class="eyebrow-bar eyebrow-light"><span class="dash"></span><span>Línea comercial</span></div>
-      <h2>Equipamos tu negocio</h2>
-      <p>Congeladores, enfriadores y botelleros para tiendas, restaurantes, licoreras y distribuidores.</p>
-    </div>
-    <a class="btn btn-red" id="waNegocios" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Cotizar para mi negocio</a>
-  </div>
-  <div class="wrap negocio-tags" id="negocioTags">
-    <button class="negocio-tag" data-kw="congelador"><i class="fa-solid fa-icicles"></i> Congeladores</button>
-    <button class="negocio-tag" data-kw="enfriador"><i class="fa-solid fa-temperature-low"></i> Enfriadores</button>
-    <button class="negocio-tag" data-kw="botellero"><i class="fa-solid fa-wine-bottle"></i> Botelleros</button>
-  </div>
-</section>
-
 <section class="cats-section wrap" id="catalogo">
   <div class="catalog-head">
     <h2>Categorías</h2>
     <span class="catalog-count" id="catCount"></span>
   </div>
+
+  <div class="marcas-row">
+    <span class="marcas-label-inline">Marcas:</span>
+    <button class="marca-badge">Haceb</button>
+    <button class="marca-badge">Mabe</button>
+    <button class="marca-badge">Challenger</button>
+    <button class="marca-badge">AKT</button>
+    <button class="marca-badge">Boxer</button>
+    <button class="marca-badge">Inducol</button>
+    <button class="marca-badge">LG</button>
+    <button class="marca-badge">Samsung</button>
+    <button class="marca-badge">Sony</button>
+    <button class="marca-badge">Indurama</button>
+  </div>
+
+  <div class="negocio-card">
+    <div class="negocio-card-text">
+      <strong>Equipamos tu negocio</strong>
+      <span>Congeladores, enfriadores y botelleros para tiendas, restaurantes y distribuidores.</span>
+    </div>
+    <div class="negocio-card-tags" id="negocioTags">
+      <button class="negocio-tag" data-kw="congelador"><i class="fa-solid fa-icicles"></i> Congeladores</button>
+      <button class="negocio-tag" data-kw="enfriador"><i class="fa-solid fa-temperature-low"></i> Enfriadores</button>
+      <button class="negocio-tag" data-kw="botellero"><i class="fa-solid fa-wine-bottle"></i> Botelleros</button>
+    </div>
+    <a class="btn btn-red" id="waNegocios" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Cotizar para mi negocio</a>
+  </div>
+
   <div class="cat-tiles" id="catTiles">
     <div class="loading-state">Cargando categorías…</div>
   </div>
@@ -349,7 +410,6 @@
   <div class="catalog-toolbar">
     <div class="catalog-breadcrumb" id="breadcrumb"></div>
     <div class="toolbar-controls">
-      <input type="text" id="searchInput" placeholder="Buscar por nombre o marca…">
       <select id="sortSelect">
         <option value="relevancia">Relevancia</option>
         <option value="precio-asc">Precio: menor a mayor</option>
@@ -369,6 +429,32 @@
     <a class="btn btn-red" id="creditoCta" href="#" target="_blank" rel="noopener">
       <i class="fa-brands fa-whatsapp"></i> Consultar crédito
     </a>
+  </div>
+</section>
+
+<section class="testimonios-section">
+  <div class="wrap">
+    <div class="canales-head">
+      <h2>Lo que dicen nuestros clientes</h2>
+      <p>Algunos comentarios de compradores del almacén.</p>
+    </div>
+    <div class="testimonios-grid">
+      <div class="testimonio-card">
+        <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"Compré mi nevera a crédito y el proceso fue muy fácil, me atendieron por WhatsApp y la entregaron en mi casa el mismo mes."</p>
+        <span>— Marta R., Sincelejo</span>
+      </div>
+      <div class="testimonio-card">
+        <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"Llevo años comprando ahí, siempre buenos precios y las cuotas se ajustan al bolsillo. Recomendado."</p>
+        <span>— Carlos P., Sincelejo</span>
+      </div>
+      <div class="testimonio-card">
+        <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"Compré los congeladores para mi negocio y me asesoraron bien sobre cuál me convenía. Buen servicio postventa."</p>
+        <span>— Yolima T., Sincelejo</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -404,21 +490,22 @@
 <section class="visitanos-section">
   <div class="wrap">
     <div class="canales-head">
-      <h2>Visítanos en Sincelejo</h2>
-      <p>Dos puntos de atención, mismo compromiso: calidad y servicio.</p>
+      <h2>Conoce nuestro almacén</h2>
+      <p>Una sola sede en Sincelejo — así la vas a reconocer en la calle.</p>
     </div>
     <div class="visitanos-grid">
-      <img src="fachada1.jpg" alt="Sede principal — Almacén Metálicas Sincelejo">
-      <img src="fachada2.jpg" alt="Sede — Almacén Metálicas Sincelejo">
+      <img src="fachada1.jpg" alt="Almacén Metálicas Sincelejo — vista frontal">
+      <img src="fachada2.jpg" alt="Almacén Metálicas Sincelejo — vista lateral">
     </div>
+    <div class="visitanos-address"><i class="fa-solid fa-location-dot"></i> Cra. 25 #25-82, Avenida Okola, Sincelejo, Sucre</div>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-grid">
     <div>
-      <h4>Metálicas Sincelejo</h4>
-      <p>Electrodomésticos y línea blanca en Sincelejo, Sucre. Calidad y servicio, contado y crédito.</p>
+      <h4>Almacén Metálicas Sincelejo</h4>
+      <p>Electrodomésticos y línea blanca en Sincelejo, Sucre. +30 años ofreciendo calidad y servicio, a contado o crédito directo.</p>
     </div>
     <div>
       <h4>Canales</h4>
@@ -432,6 +519,7 @@
       <h4>Ubicación</h4>
       <ul>
         <li>Sincelejo, Sucre, Colombia</li>
+        <li>Cra. 25 #25-82, Avenida Okola</li>
       </ul>
     </div>
   </div>
@@ -440,6 +528,28 @@
     <span>Calidad y Servicio</span>
   </div>
 </footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
+    <div class="modal-media">
+      <img id="modalImg" alt="">
+      <div class="ph" id="modalPh" style="display:none"><i class="fa-solid fa-image"></i></div>
+      <button class="modal-nav modal-prev" id="modalPrev" aria-label="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="modal-nav modal-next" id="modalNext" aria-label="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+      <div class="modal-dots" id="modalDots"></div>
+    </div>
+    <div class="modal-info">
+      <div class="card-cat" id="modalCat"></div>
+      <h3 id="modalNombre"></h3>
+      <div class="card-price" id="modalPrecioWrap"><span id="modalPrecio"></span><span id="modalCredito"></span></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <a class="btn btn-wa btn-block" id="modalWa" href="#" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i> Preguntar por este producto
+      </a>
+    </div>
+  </div>
+</div>
 
 <a class="fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
   <i class="fa-brands fa-whatsapp"></i>
@@ -474,8 +584,8 @@
   const waLink = (numero, texto) => `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
 
   // Enlaces fijos (header, banda de crédito, banda de negocio, canales, botón flotante)
-  document.getElementById('headCta').href    = waLink(NUM.ventas, 'Hola, quiero información sobre productos de Metálicas Sincelejo.');
-  document.getElementById('fabWa').href      = waLink(NUM.ventas, 'Hola, quiero información sobre productos de Metálicas Sincelejo.');
+  document.getElementById('headCta').href    = waLink(NUM.ventas, 'Hola, quiero información sobre productos de Almacén Metálicas Sincelejo.');
+  document.getElementById('fabWa').href      = waLink(NUM.ventas, 'Hola, quiero información sobre productos de Almacén Metálicas Sincelejo.');
   document.getElementById('creditoCta').href = waLink(NUM.ventas, 'Hola, quiero consultar sobre crédito para un producto.');
   document.getElementById('waNegocios').href = waLink(NUM.ventas, 'Hola, tengo un negocio y quiero cotizar congeladores/enfriadores/botelleros.');
   document.getElementById('waVentas').href   = waLink(NUM.ventas,  'Hola, quiero comprar / cotizar un producto.');
@@ -612,24 +722,48 @@
     return true;
   }
 
-  function cardHtml(p){
-    const media = p.imagen
-      ? `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">`
+  function imagenesDe(p){
+    if (Array.isArray(p.imagenes) && p.imagenes.length) return p.imagenes;
+    if (p.imagen) return [p.imagen];
+    return [];
+  }
+
+  function precioHtmlDe(p){
+    const precioMostrar = precioDe(p);
+    if (p.promoHoy!=null && p.contado && Number(p.contado) > Number(p.promoHoy)){
+      const pct = Math.round((1 - (Number(p.promoHoy)/Number(p.contado))) * 100);
+      return `<span class="price-before">${money(p.contado)}</span><b class="price-now">${money(p.promoHoy)}</b>${pct>0?`<span class="price-off">-${pct}%</span>`:''}`;
+    }
+    return `<b class="price-now">${money(precioMostrar)}</b>`;
+  }
+
+  // Muestra la cuota mensual (crédito directo), no el total financiado.
+  function creditoHtmlDe(p){
+    if (p.credito!=null && p.mesesCredito){
+      const cuota = Number(p.credito) / Number(p.mesesCredito);
+      return `<span class="credito"><i class="fa-solid fa-check"></i> Crédito directo · cuotas desde ${money(cuota)}/mes${p.creditoEstimado?' (estimado)':''}</span>`;
+    }
+    if (p.credito!=null){
+      return `<span class="credito"><i class="fa-solid fa-check"></i> Crédito directo disponible</span>`;
+    }
+    return '';
+  }
+
+  function cardHtml(p, idx){
+    const imgs = imagenesDe(p);
+    const media = imgs.length
+      ? `<img src="${esc(imgs[0])}" alt="${esc(p.nombre)}" loading="lazy">`
       : `<div class="ph"><i class="fa-solid fa-image"></i></div>`;
     const promo = (p.promoHoy!=null) ? `<div class="promo-tag">Promo hoy</div>` : '';
-    const creditoLinea = (p.credito!=null)
-      ? `<span class="credito">o ${money(p.credito)} a crédito${p.mesesCredito?' · '+p.mesesCredito+' meses':''}${p.creditoEstimado?' (estimado)':''}</span>`
-      : '';
-    const precioMostrar = precioDe(p);
     const nombreCompleto = p.nombre + (p.marca ? ' — '+p.marca : '');
-    const mensajeWa = `Hola, quiero información sobre: ${nombreCompleto}. Precio: ${money(precioMostrar)}. ¿Está disponible?`;
+    const mensajeWa = `Hola, quiero información sobre: ${nombreCompleto}. Precio: ${money(precioDe(p))}. ¿Está disponible?`;
     return `
-      <div class="card">
+      <div class="card" data-idx="${idx}">
         <div class="card-media">${media}${promo}</div>
         <div class="card-body">
           <div class="card-cat">${esc(p.categoria || 'General')}</div>
           <div class="card-name">${esc(nombreCompleto)}</div>
-          <div class="card-price"><b>${money(precioMostrar)}</b>${creditoLinea}</div>
+          <div class="card-price">${precioHtmlDe(p)}${creditoHtmlDe(p)}</div>
           <div class="card-cta">
             <a class="btn btn-wa" href="${waLink(NUM.ventas, mensajeWa)}" target="_blank" rel="noopener">
               <i class="fa-brands fa-whatsapp"></i> Preguntar
@@ -638,6 +772,8 @@
         </div>
       </div>`;
   }
+
+  let listaActual = [];
 
   function renderGrid(){
     const grid = document.getElementById('grid');
@@ -652,7 +788,14 @@
       grid.innerHTML = `<div class="empty-state">Sin resultados${busqueda?` para "${esc(busqueda)}"`:''}.</div>`;
       return;
     }
+    listaActual = lista;
     grid.innerHTML = lista.map(cardHtml).join('');
+    grid.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('.btn-wa')) return; // el botón de WhatsApp funciona normal
+        abrirModal(listaActual[Number(card.dataset.idx)]);
+      });
+    });
   }
 
   function renderAll(){ renderTiles(); renderBreadcrumb(); renderGrid(); }
@@ -671,6 +814,59 @@
   });
   document.querySelectorAll('.marca-badge').forEach(b => {
     b.addEventListener('click', () => irABusqueda(b.textContent.trim()));
+  });
+
+  // ── Modal de detalle del producto (galería + descripción) ──
+  let modalImgs = [];
+  let modalIdx = 0;
+
+  function abrirModal(p){
+    modalImgs = imagenesDe(p);
+    modalIdx = 0;
+    document.getElementById('modalCat').textContent = p.categoria || 'General';
+    document.getElementById('modalNombre').textContent = p.nombre + (p.marca ? ' — '+p.marca : '');
+    document.getElementById('modalPrecio').innerHTML = precioHtmlDe(p);
+    document.getElementById('modalCredito').innerHTML = creditoHtmlDe(p);
+    document.getElementById('modalDesc').textContent = p.desc || 'Escríbenos por WhatsApp si quieres más detalles de este producto.';
+    const nombreCompleto = p.nombre + (p.marca ? ' — '+p.marca : '');
+    document.getElementById('modalWa').href = waLink(NUM.ventas, `Hola, quiero información sobre: ${nombreCompleto}. Precio: ${money(precioDe(p))}. ¿Está disponible?`);
+    renderModalImg();
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function renderModalImg(){
+    const img = document.getElementById('modalImg');
+    const ph = document.getElementById('modalPh');
+    const dots = document.getElementById('modalDots');
+    const nav = [document.getElementById('modalPrev'), document.getElementById('modalNext')];
+    if (modalImgs.length){
+      img.src = modalImgs[modalIdx]; img.style.display = 'block'; ph.style.display = 'none';
+    } else {
+      img.style.display = 'none'; ph.style.display = 'flex';
+    }
+    nav.forEach(b => b.style.display = modalImgs.length > 1 ? 'flex' : 'none');
+    dots.innerHTML = modalImgs.length > 1
+      ? modalImgs.map((_,i) => `<span class="modal-dot ${i===modalIdx?'active':''}" data-i="${i}"></span>`).join('')
+      : '';
+  }
+  function cerrarModal(){
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modalClose').addEventListener('click', cerrarModal);
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target.id === 'modalOverlay') cerrarModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+  document.getElementById('modalPrev').addEventListener('click', () => {
+    modalIdx = (modalIdx - 1 + modalImgs.length) % modalImgs.length; renderModalImg();
+  });
+  document.getElementById('modalNext').addEventListener('click', () => {
+    modalIdx = (modalIdx + 1) % modalImgs.length; renderModalImg();
+  });
+  document.getElementById('modalDots').addEventListener('click', e => {
+    const dot = e.target.closest('.modal-dot');
+    if (dot){ modalIdx = Number(dot.dataset.i); renderModalImg(); }
   });
 
   // Escucha en vivo: en cuanto se agrega/edita/activa-desactiva un producto
