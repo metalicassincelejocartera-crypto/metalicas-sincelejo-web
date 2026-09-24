@@ -39,9 +39,9 @@
 <style>
   :root{
     --white:#ffffff;
-    --paper:#F6F7F9;
+    --paper:#ECEFF4;
     --ink:#14181F;
-    --ink-soft:#5B6472;
+    --ink-soft:#4B5563;
     --red:#E4131F;
     --red-deep:#A80D16;
     --blue:#2E3095;
@@ -70,12 +70,12 @@
     text-decoration:none;transition:transform .15s ease, filter .15s ease;
   }
   .btn:active{transform:scale(.97)}
-  .btn-red{background:var(--red);color:#fff}
-  .btn-red:hover{filter:brightness(1.08)}
+  .btn-red{background:var(--red);color:#fff;box-shadow:0 6px 16px rgba(228,19,31,.28)}
+  .btn-red:hover{filter:brightness(1.08);transform:translateY(-1px)}
   .btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}
   .btn-outline:hover{background:var(--blue-soft)}
-  .btn-wa{background:var(--wa);color:#fff}
-  .btn-wa:hover{background:var(--wa-deep)}
+  .btn-wa{background:var(--wa);color:#fff;box-shadow:0 6px 16px rgba(37,211,102,.30)}
+  .btn-wa:hover{background:var(--wa-deep);transform:translateY(-1px)}
   .btn-block{width:100%;justify-content:center}
 
   /* ---------- header ---------- */
@@ -109,7 +109,7 @@
   .hero p{font-size:17px;color:var(--ink-soft);max-width:46ch;margin:0 0 26px;line-height:1.55}
   .hero-actions{display:flex;flex-wrap:wrap;gap:14px}
   .hero-trust{display:flex;flex-wrap:wrap;gap:10px 18px;margin-bottom:22px}
-  .hero-trust span{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--blue-deep)}
+  .hero-trust span{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--blue-deep);background:#fff;border:1.5px solid var(--blue-soft);padding:8px 14px;border-radius:999px;box-shadow:0 2px 8px rgba(31,33,104,.07)}
   .hero-trust i{color:var(--red)}
   .hero-art{
     position:relative;border-radius:24px;overflow:hidden;min-height:260px;
@@ -128,7 +128,7 @@
   .marcas-label-inline{font-size:12px;font-weight:800;color:var(--ink-soft);margin-right:2px}
   .marca-badge{
     white-space:nowrap;flex:0 0 auto;padding:7px 16px;border-radius:999px;
-    border:1.5px solid #E1E3E8;background:#fff;font-family:'Archivo';font-weight:800;
+    border:1.5px solid #D6DAE1;background:#fff;font-family:'Archivo';font-weight:800;
     font-size:13px;color:var(--ink);cursor:pointer;transition:.15s;
   }
   .marca-badge:nth-child(odd):hover{border-color:var(--red);color:var(--red)}
@@ -161,16 +161,17 @@
   @media(min-width:640px){.cat-tiles{grid-template-columns:repeat(3,1fr)}}
   @media(min-width:960px){.cat-tiles{grid-template-columns:repeat(4,1fr)}}
   .cat-tile{
-    position:relative;text-align:left;border:1.5px solid #ECECEF;border-radius:16px;
-    padding:16px;min-height:132px;cursor:pointer;background:var(--paper) center/cover no-repeat;
-    display:flex;flex-direction:column;justify-content:flex-end;gap:2px;overflow:hidden;transition:.15s;
+    position:relative;text-align:left;border:1.5px solid #E2E5EA;border-radius:16px;
+    padding:16px;min-height:132px;cursor:pointer;background:#fff center/cover no-repeat;
+    box-shadow:0 2px 8px rgba(15,20,60,.05);
+    display:flex;flex-direction:column;justify-content:flex-end;gap:2px;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease, border-color .15s ease;
   }
   .cat-tile.has-thumb{color:#fff}
   .cat-tile.has-thumb::before{
     content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,24,31,.15) 0%,rgba(20,24,31,.82) 100%);
   }
   .cat-tile.has-thumb .cat-tile-icon,.cat-tile.has-thumb .cat-tile-name,.cat-tile.has-thumb .cat-tile-count,.cat-tile.has-thumb .cat-tile-badge{position:relative;z-index:1}
-  .cat-tile:hover{border-color:var(--blue)}
+  .cat-tile:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 12px 26px rgba(15,20,60,.12)}
   .cat-tile.active{border-color:var(--red);box-shadow:0 0 0 2px var(--red) inset}
   .cat-tile-icon{font-size:18px;color:var(--blue);margin-bottom:6px}
   .cat-tile.has-thumb .cat-tile-icon{color:#fff}
@@ -199,11 +200,12 @@
   @media(min-width:1020px){.grid{grid-template-columns:repeat(4,1fr)}}
 
   .card{
-    background:#fff;border:1px solid #ECECEF;border-radius:var(--radius);
+    background:#fff;border:1px solid #E2E5EA;border-radius:var(--radius);
     overflow:hidden;display:flex;flex-direction:column;position:relative;
-    transition:border-color .15s ease;
+    box-shadow:0 2px 10px rgba(15,20,60,.06);
+    transition:border-color .15s ease, box-shadow .18s ease, transform .18s ease;
   }
-  .card:hover{border-color:var(--blue)}
+  .card:hover{border-color:var(--blue);box-shadow:0 14px 32px rgba(15,20,60,.14);transform:translateY(-4px)}
   .card-media{
     aspect-ratio:1;background:var(--paper);display:flex;align-items:center;justify-content:center;
     position:relative;
@@ -224,9 +226,9 @@
   .card-name{font-weight:800;font-size:14.5px;line-height:1.25;min-height:2.4em}
   .card-price{margin-top:2px}
   .price-before{font-size:12px;color:var(--ink-soft);text-decoration:line-through;margin-right:6px}
-  .price-now{font-size:17px;color:var(--ink)}
+  .price-now{font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-.3px}
   .price-off{display:inline-block;background:var(--red);color:#fff;font-size:10.5px;font-weight:800;padding:2px 6px;border-radius:5px;margin-left:5px;vertical-align:middle}
-  .card-price .credito{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
+  .card-price .credito{display:inline-block;font-size:11.5px;font-weight:800;color:var(--wa-deep);background:#E7F8EF;border:1px solid #BEE7CF;padding:3px 10px;border-radius:999px;margin-top:7px}
   .card-cta{margin-top:10px}
   .card-cta .btn{width:100%;padding:11px 12px;font-size:13px;justify-content:center}
   .empty-state, .loading-state{
@@ -238,13 +240,13 @@
   .credito-grid{display:grid;gap:22px;align-items:center}
   @media(min-width:820px){.credito-grid{grid-template-columns:1fr auto}}
   .credito-band h2{font-size:26px;margin:0 0 8px;font-weight:900}
-  .credito-band p{margin:0;color:#C8D6EA;max-width:58ch;line-height:1.55}
+  .credito-band p{margin:0;color:#DAE5F6;max-width:58ch;line-height:1.55}
 
   /* ---------- testimonios ---------- */
   .testimonios-section{padding:56px 0}
   .testimonios-grid{display:grid;gap:16px}
   @media(min-width:820px){.testimonios-grid{grid-template-columns:repeat(3,1fr)}}
-  .testimonio-card{border:1.5px solid #ECECEF;border-radius:16px;padding:22px}
+  .testimonio-card{background:#fff;border:1.5px solid #E2E5EA;border-radius:16px;padding:22px;box-shadow:0 3px 14px rgba(15,20,60,.06)}
   .testimonio-stars{color:#F5A623;font-size:13px;margin-bottom:10px}
   .testimonio-card p{font-size:14px;color:var(--ink);line-height:1.55;margin:0 0 12px;font-style:italic}
   .testimonio-card span{font-size:13px;font-weight:700;color:var(--ink-soft)}
@@ -318,7 +320,7 @@
   .foot-mail{display:flex;align-items:center;gap:8px}
   .foot-mail i{color:var(--red)}
   footer h4{color:#fff;font-family:'Archivo';font-size:14px;margin:0 0 10px}
-  footer p, footer li{font-size:13.5px;line-height:1.7;color:#9BA3AF}
+  footer p, footer li{font-size:13.5px;line-height:1.7;color:#AEB6C2}
   footer ul{list-style:none;padding:0;margin:0}
   .foot-bottom{
     border-top:1px solid rgba(255,255,255,.08);margin-top:30px;padding-top:18px;
@@ -332,9 +334,40 @@
     font-size:26px;box-shadow:0 8px 22px rgba(0,0,0,.22);text-decoration:none;
   }
   .fab-wa:hover{background:var(--wa-deep)}
+
+  /* ---------- barra de anuncio ---------- */
+  .topbar{background:linear-gradient(90deg,var(--red),var(--red-deep));color:#fff;font-size:13px;font-weight:700;text-align:center;padding:9px 16px;letter-spacing:.01em}
+  .topbar i{margin-right:6px}
+  .topbar b{font-weight:900}
+  @media(max-width:560px){.topbar{font-size:11.5px;padding:8px 10px}}
+
+  /* ---------- franja de beneficios ---------- */
+  .benefits{background:#fff;border-top:1px solid #E2E5EA;border-bottom:1px solid #E2E5EA}
+  .benefits-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 22px;padding:24px 0}
+  @media(min-width:860px){.benefits-grid{grid-template-columns:repeat(4,1fr)}}
+  .benefit{display:flex;align-items:center;gap:12px}
+  .benefit .bi{flex:0 0 auto;width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;background:var(--blue-soft);color:var(--blue)}
+  .benefit:nth-child(even) .bi{background:#FDE7E8;color:var(--red)}
+  .benefit strong{display:block;font-family:'Archivo';font-weight:900;font-size:14.5px;color:var(--ink);line-height:1.2}
+  .benefit small{font-size:12.5px;color:var(--ink-soft)}
+
+  /* ---------- reviews (resumen + avatares) ---------- */
+  .reviews-summary{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #E2E5EA;border-radius:999px;padding:8px 16px;margin-top:12px;box-shadow:0 2px 8px rgba(15,20,60,.05)}
+  .reviews-summary b{font-size:18px;color:var(--ink);font-family:'Archivo'}
+  .reviews-summary .rs-stars{color:#F5A623;font-size:13px}
+  .reviews-summary small{color:var(--ink-soft);font-size:12.5px}
+  .testimonio-foot{display:flex;align-items:center;gap:10px;margin-top:2px}
+  .testi-avatar{width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:'Archivo';font-size:14px;flex:0 0 auto}
+  .testimonio-card:nth-child(even) .testi-avatar{background:var(--red)}
+  .testi-meta{display:flex;flex-direction:column;line-height:1.25}
+  .testi-meta .tname{font-size:13px;font-weight:800;color:var(--ink)}
+  .testi-verified{font-size:11.5px;color:var(--wa-deep);font-weight:700}
+  .testi-verified i{margin-right:3px}
 </style>
 </head>
 <body>
+
+<div class="topbar"><i class="fa-solid fa-bolt"></i><b>Crédito directo aprobado el mismo día</b> · Entrega a domicilio en Sincelejo · Escríbenos hoy por WhatsApp</div>
 
 <header>
   <div class="wrap headbar">
@@ -371,6 +404,27 @@
       <div class="hero-art-tag">Contado o crédito
         <small>Financiación directa con la tienda</small>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="benefits">
+  <div class="wrap benefits-grid">
+    <div class="benefit">
+      <div class="bi"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+      <div><strong>Crédito directo</strong><small>Sin banco, cuotas cómodas</small></div>
+    </div>
+    <div class="benefit">
+      <div class="bi"><i class="fa-solid fa-truck-fast"></i></div>
+      <div><strong>Entrega a domicilio</strong><small>En Sincelejo y alrededores</small></div>
+    </div>
+    <div class="benefit">
+      <div class="bi"><i class="fa-solid fa-shield-halved"></i></div>
+      <div><strong>Garantía y respaldo</strong><small>Servicio postventa real</small></div>
+    </div>
+    <div class="benefit">
+      <div class="bi"><i class="fa-solid fa-award"></i></div>
+      <div><strong>+30 años</strong><small>De trayectoria en la región</small></div>
     </div>
   </div>
 </section>
@@ -443,23 +497,24 @@
   <div class="wrap">
     <div class="canales-head">
       <h2>Lo que dicen nuestros clientes</h2>
-      <p>Algunos comentarios de compradores del almacén.</p>
+      <p>Familias de Sincelejo que ya equiparon su hogar con nosotros.</p>
+      <div class="reviews-summary"><b>4.9</b><span class="rs-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span><small>Basado en la experiencia de nuestros clientes</small></div>
     </div>
     <div class="testimonios-grid">
       <div class="testimonio-card">
         <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
         <p>"Compré mi nevera a crédito y el proceso fue muy fácil, me atendieron por WhatsApp y la entregaron en mi casa el mismo mes."</p>
-        <span>— Marta R., Sincelejo</span>
+        <div class="testimonio-foot"><div class="testi-avatar">MR</div><div class="testi-meta"><span class="tname">Marta R., Sincelejo</span><span class="testi-verified"><i class="fa-solid fa-circle-check"></i>Cliente verificado</span></div></div>
       </div>
       <div class="testimonio-card">
         <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
         <p>"Llevo años comprando ahí, siempre buenos precios y las cuotas se ajustan al bolsillo. Recomendado."</p>
-        <span>— Carlos P., Sincelejo</span>
+        <div class="testimonio-foot"><div class="testi-avatar">CP</div><div class="testi-meta"><span class="tname">Carlos P., Sincelejo</span><span class="testi-verified"><i class="fa-solid fa-circle-check"></i>Cliente verificado</span></div></div>
       </div>
       <div class="testimonio-card">
         <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
         <p>"Compré los congeladores para mi negocio y me asesoraron bien sobre cuál me convenía. Buen servicio postventa."</p>
-        <span>— Yolima T., Sincelejo</span>
+        <div class="testimonio-foot"><div class="testi-avatar">YT</div><div class="testi-meta"><span class="tname">Yolima T., Sincelejo</span><span class="testi-verified"><i class="fa-solid fa-circle-check"></i>Cliente verificado</span></div></div>
       </div>
     </div>
   </div>
