@@ -25,12 +25,10 @@
      ============================================================ -->
 <script>
   // Números de WhatsApp de los 3 canales, en formato internacional SIN + ni espacios.
-  // El de Ventas ya está tomado del número que usa el dashboard interno (telJefe).
-  // Julio: confirma este y completa Cartera y Soporte con los números reales de esos bots.
   window.WHATSAPP_NUMEROS = {
-    ventas:  '573215383870', // TODO confirmar
-    cartera: '573000000000', // TODO reemplazar por el número real del bot de Cartera
-    soporte: '573000000000'  // TODO reemplazar por el número real del bot de Soporte
+    ventas:  '573163327031', // Ventas
+    cartera: '573052399487', // Cartera
+    soporte: '573215383876'  // Soporte
   };
 </script>
 
@@ -87,7 +85,8 @@
   }
   .headbar{display:flex;align-items:center;gap:14px;padding:14px 0;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
-  .brand-logo{height:58px;width:auto}
+  .brand-logo{height:92px;width:auto;display:block;filter:drop-shadow(0 3px 8px rgba(31,33,104,.22))}
+  @media(max-width:719px){.brand-logo{height:64px}}
   .head-search{order:3;flex:1 1 100%;margin-top:2px}
   @media(min-width:720px){.head-search{order:0;flex:1 1 auto;max-width:420px;margin-top:0}}
   .head-search input{
@@ -309,7 +308,15 @@
   /* ---------- footer ---------- */
   footer{background:var(--ink);color:#C7CCD4;padding:42px 0 26px}
   .foot-grid{display:grid;gap:24px}
-  @media(min-width:720px){.foot-grid{grid-template-columns:2fr 1fr 1fr}}
+  @media(min-width:720px){.foot-grid{grid-template-columns:2fr 1fr 1fr 1.3fr}}
+  footer a{color:#C7CCD4;text-decoration:none;transition:.15s}
+  footer a:hover{color:#fff}
+  .foot-social{display:flex;align-items:center;gap:9px;margin-top:4px}
+  .foot-ig{display:inline-flex;align-items:center;gap:9px;font-weight:700;color:#fff;
+    background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF);padding:8px 14px;border-radius:999px;font-size:13px}
+  .foot-ig:hover{color:#fff;opacity:.92}
+  .foot-mail{display:flex;align-items:center;gap:8px}
+  .foot-mail i{color:var(--red)}
   footer h4{color:#fff;font-family:'Archivo';font-size:14px;margin:0 0 10px}
   footer p, footer li{font-size:13.5px;line-height:1.7;color:#9BA3AF}
   footer ul{list-style:none;padding:0;margin:0}
@@ -491,7 +498,7 @@
   <div class="wrap">
     <div class="canales-head">
       <h2>Conoce nuestro almacén</h2>
-      <p>Una sola sede en Sincelejo — así la vas a reconocer en la calle.</p>
+      <p>Ven y conócenos en persona: te esperamos en nuestro almacén en el centro de Sincelejo.</p>
     </div>
     <div class="visitanos-grid">
       <img src="fachada1.jpg" alt="Almacén Metálicas Sincelejo — vista frontal">
@@ -520,6 +527,14 @@
       <ul>
         <li>Sincelejo, Sucre, Colombia</li>
         <li>Cra. 25 #25-82, Avenida Okola</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Síguenos y escríbenos</h4>
+      <a class="foot-ig" href="https://instagram.com/metalicassincelejo" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> @metalicassincelejo</a>
+      <ul style="margin-top:14px">
+        <li class="foot-mail"><i class="fa-solid fa-envelope"></i> <a href="mailto:ventasmetalicassincelejo@gmail.com">ventasmetalicassincelejo@gmail.com</a></li>
+        <li class="foot-mail"><i class="fa-solid fa-envelope"></i> <a href="mailto:carterametalicassincelejo@gmail.com">carterametalicassincelejo@gmail.com</a></li>
       </ul>
     </div>
   </div>
