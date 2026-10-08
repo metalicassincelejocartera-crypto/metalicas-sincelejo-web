@@ -348,6 +348,28 @@
   .testimonio-card p{font-size:14px;color:var(--ink);line-height:1.55;margin:0 0 12px;font-style:italic}
   .testimonio-card span{font-size:13px;font-weight:700;color:var(--ink-soft)}
 
+  .google-reviews-link{
+    margin-top:24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .google-reviews-link span{font-size:12.5px;color:var(--ink-soft)}
+  .review-form-box{
+    margin-top:28px;background:#fff;border:1.5px solid #E2E5EA;border-radius:18px;
+    padding:24px;max-width:480px;
+  }
+  .review-form-box h3{margin:0 0 4px;font-size:16px;font-weight:800}
+  .review-form-note{margin:0 0 14px;font-size:12px;color:var(--ink-soft)}
+  .review-stars-input{font-size:22px;color:#D8DCE3;margin-bottom:12px;cursor:pointer}
+  .review-stars-input i{margin-right:4px;transition:color .1s}
+  .review-stars-input i.activa{color:#F5A623;font-weight:900}
+  #reviewForm input, #reviewForm textarea{
+    width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid #E1E3E8;
+    font-size:13.5px;font-family:'Manrope';margin-bottom:10px;resize:vertical;
+  }
+  #reviewForm input:focus, #reviewForm textarea:focus{outline:none;border-color:var(--blue)}
+  .review-msg{margin-top:10px;font-size:13px;font-weight:700}
+  .review-msg.ok{color:#1d9a5c}
+  .review-msg.error{color:var(--red)}
+
   /* ---------- canales ---------- */
   .canales-section{padding:56px 0;background:var(--paper)}
   .canales-head{text-align:left;max-width:640px;margin-bottom:30px}
@@ -626,8 +648,53 @@
   </div>
 
   <div class="cat-tiles" id="catTiles">
-    <div class="loading-state">Cargando categorías…</div>
+    <!-- Contenido estático de respaldo: visible aunque no se ejecute JavaScript
+         (rastreadores, vistas previas de enlaces, etc.). En cuanto carga el
+         catálogo real desde Firestore, renderTiles() reemplaza esto por las
+         categorías con fotos y cantidades reales — esto es solo el "piso". -->
+    <button class="cat-tile cat-tile-todo" data-cat="todas">
+      <div class="cat-tile-icon"><i class="fa-solid fa-grip"></i></div>
+      <div class="cat-tile-name">Ver todo el catálogo</div>
+    </button>
+    <button class="cat-tile" data-cat="Neveras">
+      <div class="cat-tile-icon"><i class="fa-solid fa-snowflake"></i></div>
+      <div class="cat-tile-name">Neveras</div>
+    </button>
+    <button class="cat-tile" data-cat="Lavadoras">
+      <div class="cat-tile-icon"><i class="fa-solid fa-shirt"></i></div>
+      <div class="cat-tile-name">Lavadoras</div>
+    </button>
+    <button class="cat-tile" data-cat="Estufas">
+      <div class="cat-tile-icon"><i class="fa-solid fa-fire-burner"></i></div>
+      <div class="cat-tile-name">Estufas</div>
+    </button>
+    <button class="cat-tile" data-cat="Aires acondicionados">
+      <div class="cat-tile-icon"><i class="fa-solid fa-wind"></i></div>
+      <div class="cat-tile-name">Aires acondicionados</div>
+    </button>
+    <button class="cat-tile" data-cat="Televisores">
+      <div class="cat-tile-icon"><i class="fa-solid fa-tv"></i></div>
+      <div class="cat-tile-name">Televisores</div>
+    </button>
+    <button class="cat-tile" data-cat="Congeladores">
+      <span class="cat-tile-badge">Para tu negocio</span>
+      <div class="cat-tile-icon"><i class="fa-solid fa-icicles"></i></div>
+      <div class="cat-tile-name">Congeladores</div>
+    </button>
+    <button class="cat-tile" data-cat="Enfriadores">
+      <span class="cat-tile-badge">Para tu negocio</span>
+      <div class="cat-tile-icon"><i class="fa-solid fa-temperature-low"></i></div>
+      <div class="cat-tile-name">Enfriadores</div>
+    </button>
+    <button class="cat-tile" data-cat="Botelleros">
+      <span class="cat-tile-badge">Para tu negocio</span>
+      <div class="cat-tile-icon"><i class="fa-solid fa-wine-bottle"></i></div>
+      <div class="cat-tile-name">Botelleros</div>
+    </button>
   </div>
+  <p style="font-size:12.5px;color:var(--ink-soft);margin:14px 2px 0;">
+    Trabajamos con Haceb, Mabe, Challenger, AKT, Boxer, Inducol, LG, Samsung, Sony e Indurama — contado o crédito directo, entrega a domicilio en Sincelejo.
+  </p>
 </section>
 
 <section class="catalog-section wrap" id="productos">
@@ -661,24 +728,34 @@
     <div class="canales-head">
       <h2>Lo que dicen nuestros clientes</h2>
       <p>Familias de Sincelejo que ya equiparon su hogar con nosotros.</p>
-      <div class="reviews-summary"><b>4.9</b><span class="rs-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span><small>Basado en la experiencia de nuestros clientes</small></div>
+      <div class="reviews-summary" id="reviewsSummary" style="display:none;">
+        <b id="reviewsAvg"></b><span class="rs-stars" id="reviewsAvgStars"></span><small id="reviewsCount"></small>
+      </div>
     </div>
-    <div class="testimonios-grid">
-      <div class="testimonio-card">
-        <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p>"Compré mi nevera a crédito y el proceso fue muy fácil, me atendieron por WhatsApp y la entregaron en mi casa el mismo mes."</p>
-        <div class="testimonio-foot"><div class="testi-avatar">MR</div><div class="testi-meta"><span class="tname">Marta R., Sincelejo</span><span class="testi-verified"><i class="fa-solid fa-circle-check"></i>Cliente verificado</span></div></div>
-      </div>
-      <div class="testimonio-card">
-        <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p>"Llevo años comprando ahí, siempre buenos precios y las cuotas se ajustan al bolsillo. Recomendado."</p>
-        <div class="testimonio-foot"><div class="testi-avatar">CP</div><div class="testi-meta"><span class="tname">Carlos P., Sincelejo</span><span class="testi-verified"><i class="fa-solid fa-circle-check"></i>Cliente verificado</span></div></div>
-      </div>
-      <div class="testimonio-card">
-        <div class="testimonio-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-        <p>"Compré los congeladores para mi negocio y me asesoraron bien sobre cuál me convenía. Buen servicio postventa."</p>
-        <div class="testimonio-foot"><div class="testi-avatar">YT</div><div class="testi-meta"><span class="tname">Yolima T., Sincelejo</span><span class="testi-verified"><i class="fa-solid fa-circle-check"></i>Cliente verificado</span></div></div>
-      </div>
+
+    <div class="testimonios-grid" id="testimoniosGrid">
+      <div class="loading-state">Cargando reseñas…</div>
+    </div>
+
+    <div class="google-reviews-link">
+      <a class="btn btn-outline" href="https://share.google/iZpN5yipGssH2x0Dc" target="_blank" rel="noopener">
+        <i class="fa-brands fa-google"></i> Ver nuestra ficha y reseñas en Google
+      </a>
+      <span>¿Ya nos conoces? También puedes dejar tu reseña directamente en Google.</span>
+    </div>
+
+    <div class="review-form-box">
+      <h3>Cuéntanos tu experiencia</h3>
+      <p class="review-form-note">Tu reseña se publica después de una verificación rápida — normalmente el mismo día.</p>
+      <form id="reviewForm">
+        <div class="review-stars-input" id="reviewStarsInput" data-valor="0">
+          <i class="fa-regular fa-star" data-val="1"></i><i class="fa-regular fa-star" data-val="2"></i><i class="fa-regular fa-star" data-val="3"></i><i class="fa-regular fa-star" data-val="4"></i><i class="fa-regular fa-star" data-val="5"></i>
+        </div>
+        <input type="text" id="reviewNombre" placeholder="Tu nombre" maxlength="60" required>
+        <textarea id="reviewComentario" placeholder="¿Cómo te fue con tu compra?" maxlength="400" rows="3" required></textarea>
+        <button type="submit" class="btn btn-red" id="reviewSubmitBtn">Publicar mi reseña</button>
+        <div id="reviewMsg" class="review-msg"></div>
+      </form>
     </div>
   </div>
 </section>
@@ -831,7 +908,7 @@
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-  import { getFirestore, collection, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+  import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
   // Mismo proyecto y misma colección "catalogo" que usa el dashboard interno
   // (panel-firebase / ElectroGestion) y el bot de WhatsApp. Esta página es
@@ -1157,6 +1234,115 @@
   });
 
   renderAll();
+
+  // ── Reseñas reales de clientes ──────────────────────────────────────
+  // Colección "resenas": cualquiera puede crear una (queda con aprobado:false
+  // por seguridad — ver reglas de Firestore), pero solo se muestran al público
+  // las que tengan aprobado === true. Esa aprobación se hace a mano, abriendo
+  // el documento en la consola de Firebase y cambiando aprobado a true.
+  const COLECCION_RESENAS = 'resenas';
+  let estrellasSeleccionadas = 0;
+
+  const starsInput = document.getElementById('reviewStarsInput');
+  starsInput.querySelectorAll('i').forEach(star => {
+    star.addEventListener('click', () => {
+      estrellasSeleccionadas = Number(star.dataset.val);
+      starsInput.dataset.valor = estrellasSeleccionadas;
+      starsInput.querySelectorAll('i').forEach(s => {
+        const activa = Number(s.dataset.val) <= estrellasSeleccionadas;
+        s.classList.toggle('activa', activa);
+        s.classList.toggle('fa-solid', activa);
+        s.classList.toggle('fa-regular', !activa);
+      });
+    });
+  });
+
+  function iniciales(nombre){
+    return (nombre||'').trim().split(/\s+/).slice(0,2).map(p => p[0]?.toUpperCase()||'').join('') || '•';
+  }
+
+  function renderResenas(lista){
+    const grid = document.getElementById('testimoniosGrid');
+    const resumen = document.getElementById('reviewsSummary');
+
+    if (!lista.length){
+      grid.innerHTML = `<div class="empty-state">Todavía no hay reseñas publicadas — ¡sé el primero en contar tu experiencia!</div>`;
+      resumen.style.display = 'none';
+      return;
+    }
+
+    const promedio = lista.reduce((s,r) => s + Number(r.calificacion||0), 0) / lista.length;
+    document.getElementById('reviewsAvg').textContent = promedio.toFixed(1);
+    document.getElementById('reviewsAvgStars').innerHTML =
+      Array.from({length:5}, (_,i) => `<i class="fa-solid fa-star" style="${i < Math.round(promedio) ? '' : 'opacity:.25'}"></i>`).join('');
+    document.getElementById('reviewsCount').textContent =
+      `Basado en ${lista.length} reseña${lista.length===1?'':'s'} de clientes reales`;
+    resumen.style.display = 'inline-flex';
+
+    grid.innerHTML = lista.slice(0, 9).map(r => {
+      const estrellas = Array.from({length:5}, (_,i) => `<i class="fa-solid fa-star" style="${i < Number(r.calificacion||0) ? '' : 'opacity:.25'}"></i>`).join('');
+      return `
+      <div class="testimonio-card">
+        <div class="testimonio-stars">${estrellas}</div>
+        <p>"${esc(r.comentario)}"</p>
+        <div class="testimonio-foot">
+          <div class="testi-avatar">${esc(iniciales(r.nombre))}</div>
+          <div class="testi-meta">
+            <span class="tname">${esc(r.nombre)}</span>
+            <span class="testi-verified"><i class="fa-solid fa-circle-check"></i>Cliente verificado</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  onSnapshot(collection(db, COLECCION_RESENAS), snap => {
+    const aprobadas = snap.docs
+      .map(d => ({ id:d.id, ...d.data() }))
+      .filter(r => r.aprobado === true)
+      .sort((a,b) => (b.fecha?.seconds||0) - (a.fecha?.seconds||0));
+    renderResenas(aprobadas);
+  }, err => {
+    console.error('Error leyendo reseñas:', err);
+    document.getElementById('testimoniosGrid').innerHTML = `<div class="empty-state">No se pudieron cargar las reseñas.</div>`;
+  });
+
+  document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('reviewMsg');
+    const btn = document.getElementById('reviewSubmitBtn');
+    const nombre = document.getElementById('reviewNombre').value.trim();
+    const comentario = document.getElementById('reviewComentario').value.trim();
+
+    msg.className = 'review-msg';
+    msg.textContent = '';
+
+    if (!estrellasSeleccionadas) { msg.className = 'review-msg error'; msg.textContent = 'Selecciona cuántas estrellas le das a tu experiencia.'; return; }
+    if (!nombre || !comentario) { msg.className = 'review-msg error'; msg.textContent = 'Completa tu nombre y tu comentario.'; return; }
+
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    try {
+      await addDoc(collection(db, COLECCION_RESENAS), {
+        nombre: nombre.slice(0, 60),
+        comentario: comentario.slice(0, 400),
+        calificacion: estrellasSeleccionadas,
+        aprobado: false,
+        fecha: serverTimestamp()
+      });
+      msg.className = 'review-msg ok';
+      msg.textContent = '¡Gracias por tu reseña! Se publicará pronto, tras una verificación rápida.';
+      document.getElementById('reviewForm').reset();
+      estrellasSeleccionadas = 0;
+      starsInput.dataset.valor = 0;
+      starsInput.querySelectorAll('i').forEach(s => { s.classList.remove('activa','fa-solid'); s.classList.add('fa-regular'); });
+    } catch (err) {
+      console.error('Error guardando reseña:', err);
+      msg.className = 'review-msg error';
+      msg.textContent = 'No se pudo enviar tu reseña. Intenta de nuevo en un momento.';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Publicar mi reseña';
+    }
+  });
 
   // Botón "volver arriba": aparece al bajar y sube suavemente al pulsarlo.
   (function(){
