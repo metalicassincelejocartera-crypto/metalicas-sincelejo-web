@@ -133,7 +133,8 @@
     --blue-deep:#1F2168;
     --blue-soft:#EAEAF7;
     --wa:#25D366;
-    --wa-deep:#128C7E;
+    --wa-deep:#0A6A5E;
+    --wa-btn:#0F7B5F;
     --radius:14px;
     --maxw:1200px;
   }
@@ -159,8 +160,8 @@
   .btn-red:hover{filter:brightness(1.08);transform:translateY(-1px)}
   .btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}
   .btn-outline:hover{background:var(--blue-soft)}
-  .btn-wa{background:var(--wa);color:#fff;box-shadow:0 6px 16px rgba(37,211,102,.30)}
-  .btn-wa:hover{background:var(--wa-deep);transform:translateY(-1px)}
+  .btn-wa{background:var(--wa-btn);color:#fff;box-shadow:0 6px 16px rgba(15,123,95,.28)}
+  .btn-wa:hover{background:#0B5F4A;transform:translateY(-1px)}
   .btn-block{width:100%;justify-content:center}
 
   /* ---------- header ---------- */
@@ -168,10 +169,10 @@
     position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
     backdrop-filter:blur(8px);border-bottom:1px solid #ECECEF;
   }
-  .headbar{display:flex;align-items:center;gap:14px;padding:14px 0;flex-wrap:wrap}
+  .headbar{display:flex;align-items:center;gap:14px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
-  .brand-logo{height:92px;width:auto;display:block;filter:drop-shadow(0 3px 8px rgba(31,33,104,.22))}
-  @media(max-width:719px){.brand-logo{height:64px}}
+  .brand-logo{height:78px;width:auto;display:block}
+  @media(max-width:719px){.brand-logo{height:56px}}
   .head-search{order:3;flex:1 1 100%;margin-top:2px}
   @media(min-width:720px){.head-search{order:0;flex:1 1 auto;max-width:420px;margin-top:0}}
   .head-search input{
@@ -267,7 +268,7 @@
   .cat-tile.has-thumb::before{
     content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,24,31,.15) 0%,rgba(20,24,31,.82) 100%);
   }
-  .cat-tile.has-thumb .cat-tile-icon,.cat-tile.has-thumb .cat-tile-name,.cat-tile.has-thumb .cat-tile-count,.cat-tile.has-thumb .cat-tile-badge{position:relative;z-index:1}
+  .cat-tile.has-thumb .cat-tile-icon,.cat-tile.has-thumb .cat-tile-name,.cat-tile.has-thumb .cat-tile-count{position:relative;z-index:1}
   .cat-tile:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 12px 26px rgba(15,20,60,.12)}
   .cat-tile.active{border-color:var(--red);box-shadow:0 0 0 2px var(--red) inset}
   .cat-tile-icon{font-size:18px;color:var(--blue);margin-bottom:6px}
@@ -275,7 +276,7 @@
   .cat-tile-name{font-weight:800;font-size:14px;line-height:1.25;white-space:normal;word-break:break-word}
   .cat-tile-count{font-size:11.5px;font-weight:600;opacity:.75}
   .cat-tile-badge{
-    position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:9.5px;
+    z-index:2;position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:9.5px;
     font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;
   }
   .cat-tile-todo{background:var(--blue-soft)}
@@ -380,12 +381,12 @@
   .canal-card{border-radius:18px;padding:26px;color:#fff;display:flex;flex-direction:column;gap:12px;min-height:210px}
   .canal-card i.top-icon{font-size:26px;opacity:.9}
   .canal-card h3{margin:0;font-size:19px;font-weight:800}
-  .canal-card p{margin:0;font-size:13.5px;line-height:1.5;opacity:.92;flex:1}
+  .canal-card p{margin:0;font-size:13.5px;line-height:1.5;flex:1}
   .canal-ventas{background:var(--red)}
   .canal-cartera{background:var(--blue)}
   .canal-soporte{background:var(--ink)}
-  .canal-card .btn{align-self:flex-start;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.4)}
-  .canal-card .btn:hover{background:rgba(255,255,255,.26)}
+  .canal-card .btn{align-self:flex-start;background:rgba(0,0,0,.25);color:#fff;border:1px solid rgba(255,255,255,.55)}
+  .canal-card .btn:hover{background:rgba(0,0,0,.38)}
 
   /* ---------- visitanos ---------- */
   .visitanos-section{padding:56px 0}
@@ -460,12 +461,12 @@
   .foot-ig:hover{color:#fff;opacity:.92}
   .foot-mail{display:flex;align-items:center;gap:8px}
   .foot-mail i{color:var(--red)}
-  footer h4{color:#fff;font-family:'Archivo';font-size:14px;margin:0 0 10px}
+  footer h3{color:#fff;font-family:'Archivo';font-size:14px;margin:0 0 10px}
   footer p, footer li{font-size:13.5px;line-height:1.7;color:#AEB6C2}
   footer ul{list-style:none;padding:0;margin:0}
   .foot-bottom{
     border-top:1px solid rgba(255,255,255,.08);margin-top:30px;padding-top:18px;
-    font-size:12px;color:#6B7280;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+    font-size:12px;color:#A3ABB8;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
   }
 
   /* ---------- floating WA ---------- */
@@ -527,7 +528,7 @@
     .benefit small{font-size:11.5px}
     .reviews-summary{flex-wrap:wrap;gap:6px 10px}
     /* El buscador del encabezado ocupa todo el ancho debajo del logo */
-    .headbar{gap:10px;padding:12px 0}
+    .headbar{gap:10px;padding-top:10px;padding-bottom:10px}
     /* 16px evita que iPhone haga zoom automático al tocar el buscador */
     .head-search input{font-size:16px}
     /* Rejillas más ajustadas: productos y categorías se ven más grandes */
@@ -543,11 +544,72 @@
     .brand-logo{height:56px}
     .hero h1{font-size:29px}
   }
+  /* ===== Pulido final: estados, accesibilidad y movimiento ===== */
+  :root{--ease-out:cubic-bezier(0.23,1,0.32,1)}
+  button,input,select,textarea{font-family:inherit}
+  .skip-link{position:absolute;left:12px;top:-60px;background:#fff;color:var(--blue);font-weight:800;padding:10px 16px;border-radius:10px;z-index:200;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+  .skip-link:focus{top:12px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .btn,.cat-tile,.card,.marca-badge,.negocio-tag{transition-timing-function:var(--ease-out)}
+  .cat-tile:active,.marca-badge:active,.negocio-tag:active{transform:scale(.98)}
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[role="radio"]:focus-visible{outline:3px solid #2E3095;outline-offset:2px}
+  @media (hover:none){.cat-tile:hover,.card:hover,.btn-wa:hover{transform:none}}
+
+  .link-ver-todo{background:none;border:none;color:var(--blue);font-weight:800;font-size:14px;cursor:pointer;padding:6px 0}
+  .link-ver-todo:hover{text-decoration:underline}
+  .link-ver-todo.active{color:var(--red)}
+
+  .card-name{margin:0}
+  .card-open{background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer;display:block;width:100%}
+  .ver-mas-wrap{grid-column:1/-1;text-align:center;padding-top:10px}
+
+  @keyframes aparecer{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .grid .card{animation:aparecer .32s var(--ease-out) backwards;animation-delay:calc(var(--i,0)*45ms)}
+  @keyframes brillo{from{background-position:200% 0}to{background-position:-200% 0}}
+  .skeleton-card{border-radius:var(--radius);border:1px solid #E2E5EA;overflow:hidden;background:#fff}
+  .sk-img,.sk-line{background:linear-gradient(90deg,#eceef3 25%,#f6f7fa 37%,#eceef3 63%);background-size:400% 100%;animation:brillo 1.5s ease infinite}
+  .sk-img{aspect-ratio:1}
+  .sk-line{height:12px;margin:12px 14px 0;border-radius:6px}
+  .sk-line.short{width:55%;margin-bottom:16px}
+
+  .estado-catalogo{grid-column:1/-1;text-align:center;padding:34px 20px;border:1.5px dashed #CBD0DA;border-radius:16px;background:#fff;color:var(--ink-soft);line-height:1.55}
+  .estado-catalogo b{display:block;color:var(--ink);font-size:17px;margin-bottom:6px;font-family:'Archivo',sans-serif}
+  .estado-catalogo .acciones{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .estado-catalogo small{display:block;margin-top:14px;font-size:11px;color:#6B7280;word-break:break-word}
+
+  .reviews-layout{display:grid;gap:28px;align-items:start}
+  @media(min-width:900px){.reviews-layout{grid-template-columns:1.35fr 1fr}}
+  .reviews-layout .testimonios-grid{grid-template-columns:1fr}
+  @media(min-width:560px){.reviews-layout .testimonios-grid{grid-template-columns:repeat(2,1fr)}}
+  .reviews-layout .review-form-box{margin-top:0;max-width:none}
+  .reviews-empty{border:1.5px dashed #CBD0DA;border-radius:16px;padding:30px 22px;text-align:center;background:#fff;color:var(--ink-soft);line-height:1.55;grid-column:1/-1}
+  .reviews-empty i{font-size:28px;color:var(--blue);display:block;margin-bottom:10px}
+  .reviews-empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px;font-family:'Archivo',sans-serif}
+  .review-stars-input i{outline-offset:3px;border-radius:4px}
+
+  .modal-overlay.open .modal-box{animation:modalIn .22s var(--ease-out)}
+  @keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  }
+  .card-price .credito{display:block;border-radius:10px;padding:7px 11px;line-height:1.3}
+  .credito .cr-label{display:block;font-size:11px;font-weight:800;letter-spacing:.01em}
+  .credito .cr-val{display:block;font-size:12px;font-weight:600;margin-top:1px}
+  .credito .cr-val b{font-weight:800;font-size:13px}
+  .reviews-empty i{text-align:center}
+  @media(min-width:640px){.cat-tiles{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}}
+  @media(max-width:719px){
+    .hero{padding:26px 0 34px}
+    .hero-art{min-height:0}
+    .hero-photo{min-height:0;height:210px}
+  }
 </style>
 </head>
 <body>
 
-<div class="topbar"><i class="fa-solid fa-bolt"></i><b>Crédito directo aprobado el mismo día</b> · Entrega a domicilio en Sincelejo · Escríbenos hoy por WhatsApp</div>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div class="topbar" role="region" aria-label="Beneficios de la tienda"><i class="fa-solid fa-bolt"></i><b>Crédito directo aprobado el mismo día</b> · Entrega a domicilio en Sincelejo · Escríbenos hoy por WhatsApp</div>
 
 <header>
   <div class="wrap headbar">
@@ -555,13 +617,14 @@
       <img src="logo.png" alt="Almacén Metálicas Sincelejo — Calidad y Servicio" class="brand-logo">
     </div>
     <div class="head-search">
-      <input type="text" id="searchInput" placeholder="Buscar por nombre o marca…">
+      <input type="search" id="searchInput" placeholder="Buscar por nombre o marca…" aria-label="Buscar productos por nombre o marca">
     </div>
     <a class="btn btn-red head-cta" id="headCta" href="#" target="_blank" rel="noopener">
       <i class="fa-brands fa-whatsapp"></i> Hablar por WhatsApp
     </a>
   </div>
 </header>
+<main id="contenido">
 
 <section class="hero">
   <div class="wrap hero-grid">
@@ -617,7 +680,7 @@
 <section class="cats-section wrap" id="catalogo">
   <div class="catalog-head">
     <h2>Categorías</h2>
-    <span class="catalog-count" id="catCount"></span>
+    <button class="link-ver-todo" id="btnVerTodo" type="button">Ver todo el catálogo <span id="catCount"></span> →</button>
   </div>
 
   <div class="marcas-row">
@@ -652,10 +715,6 @@
          (rastreadores, vistas previas de enlaces, etc.). En cuanto carga el
          catálogo real desde Firestore, renderTiles() reemplaza esto por las
          categorías con fotos y cantidades reales — esto es solo el "piso". -->
-    <button class="cat-tile cat-tile-todo" data-cat="todas">
-      <div class="cat-tile-icon"><i class="fa-solid fa-grip"></i></div>
-      <div class="cat-tile-name">Ver todo el catálogo</div>
-    </button>
     <button class="cat-tile" data-cat="Neveras">
       <div class="cat-tile-icon"><i class="fa-solid fa-snowflake"></i></div>
       <div class="cat-tile-name">Neveras</div>
@@ -701,14 +760,19 @@
   <div class="catalog-toolbar">
     <div class="catalog-breadcrumb" id="breadcrumb"></div>
     <div class="toolbar-controls">
-      <select id="sortSelect">
+      <select id="sortSelect" aria-label="Ordenar productos">
         <option value="relevancia">Relevancia</option>
         <option value="precio-asc">Precio: menor a mayor</option>
         <option value="precio-desc">Precio: mayor a menor</option>
       </select>
     </div>
   </div>
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="grid" aria-live="polite">
+    <div class="skeleton-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+    <div class="skeleton-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+    <div class="skeleton-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+    <div class="skeleton-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+  </div>
 </section>
 
 <section class="credito-band">
@@ -733,29 +797,35 @@
       </div>
     </div>
 
-    <div class="testimonios-grid" id="testimoniosGrid">
-      <div class="loading-state">Cargando reseñas…</div>
-    </div>
-
-    <div class="google-reviews-link">
-      <a class="btn btn-outline" href="https://share.google/iZpN5yipGssH2x0Dc" target="_blank" rel="noopener">
-        <i class="fa-brands fa-google"></i> Ver nuestra ficha y reseñas en Google
-      </a>
-      <span>¿Ya nos conoces? También puedes dejar tu reseña directamente en Google.</span>
-    </div>
-
-    <div class="review-form-box">
-      <h3>Cuéntanos tu experiencia</h3>
-      <p class="review-form-note">Tu reseña se publica después de una verificación rápida — normalmente el mismo día.</p>
-      <form id="reviewForm">
-        <div class="review-stars-input" id="reviewStarsInput" data-valor="0">
-          <i class="fa-regular fa-star" data-val="1"></i><i class="fa-regular fa-star" data-val="2"></i><i class="fa-regular fa-star" data-val="3"></i><i class="fa-regular fa-star" data-val="4"></i><i class="fa-regular fa-star" data-val="5"></i>
+    <div class="reviews-layout">
+      <div class="reviews-main">
+        <div class="testimonios-grid" id="testimoniosGrid" aria-live="polite">
+          <div class="skeleton-card" aria-hidden="true"><div class="sk-line" style="height:70px"></div><div class="sk-line short"></div></div>
+          <div class="skeleton-card" aria-hidden="true"><div class="sk-line" style="height:70px"></div><div class="sk-line short"></div></div>
         </div>
-        <input type="text" id="reviewNombre" placeholder="Tu nombre" maxlength="60" required>
-        <textarea id="reviewComentario" placeholder="¿Cómo te fue con tu compra?" maxlength="400" rows="3" required></textarea>
-        <button type="submit" class="btn btn-red" id="reviewSubmitBtn">Publicar mi reseña</button>
-        <div id="reviewMsg" class="review-msg"></div>
-      </form>
+        <div class="google-reviews-link">
+          <a class="btn btn-outline" href="https://share.google/iZpN5yipGssH2x0Dc" target="_blank" rel="noopener">
+            <i class="fa-brands fa-google" aria-hidden="true"></i> Ver nuestra ficha y reseñas en Google
+          </a>
+          <span>¿Ya nos conoces? También puedes dejar tu reseña directamente en Google.</span>
+        </div>
+      </div>
+
+      <div class="review-form-box">
+        <h3>Cuéntanos tu experiencia</h3>
+        <p class="review-form-note">Tu reseña se publica después de una verificación rápida — normalmente el mismo día.</p>
+        <form id="reviewForm">
+          <div class="review-stars-input" id="reviewStarsInput" data-valor="0" role="radiogroup" aria-label="Calificación de 1 a 5 estrellas">
+            <i class="fa-regular fa-star" role="radio" aria-checked="false" aria-label="1 estrella" tabindex="0" data-val="1"></i><i class="fa-regular fa-star" role="radio" aria-checked="false" aria-label="2 estrellas" tabindex="-1" data-val="2"></i><i class="fa-regular fa-star" role="radio" aria-checked="false" aria-label="3 estrellas" tabindex="-1" data-val="3"></i><i class="fa-regular fa-star" role="radio" aria-checked="false" aria-label="4 estrellas" tabindex="-1" data-val="4"></i><i class="fa-regular fa-star" role="radio" aria-checked="false" aria-label="5 estrellas" tabindex="-1" data-val="5"></i>
+          </div>
+          <label class="sr-only" for="reviewNombre">Tu nombre</label>
+          <input type="text" id="reviewNombre" placeholder="Tu nombre" maxlength="60" autocomplete="name" required>
+          <label class="sr-only" for="reviewComentario">Tu comentario</label>
+          <textarea id="reviewComentario" placeholder="¿Cómo te fue con tu compra?" maxlength="400" rows="3" required></textarea>
+          <button type="submit" class="btn btn-red" id="reviewSubmitBtn">Publicar mi reseña</button>
+          <div id="reviewMsg" class="review-msg" role="status"></div>
+        </form>
+      </div>
     </div>
   </div>
 </section>
@@ -842,14 +912,16 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="wrap foot-grid">
     <div>
-      <h4>Almacén Metálicas Sincelejo</h4>
+      <h3>Almacén Metálicas Sincelejo</h3>
       <p>Electrodomésticos y línea blanca en Sincelejo, Sucre. +30 años ofreciendo calidad y servicio, a contado o crédito directo.</p>
     </div>
     <div>
-      <h4>Canales</h4>
+      <h3>Canales</h3>
       <ul>
         <li>Ventas — WhatsApp</li>
         <li>Cartera — WhatsApp</li>
@@ -857,14 +929,14 @@
       </ul>
     </div>
     <div>
-      <h4>Ubicación</h4>
+      <h3>Ubicación</h3>
       <ul>
         <li>Sincelejo, Sucre, Colombia</li>
         <li>Cra. 25 #25-82, Avenida Okola</li>
       </ul>
     </div>
     <div>
-      <h4>Síguenos y escríbenos</h4>
+      <h3>Síguenos y escríbenos</h3>
       <a class="foot-ig" href="https://instagram.com/metalicassincelejo" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> @metalicassincelejo</a>
       <ul style="margin-top:14px">
         <li class="foot-mail"><i class="fa-solid fa-envelope"></i> <a href="mailto:ventasmetalicassincelejo@gmail.com">ventasmetalicassincelejo@gmail.com</a></li>
@@ -878,9 +950,10 @@
   </div>
 </footer>
 
+<aside aria-label="Accesos rápidos">
 <button id="toTop" class="to-top" type="button" aria-label="Volver arriba"><i class="fa-solid fa-arrow-up"></i></button>
 
-<div class="modal-overlay" id="modalOverlay">
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Detalle del producto">
   <div class="modal-box">
     <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
     <div class="modal-media">
@@ -903,8 +976,9 @@
 </div>
 
 <a class="fab-wa" id="fabWa" href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
-  <i class="fa-brands fa-whatsapp"></i>
+  <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
 </a>
+</aside>
 
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
@@ -972,6 +1046,8 @@
   function precioDe(p){ return (p.promoHoy!=null) ? Number(p.promoHoy) : Number(p.contado||0); }
 
   let catalogo = [];
+  let estadoCatalogo = 'cargando';   // 'cargando' | 'listo' | 'vacio' | 'error'
+  let errorCatalogo = null;
   let categoriaActiva = null;   // null = todavía no elige nada · 'todas' · o el nombre exacto de una categoría
   let busqueda = '';
   let orden = 'relevancia';
@@ -1006,21 +1082,12 @@
   function renderTiles(){
     const wrap = document.getElementById('catTiles');
     const cats = categoriasConDatos();
-    document.getElementById('catCount').textContent = cats.length ? `${cats.length} categoría${cats.length===1?'':'s'}` : '';
+    document.getElementById('catCount').textContent = catalogo.length ? `(${catalogo.length})` : '';
+    document.getElementById('btnVerTodo').classList.toggle('active', categoriaActiva === 'todas');
+    // Mientras conecta (o si falla) se dejan las categorías de respaldo del HTML.
+    if (!catalogo.length) return;
 
-    if (!catalogo.length){
-      wrap.innerHTML = `<div class="empty-state">Aún no hay productos publicados. Aparecerán aquí automáticamente en cuanto se agreguen desde el panel.</div>`;
-      return;
-    }
-
-    const todoActivo = categoriaActiva === 'todas';
-    const tiles = [`
-      <button class="cat-tile cat-tile-todo ${todoActivo?'active':''}" data-cat="todas">
-        <div class="cat-tile-icon"><i class="fa-solid fa-grip"></i></div>
-        <div class="cat-tile-name">Ver todo</div>
-        <div class="cat-tile-count">${catalogo.length} producto${catalogo.length===1?'':'s'}</div>
-      </button>`
-    ];
+    const tiles = [];
     cats.forEach(c => {
       const icono = iconoCategoria(c.nombre);
       const activa = categoriaActiva === c.nombre;
@@ -1048,7 +1115,7 @@
     } else if (categoriaActiva){
       el.innerHTML = `${esc(categoriaActiva)} <button class="link-reset" id="resetView">‹ Ver categorías</button>`;
     } else {
-      el.innerHTML = `<span class="breadcrumb-hint">👆 Elige una categoría arriba o usa el buscador</span>`;
+      el.innerHTML = `<span class="breadcrumb-hint">Destacados y promociones</span>`;
     }
     const btn = document.getElementById('resetView');
     if (btn) btn.addEventListener('click', () => {
@@ -1059,8 +1126,14 @@
     });
   }
 
-  function mostrarProductos(){
-    return categoriaActiva !== null || busqueda.trim() !== '';
+  function mostrarProductos(){ return true; }
+
+  // Vista por defecto: promociones primero, luego productos con foto.
+  function destacadosDe(lista){
+    const promos = lista.filter(p => p.promoHoy != null);
+    const conFoto = lista.filter(p => p.promoHoy == null && imagenesDe(p).length);
+    const sinFoto = lista.filter(p => p.promoHoy == null && !imagenesDe(p).length);
+    return [...promos, ...conFoto, ...sinFoto].slice(0, 8);
   }
 
   function productoFiltrado(p){
@@ -1092,7 +1165,7 @@
   function creditoHtmlDe(p){
     if (p.credito!=null && p.mesesCredito){
       const cuota = Number(p.credito) / Number(p.mesesCredito);
-      return `<span class="credito"><i class="fa-solid fa-check"></i> Crédito directo · cuotas desde ${money(cuota)}/mes${p.creditoEstimado?' (estimado)':''}</span>`;
+      return `<span class="credito"><span class="cr-label"><i class="fa-solid fa-check" aria-hidden="true"></i> Crédito directo</span><span class="cr-val">cuotas desde <b>${money(cuota)}/mes</b>${p.creditoEstimado?' (estimado)':''}</span></span>`;
     }
     if (p.credito!=null){
       return `<span class="credito"><i class="fa-solid fa-check"></i> Crédito directo disponible</span>`;
@@ -1109,11 +1182,11 @@
     const nombreCompleto = p.nombre + (p.marca ? ' — '+p.marca : '');
     const mensajeWa = `Hola, quiero información sobre: ${nombreCompleto}. Precio: ${money(precioDe(p))}. ¿Está disponible?`;
     return `
-      <div class="card" data-idx="${idx}">
+      <div class="card" data-idx="${idx}" style="--i:${Math.min(idx, 8)}">
         <div class="card-media">${media}${promo}</div>
         <div class="card-body">
           <div class="card-cat">${esc(p.categoria || 'General')}</div>
-          <div class="card-name">${esc(nombreCompleto)}</div>
+          <h3 class="card-name"><button type="button" class="card-open">${esc(nombreCompleto)}</button></h3>
           <div class="card-price">${precioHtmlDe(p)}${creditoHtmlDe(p)}</div>
           <div class="card-cta">
             <a class="btn btn-wa" href="${waLink(NUM.ventas, mensajeWa)}" target="_blank" rel="noopener">
@@ -1126,27 +1199,65 @@
 
   let listaActual = [];
 
+  function skeletons(n){
+    return Array.from({length:n}, () => `<div class="skeleton-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line short"></div></div>`).join('');
+  }
+  const WA_CATALOGO = () => waLink(NUM.ventas, 'Hola, quiero ver el catálogo de productos de Almacén Metálicas Sincelejo.');
+
   function renderGrid(){
     const grid = document.getElementById('grid');
-    if (!catalogo.length){ grid.innerHTML = ''; return; }
-    if (!mostrarProductos()){ grid.innerHTML = ''; return; }
 
-    let lista = catalogo.filter(productoFiltrado);
+    if (estadoCatalogo === 'cargando'){ grid.innerHTML = skeletons(8); return; }
+
+    if (estadoCatalogo === 'error'){
+      grid.innerHTML = `<div class="estado-catalogo" role="alert">
+        <b>No pudimos cargar el catálogo en este momento</b>
+        Escríbenos por WhatsApp y un asesor te envía el catálogo y los precios de hoy.
+        <div class="acciones">
+          <button type="button" class="btn btn-outline" id="btnReintentar">Reintentar</button>
+          <a class="btn btn-wa" href="${WA_CATALOGO()}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Pedir catálogo por WhatsApp</a>
+        </div>
+        <small>Detalle técnico: ${esc(errorCatalogo || 'sin respuesta del servidor')}</small>
+      </div>`;
+      document.getElementById('btnReintentar').addEventListener('click', conectarCatalogo);
+      return;
+    }
+
+    if (!catalogo.length){
+      grid.innerHTML = `<div class="estado-catalogo">
+        <b>Estamos actualizando el catálogo</b>
+        Escríbenos por WhatsApp y te mostramos lo que tenemos disponible hoy.
+        <div class="acciones"><a class="btn btn-wa" href="${WA_CATALOGO()}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Hablar con un asesor</a></div>
+      </div>`;
+      return;
+    }
+
+    const destacados = categoriaActiva === null && !busqueda.trim();
+    let lista = destacados ? destacadosDe(catalogo) : catalogo.filter(productoFiltrado);
     if (orden === 'precio-asc') lista = lista.slice().sort((a,b)=>precioDe(a)-precioDe(b));
     else if (orden === 'precio-desc') lista = lista.slice().sort((a,b)=>precioDe(b)-precioDe(a));
 
     if (!lista.length){
-      grid.innerHTML = `<div class="empty-state">Sin resultados${busqueda?` para "${esc(busqueda)}"`:''}.</div>`;
+      grid.innerHTML = `<div class="estado-catalogo">
+        <b>No encontramos productos${busqueda ? ` para "${esc(busqueda)}"` : ' en esta categoría'}</b>
+        Puede que lo tengamos en el almacén aunque no esté publicado. Pregúntale a un asesor.
+        <div class="acciones"><a class="btn btn-wa" href="${waLink(NUM.ventas, 'Hola, busco: ' + (busqueda || categoriaActiva || 'un producto'))}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Preguntar por WhatsApp</a></div>
+      </div>`;
       return;
     }
+
     listaActual = lista;
-    grid.innerHTML = lista.map(cardHtml).join('');
+    grid.innerHTML = lista.map(cardHtml).join('') +
+      ((destacados && catalogo.length > lista.length)
+        ? `<div class="ver-mas-wrap"><button type="button" class="btn btn-outline" id="btnVerMas">Ver todo el catálogo (${catalogo.length})</button></div>` : '');
     grid.querySelectorAll('.card').forEach(card => {
       card.addEventListener('click', e => {
         if (e.target.closest('.btn-wa')) return; // el botón de WhatsApp funciona normal
         abrirModal(listaActual[Number(card.dataset.idx)]);
       });
     });
+    const vm = document.getElementById('btnVerMas');
+    if (vm) vm.addEventListener('click', () => irACategoria('todas'));
   }
 
   function renderAll(){ renderTiles(); renderBreadcrumb(); renderGrid(); }
@@ -1158,6 +1269,7 @@
   });
   document.getElementById('sortSelect').addEventListener('change', e => {
     orden = e.target.value;
+    if (categoriaActiva === null && !busqueda.trim() && orden !== 'relevancia') categoriaActiva = 'todas';
     renderGrid();
   });
   document.querySelectorAll('.negocio-tag').forEach(b => {
@@ -1220,20 +1332,77 @@
     if (dot){ modalIdx = Number(dot.dataset.i); renderModalImg(); }
   });
 
-  // Escucha en vivo: en cuanto se agrega/edita/activa-desactiva un producto
-  // desde el panel interno, esta vitrina se actualiza sola sin recargar.
-  onSnapshot(collection(db, COLECCION_CATALOGO), snap => {
-    catalogo = snap.docs
-      .map(d => ({ id:d.id, ...d.data() }))
+  // ── Conexión al catálogo ────────────────────────────────────────────
+  // 1) Escucha en vivo con el SDK de Firestore (se actualiza solo cuando cambias algo en el panel).
+  // 2) Si en 10 s no responde, o da error, se lee por la API REST (más tolerante a redes lentas).
+  // 3) Si también falla, se muestra el motivo exacto y un botón de WhatsApp (nunca se queda "cargando").
+  function decodeValue(v){
+    if ('stringValue' in v) return v.stringValue;
+    if ('integerValue' in v) return Number(v.integerValue);
+    if ('doubleValue' in v) return v.doubleValue;
+    if ('booleanValue' in v) return v.booleanValue;
+    if ('nullValue' in v) return null;
+    if ('timestampValue' in v) return v.timestampValue;
+    if ('arrayValue' in v) return (v.arrayValue.values || []).map(decodeValue);
+    if ('mapValue' in v) return decodeFields(v.mapValue.fields || {});
+    return null;
+  }
+  function decodeFields(f){ const o = {}; for (const k in f) o[k] = decodeValue(f[k]); return o; }
+
+  async function leerCatalogoREST(){
+    const base = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents/${COLECCION_CATALOGO}`;
+    const docs = []; let token = '';
+    do {
+      const url = `${base}?pageSize=300&key=${firebaseConfig.apiKey}` + (token ? `&pageToken=${encodeURIComponent(token)}` : '');
+      const r = await fetch(url);
+      const j = await r.json();
+      if (!r.ok){ const e = new Error(j.error?.message || ('HTTP ' + r.status)); e.code = j.error?.status || ('http-' + r.status); throw e; }
+      (j.documents || []).forEach(d => docs.push({ id: d.name.split('/').pop(), ...decodeFields(d.fields || {}) }));
+      token = j.nextPageToken || '';
+    } while (token);
+    return docs;
+  }
+
+  function aplicarCatalogo(docs){
+    catalogo = docs
       .filter(p => p.estado !== 'inactivo')
       .sort((a,b) => (a.categoria||'').localeCompare(b.categoria||'') || (a.nombre||'').localeCompare(b.nombre||''));
+    estadoCatalogo = catalogo.length ? 'listo' : 'vacio';
+    errorCatalogo = null;
     renderAll();
-  }, err => {
-    console.error('Error leyendo catálogo:', err);
-    document.getElementById('catTiles').innerHTML = `<div class="empty-state">No se pudo cargar el catálogo. Intenta más tarde.</div>`;
-  });
+  }
 
-  renderAll();
+  async function respaldoREST(motivo){
+    if (estadoCatalogo === 'listo') return;
+    try {
+      aplicarCatalogo(await leerCatalogoREST());
+    } catch (e) {
+      if (estadoCatalogo === 'listo') return;
+      estadoCatalogo = 'error';
+      errorCatalogo = `${motivo} → respaldo: ${e.code || ''} ${e.message || e}`.trim();
+      console.error('Catálogo no disponible:', errorCatalogo);
+      renderAll();
+    }
+  }
+
+  let timerCatalogo = null, desuscribir = null;
+  function conectarCatalogo(){
+    clearTimeout(timerCatalogo);
+    if (desuscribir) { try { desuscribir(); } catch(_){} desuscribir = null; }
+    estadoCatalogo = 'cargando'; errorCatalogo = null; renderAll();
+    timerCatalogo = setTimeout(() => { if (estadoCatalogo === 'cargando') respaldoREST('sin respuesta del SDK en 10 s'); }, 10000);
+    try {
+      desuscribir = onSnapshot(collection(db, COLECCION_CATALOGO),
+        snap => { clearTimeout(timerCatalogo); aplicarCatalogo(snap.docs.map(d => ({ id: d.id, ...d.data() }))); },
+        err  => { clearTimeout(timerCatalogo); console.error('Error leyendo catálogo:', err); respaldoREST(err.code || err.message || 'error del SDK'); });
+    } catch (e) { clearTimeout(timerCatalogo); respaldoREST(e.code || e.message || 'error al iniciar'); }
+  }
+
+  // categorías de respaldo (HTML estático) y botón "Ver todo": funcionan desde el primer segundo
+  document.querySelectorAll('#catTiles .cat-tile').forEach(b => b.addEventListener('click', () => irACategoria(b.dataset.cat)));
+  document.getElementById('btnVerTodo').addEventListener('click', () => irACategoria('todas'));
+
+  conectarCatalogo();
 
   // ── Reseñas reales de clientes ──────────────────────────────────────
   // Colección "resenas": cualquiera puede crear una (queda con aprobado:false
@@ -1244,16 +1413,30 @@
   let estrellasSeleccionadas = 0;
 
   const starsInput = document.getElementById('reviewStarsInput');
-  starsInput.querySelectorAll('i').forEach(star => {
-    star.addEventListener('click', () => {
-      estrellasSeleccionadas = Number(star.dataset.val);
-      starsInput.dataset.valor = estrellasSeleccionadas;
-      starsInput.querySelectorAll('i').forEach(s => {
-        const activa = Number(s.dataset.val) <= estrellasSeleccionadas;
-        s.classList.toggle('activa', activa);
-        s.classList.toggle('fa-solid', activa);
-        s.classList.toggle('fa-regular', !activa);
-      });
+  const estrellasEls = Array.from(starsInput.querySelectorAll('i'));
+  function pintarEstrellas(){
+    starsInput.dataset.valor = estrellasSeleccionadas;
+    estrellasEls.forEach(s => {
+      const n = Number(s.dataset.val);
+      const activa = n <= estrellasSeleccionadas;
+      s.classList.toggle('activa', activa);
+      s.classList.toggle('fa-solid', activa);
+      s.classList.toggle('fa-regular', !activa);
+      s.setAttribute('aria-checked', n === estrellasSeleccionadas ? 'true' : 'false');
+      s.tabIndex = (n === (estrellasSeleccionadas || 1)) ? 0 : -1;
+    });
+  }
+  estrellasEls.forEach(star => {
+    star.addEventListener('click', () => { estrellasSeleccionadas = Number(star.dataset.val); pintarEstrellas(); });
+    star.addEventListener('keydown', e => {
+      let n = estrellasSeleccionadas || Number(star.dataset.val);
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') n = Math.min(5, n + 1);
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') n = Math.max(1, n - 1);
+      else if (e.key === 'Enter' || e.key === ' ') n = Number(star.dataset.val);
+      else return;
+      e.preventDefault();
+      estrellasSeleccionadas = n; pintarEstrellas();
+      estrellasEls[n - 1].focus();
     });
   });
 
@@ -1266,7 +1449,7 @@
     const resumen = document.getElementById('reviewsSummary');
 
     if (!lista.length){
-      grid.innerHTML = `<div class="empty-state">Todavía no hay reseñas publicadas — ¡sé el primero en contar tu experiencia!</div>`;
+      grid.innerHTML = `<div class="reviews-empty"><i class="fa-regular fa-comments" aria-hidden="true"></i><b>Aún no hay reseñas publicadas</b>¿Ya compraste con nosotros? Cuéntanos cómo te fue — tu opinión ayuda a otras familias de Sincelejo.</div>`;
       resumen.style.display = 'none';
       return;
     }
@@ -1276,7 +1459,7 @@
     document.getElementById('reviewsAvgStars').innerHTML =
       Array.from({length:5}, (_,i) => `<i class="fa-solid fa-star" style="${i < Math.round(promedio) ? '' : 'opacity:.25'}"></i>`).join('');
     document.getElementById('reviewsCount').textContent =
-      `Basado en ${lista.length} reseña${lista.length===1?'':'s'} de clientes reales`;
+      `Basado en ${lista.length} reseña${lista.length===1?'':'s'} publicadas`;
     resumen.style.display = 'inline-flex';
 
     grid.innerHTML = lista.slice(0, 9).map(r => {
@@ -1289,7 +1472,7 @@
           <div class="testi-avatar">${esc(iniciales(r.nombre))}</div>
           <div class="testi-meta">
             <span class="tname">${esc(r.nombre)}</span>
-            <span class="testi-verified"><i class="fa-solid fa-circle-check"></i>Cliente verificado</span>
+            <span class="testi-verified"><i class="fa-solid fa-circle-check" aria-hidden="true"></i>Reseña revisada por el almacén</span>
           </div>
         </div>
       </div>`;
@@ -1333,8 +1516,7 @@
       msg.textContent = '¡Gracias por tu reseña! Se publicará pronto, tras una verificación rápida.';
       document.getElementById('reviewForm').reset();
       estrellasSeleccionadas = 0;
-      starsInput.dataset.valor = 0;
-      starsInput.querySelectorAll('i').forEach(s => { s.classList.remove('activa','fa-solid'); s.classList.add('fa-regular'); });
+      pintarEstrellas();
     } catch (err) {
       console.error('Error guardando reseña:', err);
       msg.className = 'review-msg error';
