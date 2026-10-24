@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "metalicas-sincelejo-web",
+  "compatibility_date": "2026-10-06",
+  // Genera dist/ (lee el catálogo de Firestore) antes de publicar
+  "build": { "command": "node build.js" },
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

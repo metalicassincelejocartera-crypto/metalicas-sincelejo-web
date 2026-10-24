@@ -331,6 +331,13 @@ function detalleHTML(p) {
     }
   }
 
+  // Página 404
+  escribir('404.html', pagina({
+    titulo: `Página no encontrada | ${T.nombreCorto}`, descripcion: 'Esta página no existe.', url: '/404', schema: [negocio()],
+    cuerpo: `<section class="seccion"><div class="envoltura" style="text-align:center;max-width:640px"><h1 style="font-family:var(--f-disp);font-size:40px;letter-spacing:-.03em">No encontramos esta página</h1><p>Puede que el producto ya no esté publicado. Mira el catálogo o pregúntale a un asesor.</p><p style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn btn-azul" href="/#catalogo">Ver catálogo</a><a class="btn btn-wa" href="https://wa.me/${(T.whatsapp || {}).ventas}" target="_blank" rel="noopener">Escribir por WhatsApp</a></p></div></section>`,
+    bodyAttrs: 'data-pagina="404"'
+  }).replace('content="index,follow,max-image-preview:large"', 'content="noindex"'));
+
   // Sitemap
   const hoy = new Date().toISOString().slice(0, 10);
   const urls = [['/', '1.0'], ...catsOrden.map(k => [`/categoria/${k}/`, '0.8']), ...productos.map(p => [p.url, '0.7', p.imgs.map(abs)]), ['/politica-de-privacidad/', '0.2']];
