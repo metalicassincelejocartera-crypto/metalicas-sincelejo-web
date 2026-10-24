@@ -1,0 +1,30 @@
+// Reglas sugeridas para el proyecto Firebase "prueba-para-debido".
+// IMPORTANTE: pega SOLO los bloques de 'catalogo' y 'resenas' dentro de tus
+// reglas actuales, sin borrar las de recaudos, metas, usuarios, etc.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Catálogo: cualquiera puede LEER (la web y Google lo necesitan);
+    // solo usuarios con sesión del panel pueden escribir.
+    match /catalogo/{id} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Reseñas: el público solo puede CREAR (sin aprobar) y LEER las aprobadas.
+    match /resenas/{id} {
+      allow read: if resource.data.aprobado == true || request.auth != null;
+      allow create: if request.auth != null || (
+        request.resource.data.keys().hasOnly(['nombre','texto','estrellas','aprobado','fecha','origen'])
+        && request.resource.data.aprobado == false
+        && request.resource.data.nombre is string && request.resource.data.nombre.size() <= 60
+        && request.resource.data.texto is string && request.resource.data.texto.size() >= 10 && request.resource.data.texto.size() <= 600
+        && request.resource.data.estrellas is int && request.resource.data.estrellas >= 1 && request.resource.data.estrellas <= 5
+      );
+      allow update, delete: if request.auth != null;
+    }
+
+    // ...aquí siguen tus demás reglas (recaudos, metas, usuarios_roles, etc.)
+  }
+}

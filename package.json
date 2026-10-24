@@ -1,0 +1,6 @@
+{
+  "name": "vitrina-metalicas-sincelejo",
+  "private": true,
+  "scripts": { "build": "node build.js" },
+  "engines": { "node": ">=18" }
+}
