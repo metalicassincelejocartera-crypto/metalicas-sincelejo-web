@@ -116,7 +116,7 @@ function tarjeta(p) {
   return `<article class="tarjeta" data-id="${esc(p.slug)}"><div class="foto">${foto}<div class="insignias">${ins}</div></div><div class="cuerpo"><span class="meta">${esc([p.categoria, p.marca].filter(Boolean).join(' · '))}</span><h3><a href="${esc(p.url)}" data-ver="${esc(p.slug)}">${esc(p.nombre)}</a></h3><div class="precios">${precio}${p.estimado && c ? '<div class="nota">Cuota aproximada</div>' : ''}</div><button class="agregar" type="button" data-agregar="${esc(p.slug)}">Agregar a cotización</button></div></article>`;
 }
 function marcaHTML() {
-  if (T.logo) return `<img src="${esc(T.logo)}" alt="${esc(T.nombre)}" height="46">`;
+  if (T.logo) return `<img src="${esc(T.logo)}" alt="${esc(T.nombre)}" width="142" height="46">`;
   return `<span class="marca-logo" aria-hidden="true">M</span><span class="marca-txt"><strong>${esc(T.nombreCorto)}</strong><span>${esc(T.lema)} · Sincelejo</span></span>`;
 }
 function redesHTML() {
@@ -138,7 +138,7 @@ const FAQ = [
 function negocio() {
   const n = {
     '@type': ['Store', 'LocalBusiness'], '@id': DOM + '/#tienda', name: T.nombre, slogan: T.lema, url: DOM + '/',
-    image: DOM + '/img/og-portada.jpg', logo: abs(T.logo || '/img/icono-512.png'), telephone: T.telefono, priceRange: '$$',
+    image: [DOM + '/img/fachada.jpg', DOM + '/img/og-portada.jpg'], logo: abs(T.logo || '/img/icono-512.png'), telephone: T.telefono, priceRange: '$$',
     currenciesAccepted: 'COP', paymentAccepted: 'Efectivo, crédito directo',
     address: { '@type': 'PostalAddress', streetAddress: T.direccion.calle, addressLocality: T.direccion.ciudad, addressRegion: T.direccion.departamento, postalCode: T.direccion.codigoPostal, addressCountry: T.direccion.pais },
     areaServed: { '@type': 'City', name: T.direccion.ciudad },
@@ -207,7 +207,7 @@ function pagina({ titulo, descripcion, url, imagen, tipoOG, schema, cuerpo, body
 <meta property="og:image" content="${esc(imagen || DOM + '/img/og-portada.jpg')}">
 <meta name="twitter:card" content="summary_large_image">
 {{HEAD_EXTRA}}
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/img/icono-192.png">
 <link rel="manifest" href="/manifest.webmanifest">
 ${FUENTES}

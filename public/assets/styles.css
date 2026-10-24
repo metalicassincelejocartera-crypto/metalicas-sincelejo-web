@@ -316,3 +316,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 [data-si=""]{display:none!important}
 @media (max-width:480px){.franja ul li:nth-child(n+2){display:none}}
+.visita .datos .fachada{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r-m)}
+.marca img{height:46px;width:auto}
+@media (max-width:760px){.marca img{height:38px}}

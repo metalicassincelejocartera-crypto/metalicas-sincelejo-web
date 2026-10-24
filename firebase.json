@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "prueba-para-debido",
     "public": "dist",
     "predeploy": [
       "node build.js"

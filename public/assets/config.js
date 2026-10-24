@@ -9,15 +9,15 @@ window.TIENDA = {
   lema: 'Calidad y servicio',
   anios: 30,                                   // "más de 30 años"
   dominio: 'https://metalicassincelejo.com',   // sin "/" al final
-  logo: '',                                    // ej: '/img/logo.png' (si lo dejas vacío se usa el logotipo de texto)
+  logo: '/img/logo.png',                                  // ej: '/img/logo.png' (si lo dejas vacío se usa el logotipo de texto)
 
   // Números de WhatsApp en formato internacional, solo dígitos (57 + celular)
   whatsapp: {
-    ventas:  '573215383870',   // ⚠️ confirmar
-    cartera: '',               // pendiente
-    soporte: ''                // pendiente
+    ventas:  '573163327031',
+    cartera: '573052399487',
+    soporte: '573215383876'
   },
-  telefono: '+57 321 538 3870',
+  telefono: '+57 316 332 7031',
   correo: '',
 
   direccion: {
@@ -28,16 +28,16 @@ window.TIENDA = {
     pais: 'CO'
   },
   // Coordenadas exactas del local (cópialas de Google Maps: clic derecho sobre el pin).
-  geo: { lat: null, lng: null },
+  geo: { lat: 9.304722, lng: -75.397778 },
 
   // Horario. Formato 24h. Déjalo vacío si aún no lo confirmas.
   // Ej: { dias: ['Mo','Tu','We','Th','Fr'], abre: '08:00', cierra: '18:00' }
-  horario: [],
-  horarioTexto: '',            // ej: 'Lunes a sábado, 8:00 a. m. – 6:00 p. m.'
+  horario: [{ dias: ['Mo','Tu','We','Th','Fr','Sa'], abre: '08:00', cierra: '18:00' }],
+  horarioTexto: 'Lunes a sábado, 8:00 a. m. a 6:00 p. m.',
 
   redes: {
     facebook: '',              // URL completa
-    instagram: '',
+    instagram: 'https://www.instagram.com/metalicassincelejo',
     tiktok: '',
     youtube: ''
   },
