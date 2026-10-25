@@ -15,7 +15,11 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;font-family:var(--f-txt);font-size:16px;line-height:1.55;color:var(--ink);background:var(--blanco)}
 body.menu-abierto{overflow:hidden}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
+/* Marco con fondo difuminado de la misma foto */
+.conf{position:relative;overflow:hidden;isolation:isolate}
+.conf::before{content:"";position:absolute;inset:-24px;background:var(--bg) center/cover no-repeat;filter:blur(22px) saturate(1.15);opacity:.5;z-index:-1}
+.conf img{position:relative}
 a{color:inherit}
 p{margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -74,6 +78,7 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
 .atajos a{flex:none;padding:8px 12px;border-radius:8px;color:#E4E5FA;font-weight:600;font-size:14.5px;text-decoration:none;white-space:nowrap}
 .atajos a:hover{background:rgba(255,255,255,.12);color:#fff}
 .atajos a.activo{background:#fff;color:var(--azul)}
+.cats-movil{display:none}
 .mega{position:absolute;left:0;right:0;top:100%;background:#fff;color:var(--ink);box-shadow:0 30px 60px -20px rgba(20,22,58,.35);border-top:3px solid var(--rojo);max-height:calc(100vh - 160px);overflow:auto}
 .mega>.envoltura{padding-top:22px;padding-bottom:26px}
 .mega-cab{display:none}
@@ -104,7 +109,7 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
 .slide-contado s{opacity:.7}
 .ctas{display:flex;gap:12px;flex-wrap:wrap}
 .slide-img{justify-self:center;background:#fff;border-radius:var(--r-l);padding:18px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6);max-width:440px;width:100%}
-.slide-img img{width:100%;aspect-ratio:1;object-fit:contain}
+.slide-img img{width:100%;height:auto;aspect-ratio:1;object-fit:contain;border-radius:12px}
 .slide-img.foto-tienda{padding:10px;transform:rotate(1.5deg)}
 .slide-img.foto-tienda img{aspect-ratio:16/10;object-fit:cover;border-radius:14px}
 .slider-ctrl{display:flex;align-items:center;gap:12px;padding-bottom:22px}
@@ -137,7 +142,8 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
 .depto{display:grid;grid-template-columns:116px 1fr;align-items:stretch;background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);overflow:hidden;text-decoration:none;transition:border-color .15s,box-shadow .15s}
 .depto:hover{border-color:var(--azul);box-shadow:var(--sombra)}
 .depto-img{background:var(--fondo);display:grid;place-items:center;overflow:hidden;min-height:116px}
-.depto-img img{width:100%;height:100%;max-height:116px;object-fit:contain;mix-blend-mode:multiply;padding:10px}
+.depto-img{position:relative}
+.depto-img img{width:100%;height:116px;object-fit:contain;padding:8px}
 .depto-ico{width:48px;height:48px;color:var(--azul)}
 .depto-txt{display:flex;flex-direction:column;justify-content:center;gap:2px;padding:12px 16px;border-left:3px solid var(--azul)}
 .depto:hover .depto-txt{border-left-color:var(--rojo)}
@@ -150,10 +156,10 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
 .tarjeta{position:relative;background:#fff;border:1px solid var(--linea);border-radius:var(--r-m);display:flex;flex-direction:column;overflow:hidden;transition:border-color .15s,box-shadow .15s}
 .tarjeta:hover{border-color:#C9CCE6;box-shadow:var(--sombra)}
 .tarjeta .foto{aspect-ratio:1/1;background:#fff;display:grid;place-items:center;overflow:hidden;position:relative;border-bottom:1px solid var(--linea)}
-.tarjeta .foto img{width:100%;height:100%;object-fit:contain;padding:12px}
+.tarjeta .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:8px}
 .sin-foto{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--ink-3);font-size:12.5px;text-align:center;padding:16px;background:var(--fondo);width:100%;height:100%;justify-content:center}
 .sin-foto svg{width:54px;height:54px;color:#A9ACC8}
-.dto{position:absolute;top:10px;left:10px;background:var(--rojo);color:#fff;font-weight:800;font-size:13px;padding:3px 8px;border-radius:6px}
+.dto{position:absolute;z-index:1;top:10px;left:10px;background:var(--rojo);color:#fff;font-weight:800;font-size:13px;padding:3px 8px;border-radius:6px}
 .dto.grande{font-size:16px;padding:5px 10px;top:14px;left:14px}
 .tarjeta .cuerpo{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
 .meta{font-size:12.5px;color:var(--ink-3);font-weight:700;margin:0}
@@ -172,6 +178,7 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
 .tarjeta .agregar{margin-top:10px;min-height:42px;border-radius:10px;border:0;background:var(--azul-50);color:var(--azul);font-weight:800;cursor:pointer}
 .tarjeta .agregar:hover{background:var(--azul);color:#fff}
 .tarjeta .agregar.listo{background:var(--verde);color:#fff}
+.agregar .ct{display:none}
 .vacio{grid-column:1/-1;text-align:center;padding:44px 20px;border:2px dashed var(--linea);border-radius:var(--r-m);color:var(--ink-2);display:grid;gap:8px;justify-items:center}
 
 /* ---------- Rieles ---------- */
@@ -191,8 +198,8 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
 .bn-txt h2{font-family:var(--f-disp);font-size:clamp(26px,3vw,36px);letter-spacing:-.03em;line-height:1.05;margin:0}
 .bn-txt p{color:#C9CBEF}
 .bn-fotos{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.bn-fotos a{background:#fff;border-radius:var(--r-m);padding:10px;display:block}
-.bn-fotos img{width:100%;aspect-ratio:1;object-fit:contain}
+.bn-fotos a{background:#fff;border-radius:var(--r-m);padding:6px;display:block}
+.bn-fotos img{width:100%;height:auto;aspect-ratio:1;object-fit:contain}
 
 /* ---------- Listado ---------- */
 .migas{font-size:13.5px;color:var(--ink-3);padding:14px 0}
@@ -341,7 +348,7 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
 /* ---------- Detalle de producto ---------- */
 .galeria{background:#fff;padding:20px;display:grid;gap:12px;align-content:start;border-right:1px solid var(--linea)}
 .galeria .principal{position:relative;aspect-ratio:1;background:#fff;border-radius:var(--r-m);display:grid;place-items:center;overflow:hidden}
-.galeria .principal img{width:100%;height:100%;object-fit:contain}
+.galeria .principal img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .miniaturas{display:flex;gap:8px;overflow-x:auto}
 .miniaturas button{flex:none;width:64px;height:64px;border-radius:10px;border:2px solid var(--linea);background:#fff;padding:4px;cursor:pointer}
 .miniaturas button[aria-current="true"]{border-color:var(--azul)}
@@ -418,7 +425,11 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
   .acciones .btn{width:46px;padding:0}
   .franja ul li:nth-child(n+2){display:none}
   .cats{position:static}
-  .cats>.envoltura{min-height:46px}
+  .cats>.envoltura{min-height:46px;justify-content:space-between}
+  .atajos{display:none}
+  .cats-movil{display:flex;gap:4px}
+  .cats-movil a{padding:8px 12px;border-radius:8px;color:#fff;font-weight:700;font-size:14.5px;text-decoration:none}
+  .cats-movil a:hover{background:rgba(255,255,255,.14)}
   .mega{position:fixed;inset:0;top:0;z-index:96;max-height:none;border-top:0}
   .mega>.envoltura{padding-top:0}
   .mega-cab{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;padding:14px 0;border-bottom:1px solid var(--linea);margin-bottom:12px;font-size:18px}
@@ -426,26 +437,28 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
   .pasos,.canales{grid-template-columns:1fr}
   .deptos{grid-template-columns:repeat(3,1fr);gap:8px}
   .depto{grid-template-columns:1fr}
-  .depto-img{min-height:78px}
-  .depto-img img{max-height:78px;padding:8px}
+  .depto-img{min-height:84px}
+  .depto-img img{height:84px;padding:6px}
   .depto-ico{width:36px;height:36px}
   .depto-txt{padding:8px 6px 10px;border-left:0;border-top:3px solid var(--azul);text-align:center}
   .depto:hover .depto-txt{border-top-color:var(--rojo)}
   .depto-txt strong{font-size:13px;line-height:1.2}
   .depto-txt small{display:none}
-  .slide-img{max-width:260px}
+  .slide-img{max-width:210px;justify-self:center;padding:10px}
   .slide-img.foto-tienda{max-width:300px}
   .slide{padding:28px 0 16px;gap:20px}
   .barra-res .total{order:3;width:100%}
   .rejilla{grid-template-columns:repeat(2,1fr);gap:10px}
-  .carril{grid-auto-columns:calc((100% - 14px)/2.15);gap:10px}
+  .carril{grid-auto-columns:calc((100% - 10px)/1.75);gap:10px}
   .riel-btn{display:none}
   .tarjeta .cuerpo{padding:10px 11px 12px}
   .tarjeta h3{font-size:14px}
   .cuota .valor{font-size:20px}
   .cuota .por{font-size:12px}
   .contado{font-size:12.5px}
-  .tarjeta .agregar{font-size:13.5px}
+  .tarjeta .agregar{font-size:14px}
+  .rejilla .agregar .lg{display:none}
+  .rejilla .agregar .ct{display:inline}
   .seccion{padding:38px 0}
   .slide-txt h1{font-size:40px}
   .slide-txt>p{font-size:16px}

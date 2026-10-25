@@ -283,7 +283,7 @@
   }
   function htmlFicha(p) {
     var c = M.cuota(p), d = M.descuento(p);
-    var gal = '<div class="galeria"><div class="principal">' + (p.imgs[0] ? '<img data-foto-principal src="' + esc(p.imgs[0]) + '" alt="' + esc(p.nombre) + '">' : M.foto(p, 600)) + (d ? '<span class="dto grande">-' + d + '%</span>' : '') + '</div>' +
+    var gal = '<div class="galeria"><div class="principal' + (p.imgs[0] ? ' conf' : '') + '"' + M.fondo(p.imgs[0]) + '>' + (p.imgs[0] ? '<img data-foto-principal src="' + esc(p.imgs[0]) + '" alt="' + esc(p.nombre) + '">' : M.foto(p, 600)) + (d ? '<span class="dto grande">-' + d + '%</span>' : '') + '</div>' +
       (p.imgs.length > 1 ? '<div class="miniaturas">' + p.imgs.map(function (src, i) { return '<button type="button" data-mini="' + i + '" aria-label="Foto ' + (i + 1) + '" aria-current="' + (i === 0) + '"><img src="' + esc(src) + '" alt="" loading="lazy"></button>'; }).join('') + '</div>' : '') + '</div>';
     var precio = '<div class="caja-precio">' + (c ? '<div class="credito"><small>Cuota a crédito' + (p.estimado ? ' (aproximada)' : '') + '</small><strong>' + pesos(c) + '</strong> <span>al mes × ' + p.meses + ' meses</span></div>' : '') +
       '<div class="contado-l"><span>Precio de contado</span><span>' + (d ? '<s>' + pesos(p.contado) + '</s> ' : '') + '<b>' + pesos(M.precioVigente(p)) + '</b></span></div></div>';
@@ -371,7 +371,7 @@
     });
     document.addEventListener('click', function (e) {
       var a = e.target.closest('[data-agregar]');
-      if (a) { var p = buscarProducto(a.getAttribute('data-agregar')); if (p) { agregar(p); a.classList.add('listo'); a.textContent = 'Agregado ✓'; setTimeout(function () { a.classList.remove('listo'); a.textContent = 'Agregar a cotización'; }, 1600); } return; }
+      if (a) { var p = buscarProducto(a.getAttribute('data-agregar')); if (p) { agregar(p); if (!a.classList.contains('listo')) { var orig = a.innerHTML; a.classList.add('listo'); a.textContent = 'Agregado ✓'; setTimeout(function () { a.classList.remove('listo'); a.innerHTML = orig; }, 1600); } } return; }
       var v = e.target.closest('[data-ver]');
       if (v && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0 && window.innerWidth > 760) { var pv = buscarProducto(v.getAttribute('data-ver')); if (pv) { e.preventDefault(); abrirFicha(pv); } }
     });

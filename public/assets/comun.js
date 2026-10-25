@@ -10,6 +10,8 @@ window.MS = (function () {
   var cuota = function (p) { return (p.credito && p.meses) ? Math.round(p.credito / p.meses) : null; };
   var descuento = function (p) { return enOferta(p) ? Math.round((1 - p.promo / p.contado) * 100) : 0; };
 
+  // Fondo difuminado con la misma foto: cualquier proporción o fondo queda bien enmarcado
+  function fondo(src) { return src ? ' style="--bg:url(\'' + esc(src) + '\')"' : ''; }
   function foto(p, ancho, extra) {
     if (p.imgs && p.imgs[0]) return '<img src="' + esc(p.imgs[0]) + '" alt="' + esc(p.nombre) + '" loading="lazy" decoding="async" width="' + ancho + '" height="' + ancho + '"' + (extra || '') + '>';
     return '<span class="sin-foto"><svg aria-hidden="true"><use href="#d-' + esc(p.icono || 'hogar') + '"/></svg><span>Foto disponible por WhatsApp</span></span>';
@@ -22,11 +24,11 @@ window.MS = (function () {
         '<p class="contado">' + (d ? '<s>' + pesos(p.contado) + '</s> ' : '') + '<span class="nw">Contado <b>' + pesos(precioVigente(p)) + '</b></span></p>'
       : '<p class="cuota"><span class="valor">' + pesos(precioVigente(p)) + '</span><span class="por">de contado</span></p>' + (d ? '<p class="contado">Antes <s>' + pesos(p.contado) + '</s></p>' : '');
     return '<article class="tarjeta">' +
-      '<a class="foto" href="' + esc(p.url) + '" data-ver="' + esc(p.slug) + '" tabindex="-1" aria-hidden="true">' + foto(p, 400) + (d ? '<span class="dto">-' + d + '%</span>' : '') + '</a>' +
+      '<a class="foto' + (p.imgs && p.imgs[0] ? ' conf' : '') + '" href="' + esc(p.url) + '" data-ver="' + esc(p.slug) + '" tabindex="-1" aria-hidden="true"' + fondo(p.imgs && p.imgs[0]) + '>' + foto(p, 400) + (d ? '<span class="dto">-' + d + '%</span>' : '') + '</a>' +
       '<div class="cuerpo"><p class="meta">' + esc(p.marca || p.sub) + '</p>' +
       '<h3><a href="' + esc(p.url) + '" data-ver="' + esc(p.slug) + '">' + esc(p.nombre) + '</a></h3>' +
       '<div class="precios">' + precio + '</div>' +
-      '<button class="agregar" type="button" data-agregar="' + esc(p.slug) + '">Agregar a cotización</button></div></article>';
+      '<button class="agregar" type="button" data-agregar="' + esc(p.slug) + '"><span class="lg">Agregar a cotización</span><span class="ct">Agregar</span></button></div></article>';
   }
 
   // Ordenes
@@ -47,5 +49,5 @@ window.MS = (function () {
   ];
   function enRango(p, id) { for (var i = 0; i < RANGOS.length; i++) if (RANGOS[i].id === id) { var v = precioVigente(p); return v >= RANGOS[i].min && v < RANGOS[i].max; } return true; }
 
-  return { esc: esc, pesos: pesos, sinTilde: sinTilde, slug: slug, enOferta: enOferta, precioVigente: precioVigente, cuota: cuota, descuento: descuento, foto: foto, tarjeta: tarjeta, ORDENES: ORDENES, RANGOS: RANGOS, enRango: enRango };
+  return { fondo: fondo, esc: esc, pesos: pesos, sinTilde: sinTilde, slug: slug, enOferta: enOferta, precioVigente: precioVigente, cuota: cuota, descuento: descuento, foto: foto, tarjeta: tarjeta, ORDENES: ORDENES, RANGOS: RANGOS, enRango: enRango };
 })();

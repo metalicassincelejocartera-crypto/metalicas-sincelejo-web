@@ -25,7 +25,7 @@ vm.runInContext(fs.readFileSync(path.join(PUB, 'assets/config.js'), 'utf8'), ctx
 vm.runInContext(fs.readFileSync(path.join(PUB, 'assets/comun.js'), 'utf8'), ctx);
 const T = ctx.window.TIENDA;
 const MS = ctx.window.MS;
-const { esc, pesos, sinTilde, slug, enOferta, precioVigente, cuota, descuento, tarjeta, ORDENES } = MS;
+const { esc, pesos, sinTilde, slug, enOferta, precioVigente, cuota, descuento, tarjeta, ORDENES, fondo } = MS;
 const DOM = (process.env.DOMINIO || T.dominio).replace(/\/$/, '');
 const POR_PAGINA = T.productosPorPagina || 24;
 const num = v => (v === null || v === undefined || v === '') ? null : Number(v);
@@ -137,7 +137,7 @@ function riel(items, id) {
 const FAQ = [
   ['¿Cómo saco un producto a crédito?', `Escoge el producto y escríbenos por WhatsApp o visita la tienda en ${T.direccion.calle}. Un asesor revisa tu solicitud, te indica los documentos que necesitas y te propone un plan de cuotas.`],
   ['¿Las cuotas que aparecen en la página son definitivas?', 'Son una referencia. La cuota final depende del estudio de crédito y del plazo que elijas; un asesor te la confirma antes de cerrar la compra.'],
-  ['¿Hacen entregas a domicilio?', `Sí, entregamos a domicilio en ${T.direccion.ciudad}. Al confirmar tu compra el asesor te indica el día y las condiciones de entrega.`],
+  ['¿Hacen entregas a domicilio? ¿A qué municipios llegan?', `Sí. Entregamos en ${T.direccion.ciudad} y en gran parte de los municipios de Sucre y Córdoba. La entrega está sujeta a cobertura: escríbenos por WhatsApp con tu municipio y te confirmamos si llegamos, el día y las condiciones.`],
   ['¿Dónde pago las cuotas de mi crédito?', 'Puedes pagar en la tienda o consultar tu saldo y cuotas pendientes por la línea de WhatsApp de pagos y cartera.'],
   ['¿Qué hago si un producto que compré presenta una falla?', 'Escríbenos a la línea de servicio técnico con tu número de contrato y una descripción de la falla para gestionar la revisión.'],
   ['¿Puedo ver los productos en persona?', `Claro. Estamos en ${T.direccion.calle}, ${T.direccion.ciudad}. ${T.horarioTexto ? 'Horario: ' + T.horarioTexto + '.' : ''}`.trim()]
@@ -150,7 +150,7 @@ function negocio() {
     image: [DOM + '/img/fachada.jpg', DOM + '/img/og-portada.jpg'], logo: abs(T.logo || '/img/icono-512.png'), telephone: T.telefono, priceRange: '$$',
     currenciesAccepted: 'COP', paymentAccepted: 'Efectivo, crédito directo',
     address: { '@type': 'PostalAddress', streetAddress: T.direccion.calle, addressLocality: T.direccion.ciudad, addressRegion: T.direccion.departamento, postalCode: T.direccion.codigoPostal, addressCountry: T.direccion.pais },
-    areaServed: { '@type': 'City', name: T.direccion.ciudad },
+    areaServed: [{ '@type': 'City', name: T.direccion.ciudad }, { '@type': 'State', name: 'Sucre' }, { '@type': 'State', name: 'Córdoba' }],
     sameAs: [T.googlePerfil, ...Object.values(T.redes || {})].filter(Boolean)
   };
   if (T.correo) n.email = T.correo;
@@ -162,7 +162,7 @@ function negocio() {
 function productoLD(p) {
   const o = {
     '@type': 'Product', '@id': DOM + p.url + '#producto', name: p.nombre, sku: p.slug, url: DOM + p.url, category: `${p.dept} > ${p.sub}`,
-    description: p.desc || `${p.nombre} disponible en ${T.nombre}, ${T.direccion.ciudad}. Crédito directo y entrega a domicilio.`,
+    description: p.desc || `${p.nombre} disponible en ${T.nombre}, ${T.direccion.ciudad}. Crédito directo y entrega a domicilio en Sucre y Córdoba.`,
     image: p.imgs.map(abs),
     offers: { '@type': 'Offer', url: DOM + p.url, priceCurrency: 'COP', price: precioVigente(p), availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition', seller: { '@id': DOM + '/#tienda' } }
   };
@@ -249,11 +249,11 @@ function migas(items) {
 /* ---------- Página de producto ---------- */
 function detalleHTML(p) {
   const c = cuota(p), d = descuento(p);
-  const gal = `<div class="galeria"><div class="principal">${p.imgs[0] ? `<img data-foto-principal src="${esc(p.imgs[0])}" alt="${esc(p.nombre)}" width="700" height="700" fetchpriority="high">` : MS.foto(p, 700)}${d ? `<span class="dto grande">-${d}%</span>` : ''}</div>${p.imgs.length > 1 ? '<div class="miniaturas">' + p.imgs.map((src, i) => `<button type="button" data-mini="${i}" aria-label="Foto ${i + 1}" aria-current="${i === 0}"><img src="${esc(src)}" alt="${esc(p.nombre)}, foto ${i + 1}" loading="lazy"></button>`).join('') + '</div>' : ''}</div>`;
+  const gal = `<div class="galeria"><div class="principal${p.imgs[0] ? ' conf' : ''}"${fondo(p.imgs[0])}>${p.imgs[0] ? `<img data-foto-principal src="${esc(p.imgs[0])}" alt="${esc(p.nombre)}" width="700" height="700" fetchpriority="high">` : MS.foto(p, 700)}${d ? `<span class="dto grande">-${d}%</span>` : ''}</div>${p.imgs.length > 1 ? '<div class="miniaturas">' + p.imgs.map((src, i) => `<button type="button" data-mini="${i}" aria-label="Foto ${i + 1}" aria-current="${i === 0}"><img src="${esc(src)}" alt="${esc(p.nombre)}, foto ${i + 1}" loading="lazy"></button>`).join('') + '</div>' : ''}</div>`;
   const precio = `<div class="caja-precio">${c ? `<div class="credito"><small>Cuota a crédito${p.estimado ? ' (aproximada)' : ''}</small><strong>${pesos(c)}</strong> <span>al mes × ${p.meses} meses</span></div>` : ''}<div class="contado-l"><span>Precio de contado</span><span>${d ? `<s>${pesos(p.contado)}</s> ` : ''}<b>${pesos(precioVigente(p))}</b></span></div></div>`;
   const ft = [['Marca', p.marca], ['Color', p.color], ['Categoría', p.sub]].filter(x => x[1]);
   const msg = encodeURIComponent(`Hola, me interesa este producto:\n• ${p.nombre}${p.marca ? ' (' + p.marca + ')' : ''}\nContado: ${pesos(precioVigente(p))}${c ? `\nCuota: ${pesos(c)} x ${p.meses} meses` : ''}\n${DOM}${p.url}`);
-  return `${gal}<div class="detalle">${p.marca ? `<p class="meta">${esc(p.marca)}</p>` : ''}<h1>${esc(p.nombre)}</h1>${precio}${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}${ft.length ? '<dl class="ficha-tecnica">' + ft.map(x => `<dt>${x[0]}</dt><dd>${esc(x[1])}</dd>`).join('') + '</dl>' : ''}<div class="botones"><a class="btn btn-wa" target="_blank" rel="noopener" data-wa-producto="${esc(p.slug)}" href="https://wa.me/${(T.whatsapp || {}).ventas}?text=${msg}"><svg class="ico"><use href="#i-wa"/></svg>Lo quiero, escribir por WhatsApp</a><button class="btn btn-borde" type="button" data-agregar="${esc(p.slug)}">Agregar a cotización</button></div><ul class="garantias"><li><svg class="ico"><use href="#i-cuota"/></svg>Crédito directo con el almacén</li><li><svg class="ico"><use href="#i-camion"/></svg>Entrega a domicilio en ${esc(T.direccion.ciudad)}</li><li><svg class="ico"><use href="#i-tienda"/></svg>Míralo en la tienda: ${esc(T.direccion.calle)}</li></ul><p class="nota">Precios en COP. La cuota depende del estudio de crédito; un asesor la confirma.</p></div>`;
+  return `${gal}<div class="detalle">${p.marca ? `<p class="meta">${esc(p.marca)}</p>` : ''}<h1>${esc(p.nombre)}</h1>${precio}${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}${ft.length ? '<dl class="ficha-tecnica">' + ft.map(x => `<dt>${x[0]}</dt><dd>${esc(x[1])}</dd>`).join('') + '</dl>' : ''}<div class="botones"><a class="btn btn-wa" target="_blank" rel="noopener" data-wa-producto="${esc(p.slug)}" href="https://wa.me/${(T.whatsapp || {}).ventas}?text=${msg}"><svg class="ico"><use href="#i-wa"/></svg>Lo quiero, escribir por WhatsApp</a><button class="btn btn-borde" type="button" data-agregar="${esc(p.slug)}">Agregar a cotización</button></div><ul class="garantias"><li><svg class="ico"><use href="#i-cuota"/></svg>Crédito directo con el almacén</li><li><svg class="ico"><use href="#i-camion"/></svg>Domicilio en Sucre y Córdoba (sujeto a cobertura)</li><li><svg class="ico"><use href="#i-tienda"/></svg>Míralo en la tienda: ${esc(T.direccion.calle)}</li></ul><p class="nota">Precios en COP. La cuota depende del estudio de crédito; un asesor la confirma.</p></div>`;
 }
 
 /* ---------- Página de listado (departamento, categoría, búsqueda) ---------- */
@@ -346,7 +346,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
   const slides = [];
   slides.push(`<div class="slide slide-marca" data-slide>
     <div class="slide-txt"><h1>Llévalo hoy,<br><span class="linea-roja">págalo en cuotas.</span></h1>
-    <p>Electrodomésticos y muebles con crédito directo del almacén y entrega a domicilio en Sincelejo. Más de {{ANIOS}} años en la Avenida Okola.</p>
+    <p>Electrodomésticos y muebles con crédito directo del almacén. Entregamos a domicilio en Sucre y Córdoba (sujeto a cobertura). Más de {{ANIOS}} años en la Avenida Okola.</p>
     <div class="ctas"><a class="btn btn-rojo" href="#departamentos">Ver productos</a><a class="btn btn-borde-claro" href="https://wa.me/{{WA_VENTAS}}?text=Hola%2C%20quiero%20saber%20c%C3%B3mo%20sacar%20un%20cr%C3%A9dito" target="_blank" rel="noopener" data-wa="ventas" data-origen="portada">Pregunta por tu crédito</a></div></div>
     <div class="slide-img foto-tienda"><img src="/img/fachada.jpg" alt="Fachada de {{NOMBRE}} en la Avenida Okola" width="647" height="400" fetchpriority="high"></div></div>`);
   ofertas.filter(p => p.imgs.length).slice(0, 3).forEach(p => {
@@ -356,7 +356,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
       ${c ? `<p class="slide-cuota"><b>${pesos(c)}</b> al mes × ${p.meses}</p>` : ''}
       <p class="slide-contado">Contado <s>${pesos(p.contado)}</s> <b>${pesos(precioVigente(p))}</b></p>
       <div class="ctas"><a class="btn btn-rojo" href="${p.url}">Ver producto</a><a class="btn btn-borde-claro" href="${p.deptUrl}">Más en ${esc(p.dept)}</a></div></div>
-      <a class="slide-img" href="${p.url}" tabindex="-1" aria-hidden="true"><img src="${esc(p.imgs[0])}" alt="" width="520" height="520" loading="lazy"></a></div>`);
+      <a class="slide-img conf" href="${p.url}" tabindex="-1" aria-hidden="true"${fondo(p.imgs[0])}><img src="${esc(p.imgs[0])}" alt="" width="520" height="520" loading="lazy"></a></div>`);
   });
   const SLIDER = `<div class="slider" data-slider><div class="envoltura">${slides.join('')}</div>${slides.length > 1 ? `<div class="slider-ctrl envoltura"><button type="button" class="slider-btn" data-slider-ant aria-label="Anterior"><svg class="ico" style="transform:scaleX(-1)"><use href="#i-flecha"/></svg></button><div class="puntos" role="tablist" aria-label="Destacados">${slides.map((_, k) => `<button type="button" role="tab" aria-label="Destacado ${k + 1}" aria-selected="${k === 0}" data-punto="${k}"></button>`).join('')}</div><button type="button" class="slider-btn" data-slider-sig aria-label="Siguiente"><svg class="ico"><use href="#i-flecha"/></svg></button></div>` : ''}</div>`;
 
@@ -364,7 +364,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
     const conImg = d.items.find(p => p.imgs.length);
     const cuotas = d.items.map(cuota).filter(Boolean);
     const desde = cuotas.length ? `Cuotas desde ${pesos(Math.min(...cuotas))}` : `Desde ${pesos(Math.min(...d.items.map(precioVigente)))}`;
-    return `<a class="depto" href="${d.url}"><span class="depto-img">${conImg ? `<img src="${esc(conImg.imgs[0])}" alt="" width="240" height="240" loading="lazy">` : icono(d.icono, 'depto-ico')}</span><span class="depto-txt"><strong>${esc(d.nombre)}</strong><small>${d.items.length} ${d.items.length === 1 ? 'producto' : 'productos'}</small><small class="desde">${desde}</small></span></a>`;
+    return `<a class="depto" href="${d.url}"><span class="depto-img${conImg ? ' conf' : ''}"${conImg ? fondo(conImg.imgs[0]) : ''}>${conImg ? `<img src="${esc(conImg.imgs[0])}" alt="" width="240" height="240" loading="lazy">` : icono(d.icono, 'depto-ico')}</span><span class="depto-txt"><strong>${esc(d.nombre)}</strong><small>${d.items.length} ${d.items.length === 1 ? 'producto' : 'productos'}</small><small class="desde">${desde}</small></span></a>`;
   }).join('');
 
   const OFERTAS = ofertas.length ? `<section class="seccion gris" id="ofertas" aria-labelledby="t-ofertas"><div class="envoltura"><div class="titulo-sec"><div><h2 id="t-ofertas">Ofertas de hoy</h2><p>Precios especiales mientras haya existencias.</p></div></div>${riel(ofertas.slice(0, 12), 'riel-ofertas')}</div></section>` : '';
@@ -372,7 +372,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
   const negocioD = arbol.find(d => d.slug === 'equipos-para-negocio');
   const NEGOCIO = negocioD ? `<section class="seccion" aria-labelledby="t-negocio"><div class="envoltura"><div class="banda-negocio">
     <div class="bn-txt"><h2 id="t-negocio">¿Tienes tienda, restaurante o negocio?</h2><p>${esc(negocioD.descripcion || '')} También a crédito directo.</p><a class="btn btn-rojo" href="${negocioD.url}">Ver equipos para negocio</a></div>
-    <div class="bn-fotos">${negocioD.items.filter(p => p.imgs.length).slice(0, 3).map(p => `<a href="${p.url}"><img src="${esc(p.imgs[0])}" alt="${esc(p.nombre)}" width="200" height="200" loading="lazy"></a>`).join('')}</div>
+    <div class="bn-fotos">${negocioD.items.filter(p => p.imgs.length).slice(0, 3).map(p => `<a class="conf" href="${p.url}"${fondo(p.imgs[0])}><img src="${esc(p.imgs[0])}" alt="${esc(p.nombre)}" width="200" height="200" loading="lazy"></a>`).join('')}</div>
   </div></div></section>` : '';
 
   const rielDeptos = [...arbol].filter(d => d.slug !== 'equipos-para-negocio').sort((a, b) => b.items.filter(p => p.imgs.length).length - a.items.filter(p => p.imgs.length).length || b.items.length - a.items.length).slice(0, 4);
@@ -416,7 +416,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
       base: d.url, titulo: `${d.nombre} a crédito en Sincelejo | ${T.nombreCorto}`,
       descripcion: `${d.nombre} en ${T.direccion.ciudad} con crédito directo y entrega a domicilio. ${d.items.length} opciones${marcas.length ? ': ' + marcas.join(', ') : ''}.`,
       h1: `${d.nombre} en Sincelejo`,
-      intro: `${d.descripcion ? esc(d.descripcion) + ' ' : ''}${d.items.length} ${d.items.length === 1 ? 'producto' : 'productos'}${cuotas.length ? `, cuotas desde ${pesos(Math.min(...cuotas))} al mes` : ''}. Crédito directo y entrega a domicilio.`,
+      intro: `${d.descripcion ? esc(d.descripcion) + ' ' : ''}${d.items.length} ${d.items.length === 1 ? 'producto' : 'productos'}${cuotas.length ? `, cuotas desde ${pesos(Math.min(...cuotas))} al mes` : ''}. Crédito directo y domicilio en Sucre y Córdoba (sujeto a cobertura).`,
       chips: chipsDept, items: d.items, alcance: { dept: d.slug }, migasItems: [['Inicio', '/'], [d.nombre, d.url]]
     });
     if (conSubs(d)) for (const s of d.subs) {
@@ -424,7 +424,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
       generarListado({
         base: urlSub(d, s), titulo: `${s.nombre} a crédito en Sincelejo | ${T.nombreCorto}`,
         descripcion: `Compra ${s.nombre.toLowerCase()} en ${T.direccion.ciudad} con crédito directo y entrega a domicilio. ${s.items.length} ${s.items.length === 1 ? 'opción' : 'opciones'} desde ${pesos(Math.min(...s.items.map(precioVigente)))}.`,
-        h1: `${s.nombre} en Sincelejo`, intro: `${s.items.length} ${s.items.length === 1 ? 'producto' : 'productos'} con crédito directo y entrega a domicilio.`,
+        h1: `${s.nombre} en Sincelejo`, intro: `${s.items.length} ${s.items.length === 1 ? 'producto' : 'productos'} con crédito directo y domicilio en Sucre y Córdoba (sujeto a cobertura).`,
         chips: chipsSub, items: s.items, alcance: { dept: d.slug, sub: s.slug }, migasItems: [['Inicio', '/'], [d.nombre, d.url], [s.nombre, urlSub(d, s)]]
       });
     }
@@ -448,7 +448,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
     const relacionados = [...mismos, ...d.items.filter(x => x !== p && x.subSlug !== p.subSlug)].slice(0, 10);
     const c = cuota(p);
     const titulo = `${p.nombre}${p.marca && !sinTilde(p.nombre).includes(sinTilde(p.marca)) ? ' ' + p.marca : ''} a crédito en Sincelejo | ${T.nombreCorto}`;
-    const desc = `${p.nombre} en ${T.direccion.ciudad}: ${pesos(precioVigente(p))} de contado${c ? ` o ${pesos(c)} al mes × ${p.meses}` : ''}. Crédito directo y entrega a domicilio. Cotiza por WhatsApp.`;
+    const desc = `${p.nombre} en ${T.direccion.ciudad}: ${pesos(precioVigente(p))} de contado${c ? ` o ${pesos(c)} al mes × ${p.meses}` : ''}. Crédito directo y domicilio en Sucre y Córdoba. Cotiza por WhatsApp.`;
     const cuerpo = `<div class="envoltura">${m.html}<div class="pagina-producto" data-detalle-producto data-slug="${esc(p.slug)}">${detalleHTML(p)}</div></div>` +
       (relacionados.length ? `<section class="seccion"><div class="envoltura"><div class="titulo-sec"><div><h2>También te puede interesar</h2></div><a class="btn btn-ver" href="${p.subUrl}">Ver todo en ${esc(conSubs(d) ? p.sub : p.dept)}</a></div>${riel(relacionados, 'riel-rel')}</div></section>` : '');
     escribir(`producto/${p.slug}/index.html`, pagina({
@@ -489,7 +489,7 @@ ${urls.map(([u, pr, imgs]) => `<url><loc>${DOM}${u}</loc><lastmod>${hoy}</lastmo
   /* --- Feed Google Merchant Center --- */
   const gItem = p => {
     const tit = `${p.nombre}${p.marca && !sinTilde(p.nombre).includes(sinTilde(p.marca)) ? ' ' + p.marca : ''}`.slice(0, 150);
-    const d = (p.desc || `${p.nombre}${p.color ? ' color ' + p.color : ''}. Disponible en ${T.nombre}, ${T.direccion.ciudad}. Crédito directo y entrega a domicilio.`).slice(0, 4900);
+    const d = (p.desc || `${p.nombre}${p.color ? ' color ' + p.color : ''}. Disponible en ${T.nombre}, ${T.direccion.ciudad}. Crédito directo y entrega a domicilio en Sucre y Córdoba.`).slice(0, 4900);
     return `<item>
 <g:id>${esc(p.slug)}</g:id><g:title>${esc(tit)}</g:title><g:description>${esc(d)}</g:description>
 <g:link>${DOM}${p.url}</g:link><g:image_link>${esc(abs(p.imgs[0]))}</g:image_link>${p.imgs.slice(1, 10).map(im => `<g:additional_image_link>${esc(abs(im))}</g:additional_image_link>`).join('')}
