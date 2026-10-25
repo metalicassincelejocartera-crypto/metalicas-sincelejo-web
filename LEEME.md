@@ -14,6 +14,18 @@ Tienda web estática (sin servidor) para **metalicassincelejo.com**, publicada e
 | Mapa, "Cómo llegar", preguntas frecuentes | Fotos extraídas a archivos livianos (no base64) | |
 | Aviso de cookies y política de datos (Ley 1581) | Tiempos de carga bajos: sin librerías, HTML prerenderizado | |
 
+## Departamentos y categorías
+
+La web agrupa las categorías del panel en **departamentos** (Neveras y congeladores, Lavadoras, Estufas y cocina, etc.).
+Se configuran en `public/assets/config.js` → `departamentos`. Si creas una categoría nueva en el panel y no la agregas a
+ningún departamento, aparece en "Más para tu hogar". Para corregir cómo se ve el nombre de una categoría usa `aliasCategorias`.
+
+Direcciones:
+- `/categoria/<departamento>/` y `/categoria/<departamento>/<categoria>/` con 24 productos por página (`/pagina/2/`, …)
+- `/buscar/?q=…` buscador
+- `/producto/<id>/` ficha del producto
+Las direcciones viejas (`/categoria/neveras/`, etc.) redirigen solas a las nuevas.
+
 ## Archivos
 
 ```
