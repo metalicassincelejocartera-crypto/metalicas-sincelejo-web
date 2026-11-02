@@ -115,3 +115,12 @@ npx serve dist                    # abrir http://localhost:3000
 - Horario y coordenadas exactas del local.
 - Logo real en `public/img/logo.png` (mientras tanto se usa el logotipo de texto).
 - Revisión de la política de datos por un abogado si vas a usar los datos para publicidad.
+
+## Publicación automática del catálogo
+
+No tienes que hacer nada: cada 10 minutos GitHub revisa el catálogo de Firestore
+(`.github/workflows/publicar-catalogo.yml`). Si agregaste, editaste o desactivaste un
+producto en el panel, hace un commit pequeño (`.catalogo-version`) y Cloudflare vuelve
+a construir la web. Los cambios aparecen en la web en unos 10 a 15 minutos.
+
+¿Lo necesitas ya? GitHub → pestaña **Actions** → **Publicar catálogo** → **Run workflow**.

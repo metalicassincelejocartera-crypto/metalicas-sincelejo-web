@@ -1,0 +1,44 @@
+# Publica la web sola cuando cambias productos en el panel.
+# Cada 10 minutos revisa el catálogo de Firestore; si algo cambió, hace un
+# commit pequeño (.catalogo-version) y Cloudflare vuelve a construir la web.
+# También puedes lanzarlo a mano: GitHub → Actions → "Publicar catálogo" → Run workflow.
+name: Publicar catálogo
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    inputs:
+      forzar:
+        description: 'Publicar aunque no haya cambios'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-catalogo
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Revisar si el catálogo cambió
+        id: huella
+        run: node scripts/huella-catalogo.js
+      - name: Publicar
+        if: steps.huella.outputs.cambio == '1' || inputs.forzar
+        run: |
+          git config user.name "publicador-catalogo"
+          git config user.email "actions@users.noreply.github.com"
+          if [ "${{ inputs.forzar }}" = "true" ]; then date -u +%FT%TZ >> .catalogo-version; fi
+          git add .catalogo-version
+          git commit -m "Catálogo actualizado desde el panel"
+          git push
