@@ -17,7 +17,17 @@ Esencia: tienda de barrio con más de 30 años, crédito directo, cuota mensual 
 - Títulos y cifras de cuota: Bricolage Grotesque 800, tracking -0.03em.
 - Texto: Figtree 400–800.
 
-## Estructura
-- Inicio corto: portada rotativa → garantías → departamentos → ofertas → banda negocio → 4 vitrinas por departamento con "Ver todos" → cómo comprar → canales → opiniones → tienda → preguntas.
+## Estructura (rediseño nov 2026, con impeccable + taste-skill + Emil Kowalski)
+- Inicio: portada única (sin carrusel) con el producto en oferta en grande y su etiqueta de cuota → franja de confianza en una línea → mosaico de departamentos (2 grandes + resto) → ofertas en franja roja → banda negocio → 2 vitrinas por departamento → así compras (producto real, chat de WhatsApp, entrega) → canales → opiniones → momento "Más de 30 años en la Avenida Okola" con fachada y mapa → preguntas.
 - Departamentos (config.js) → categorías → producto. 24 productos por página, cada página con su URL.
-- Tarjeta: marca, nombre (2 líneas), cuota grande en azul, contado con precio anterior tachado, -% en rojo, botón "Agregar a cotización".
+- Tarjeta: marca, nombre (2 líneas), etiqueta de precio (fondo azul-50 con "ojal": cuota grande en azul, contado debajo), -% en rojo con forma de etiqueta, botón "Agregar a cotización".
+- Ficha de producto en celular: barra fija abajo con la cuota y "Lo quiero"; sin botón flotante.
+
+## Movimiento
+- Curvas: --ease-out cubic-bezier(0.23,1,0.32,1) para UI, --ease-drawer cubic-bezier(0.32,0.72,0,1) para el panel, --ease-mov cubic-bezier(0.77,0,0.175,1) para el vuelo a la cotización.
+- Un momento por página: entrada de la portada (700 ms, escalonada 80 ms) y la foto que vuela a "Mi cotización" (560 ms) con salto del contador.
+- Hover solo con mouse: tarjeta sube 2 px y la foto se acerca 3 %. Todo se apaga con "reducir movimiento".
+
+## Fotos pendientes (reemplazan elementos dibujados)
+- Camión o moto entregando (paso 3 de "Así compras", marcado con comentario FOTO en build.js).
+- Fachada en alta resolución (la actual es de 647 px).

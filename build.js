@@ -253,7 +253,7 @@ function detalleHTML(p) {
   const precio = `<div class="caja-precio">${c ? `<div class="credito"><small>Cuota a crédito${p.estimado ? ' (aproximada)' : ''}</small><strong>${pesos(c)}</strong> <span>al mes × ${p.meses} meses</span></div>` : ''}<div class="contado-l"><span>Precio de contado</span><span>${d ? `<s>${pesos(p.contado)}</s> ` : ''}<b>${pesos(precioVigente(p))}</b></span></div></div>`;
   const ft = [['Marca', p.marca], ['Color', p.color], ['Categoría', p.sub]].filter(x => x[1]);
   const msg = encodeURIComponent(`Hola, me interesa este producto:\n• ${p.nombre}${p.marca ? ' (' + p.marca + ')' : ''}\nContado: ${pesos(precioVigente(p))}${c ? `\nCuota: ${pesos(c)} x ${p.meses} meses` : ''}\n${DOM}${p.url}`);
-  return `${gal}<div class="detalle">${p.marca ? `<p class="meta">${esc(p.marca)}</p>` : ''}<h1>${esc(p.nombre)}</h1>${precio}${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}${ft.length ? '<dl class="ficha-tecnica">' + ft.map(x => `<dt>${x[0]}</dt><dd>${esc(x[1])}</dd>`).join('') + '</dl>' : ''}<div class="botones"><a class="btn btn-wa" target="_blank" rel="noopener" data-wa-producto="${esc(p.slug)}" href="https://wa.me/${(T.whatsapp || {}).ventas}?text=${msg}"><svg class="ico"><use href="#i-wa"/></svg>Lo quiero, escribir por WhatsApp</a><button class="btn btn-borde" type="button" data-agregar="${esc(p.slug)}">Agregar a cotización</button></div><ul class="garantias"><li><svg class="ico"><use href="#i-cuota"/></svg>Crédito directo con el almacén</li><li><svg class="ico"><use href="#i-camion"/></svg>Domicilio en Sucre y Córdoba (sujeto a cobertura)</li><li><svg class="ico"><use href="#i-tienda"/></svg>Míralo en la tienda: ${esc(T.direccion.calle)}</li></ul><p class="nota">Precios en COP. La cuota depende del estudio de crédito; un asesor la confirma.</p></div>`;
+  return `${gal}<div class="detalle">${p.marca ? `<p class="meta">${esc(p.marca)}</p>` : ''}<h1>${esc(p.nombre)}</h1>${precio}${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}${ft.length ? '<dl class="ficha-tecnica">' + ft.map(x => `<dt>${x[0]}</dt><dd>${esc(x[1])}</dd>`).join('') + '</dl>' : ''}<div class="botones"><a class="btn btn-wa" target="_blank" rel="noopener" data-wa-producto="${esc(p.slug)}" href="https://wa.me/${(T.whatsapp || {}).ventas}?text=${msg}"><svg class="ico"><use href="#i-wa"/></svg>Lo quiero, escribir por WhatsApp</a><button class="btn btn-borde" type="button" data-agregar="${esc(p.slug)}">Agregar a cotización</button></div><ul class="garantias"><li><svg class="ico"><use href="#i-cuota"/></svg>Crédito directo con el almacén</li><li><svg class="ico"><use href="#i-camion"/></svg>Domicilio en Sucre y Córdoba (sujeto a cobertura)</li><li><svg class="ico"><use href="#i-tienda"/></svg>Míralo en la tienda: ${esc(T.direccion.calle)}</li></ul><p class="nota">Precios en COP. La cuota depende del estudio de crédito; un asesor la confirma.</p></div><div class="barra-compra">${MS.etiqueta(p, 'mini')}<a class="btn btn-wa" target="_blank" rel="noopener" data-wa-producto="${esc(p.slug)}" href="https://wa.me/${(T.whatsapp || {}).ventas}?text=${msg}"><svg class="ico"><use href="#i-wa"/></svg>Lo quiero</a></div>`;
 }
 
 /* ---------- Página de listado (departamento, categoría, búsqueda) ---------- */
@@ -343,31 +343,27 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
   /* --- Inicio --- */
   const conFoto = productos.filter(p => p.imgs.length);
   const ofertas = productos.filter(enOferta).sort(ORDENES.descuento);
-  const slides = [];
-  slides.push(`<div class="slide slide-marca" data-slide>
-    <div class="slide-txt"><h1>Llévalo hoy,<br><span class="linea-roja">págalo en cuotas.</span></h1>
-    <p>Electrodomésticos y muebles con crédito directo del almacén. Entregamos a domicilio en Sucre y Córdoba (sujeto a cobertura). Más de {{ANIOS}} años en la Avenida Okola.</p>
-    <div class="ctas"><a class="btn btn-rojo" href="#departamentos">Ver productos</a><a class="btn btn-borde-claro" href="https://wa.me/{{WA_VENTAS}}?text=Hola%2C%20quiero%20saber%20c%C3%B3mo%20sacar%20un%20cr%C3%A9dito" target="_blank" rel="noopener" data-wa="ventas" data-origen="portada">Pregunta por tu crédito</a></div></div>
-    <div class="slide-img foto-tienda"><img src="/img/fachada.jpg" alt="Fachada de {{NOMBRE}} en la Avenida Okola" width="647" height="400" fetchpriority="high"></div></div>`);
-  ofertas.filter(p => p.imgs.length).slice(0, 3).forEach(p => {
-    const c = cuota(p);
-    slides.push(`<div class="slide" data-slide hidden>
-      <div class="slide-txt"><p class="slide-etq">Oferta de hoy · -${descuento(p)}%</p><h2>${esc(p.nombre)}</h2>
-      ${c ? `<p class="slide-cuota"><b>${pesos(c)}</b> al mes × ${p.meses}</p>` : ''}
-      <p class="slide-contado">Contado <s>${pesos(p.contado)}</s> <b>${pesos(precioVigente(p))}</b></p>
-      <div class="ctas"><a class="btn btn-rojo" href="${p.url}">Ver producto</a><a class="btn btn-borde-claro" href="${p.deptUrl}">Más en ${esc(p.dept)}</a></div></div>
-      <a class="slide-img conf" href="${p.url}" tabindex="-1" aria-hidden="true"${fondo(p.imgs[0])}><img src="${esc(p.imgs[0])}" alt="" width="520" height="520" loading="lazy"></a></div>`);
-  });
-  const SLIDER = `<div class="slider" data-slider><div class="envoltura">${slides.join('')}</div>${slides.length > 1 ? `<div class="slider-ctrl envoltura"><button type="button" class="slider-btn" data-slider-ant aria-label="Anterior"><svg class="ico" style="transform:scaleX(-1)"><use href="#i-flecha"/></svg></button><div class="puntos" role="tablist" aria-label="Destacados">${slides.map((_, k) => `<button type="button" role="tab" aria-label="Destacado ${k + 1}" aria-selected="${k === 0}" data-punto="${k}"></button>`).join('')}</div><button type="button" class="slider-btn" data-slider-sig aria-label="Siguiente"><svg class="ico"><use href="#i-flecha"/></svg></button></div>` : ''}</div>`;
+  // Portada: una sola, con el producto destacado en grande (sin carrusel)
+  const destacado = ofertas.find(p => p.imgs.length) || conFoto[0];
+  const etiqueta = MS.etiqueta;
+  const heroVisual = destacado
+    ? `<a class="hero-prod" href="${destacado.url}" data-entrar="2"><span class="hero-foto"><img src="${esc(destacado.imgs[0])}" alt="${esc(destacado.nombre)}" width="560" height="560" fetchpriority="high"></span>
+      <span class="hero-info">${enOferta(destacado) ? `<span class="dto-tag">-${descuento(destacado)}% hoy</span>` : ''}<span class="hero-nombre">${esc(destacado.nombre)}</span>${etiqueta(destacado, 'grande')}<span class="hero-ver">Ver producto <svg class="ico"><use href="#i-flecha"/></svg></span></span></a>`
+    : `<div class="hero-prod hero-tienda" data-entrar="2"><img src="/img/fachada-recorte.jpg" alt="Fachada de {{NOMBRE}} en la Avenida Okola" width="592" height="360" fetchpriority="high"></div>`;
+  const SLIDER = `<div class="hero envoltura">
+    <div class="hero-txt"><h1 data-entrar="0">Llévalo hoy,<br><span class="linea-roja">págalo en cuotas.</span></h1>
+    <p data-entrar="1">Electrodomésticos y muebles con crédito directo del almacén y domicilio en Sucre y Córdoba.</p>
+    <div class="ctas" data-entrar="1"><a class="btn btn-rojo" href="#departamentos">Ver productos</a><a class="btn btn-borde-claro" href="https://wa.me/{{WA_VENTAS}}?text=Hola%2C%20quiero%20saber%20c%C3%B3mo%20sacar%20un%20cr%C3%A9dito" target="_blank" rel="noopener" data-wa="ventas" data-origen="portada">Pregunta por tu crédito</a></div></div>
+    ${heroVisual}</div>`;
 
   const DEPTOS_HTML = arbol.map(d => {
     const conImg = d.items.find(p => p.imgs.length);
     const cuotas = d.items.map(cuota).filter(Boolean);
-    const desde = cuotas.length ? `Cuotas desde ${pesos(Math.min(...cuotas))}` : `Desde ${pesos(Math.min(...d.items.map(precioVigente)))}`;
-    return `<a class="depto" href="${d.url}"><span class="depto-img${conImg ? ' conf' : ''}"${conImg ? fondo(conImg.imgs[0]) : ''}>${conImg ? `<img src="${esc(conImg.imgs[0])}" alt="" width="240" height="240" loading="lazy">` : icono(d.icono, 'depto-ico')}</span><span class="depto-txt"><strong>${esc(d.nombre)}</strong><small>${d.items.length} ${d.items.length === 1 ? 'producto' : 'productos'}</small><small class="desde">${desde}</small></span></a>`;
+    const desde = cuotas.length ? `Cuotas desde <b>${pesos(Math.min(...cuotas))}</b>` : `Desde <b>${pesos(Math.min(...d.items.map(precioVigente)))}</b>`;
+    return `<a class="depto${conImg ? '' : ' sin-img'}" href="${d.url}"><span class="depto-txt"><strong>${esc(d.nombre)}</strong><small>${desde}</small></span><span class="depto-img">${conImg ? `<img src="${esc(conImg.imgs[0])}" alt="" width="320" height="320" loading="lazy">` : icono(d.icono, 'depto-ico')}</span></a>`;
   }).join('');
 
-  const OFERTAS = ofertas.length ? `<section class="seccion gris" id="ofertas" aria-labelledby="t-ofertas"><div class="envoltura"><div class="titulo-sec"><div><h2 id="t-ofertas">Ofertas de hoy</h2><p>Precios especiales mientras haya existencias.</p></div></div>${riel(ofertas.slice(0, 12), 'riel-ofertas')}</div></section>` : '';
+  const OFERTAS = ofertas.length ? `<section class="seccion ofertas" id="ofertas" aria-labelledby="t-ofertas"><div class="envoltura"><div class="titulo-sec"><div><h2 id="t-ofertas">Ofertas de hoy</h2><p>Precios especiales mientras haya existencias.</p></div>${ofertas.length > 5 ? `<a class="btn btn-blanco" href="/buscar/?ofertas=1">Ver todas (${ofertas.length})</a>` : ''}</div>${riel(ofertas.slice(0, 12), 'riel-ofertas')}</div></section>` : '';
 
   const negocioD = arbol.find(d => d.slug === 'equipos-para-negocio');
   const NEGOCIO = negocioD ? `<section class="seccion" aria-labelledby="t-negocio"><div class="envoltura"><div class="banda-negocio">
@@ -375,8 +371,22 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
     <div class="bn-fotos">${negocioD.items.filter(p => p.imgs.length).slice(0, 3).map(p => `<a class="conf" href="${p.url}"${fondo(p.imgs[0])}><img src="${esc(p.imgs[0])}" alt="${esc(p.nombre)}" width="200" height="200" loading="lazy"></a>`).join('')}</div>
   </div></div></section>` : '';
 
-  const rielDeptos = [...arbol].filter(d => d.slug !== 'equipos-para-negocio').sort((a, b) => b.items.filter(p => p.imgs.length).length - a.items.filter(p => p.imgs.length).length || b.items.length - a.items.length).slice(0, 4);
-  const RIELES = rielDeptos.map((d, k) => `<section class="seccion${k % 2 === 0 ? ' gris' : ''}" aria-labelledby="t-r-${d.slug}"><div class="envoltura"><div class="titulo-sec"><div><h2 id="t-r-${d.slug}">${esc(d.nombre)}</h2>${conSubs(d) ? `<p class="mini-subs">${d.subs.slice(0, 5).map(s => `<a href="${urlSub(d, s)}">${esc(s.nombre)}</a>`).join('')}</p>` : ''}</div><a class="btn btn-ver" href="${d.url}">Ver todos (${d.items.length})</a></div>${riel(d.items.slice(0, 10), 'riel-' + d.slug)}</div></section>`).join('');
+  const rielDeptos = [...arbol].filter(d => d.slug !== 'equipos-para-negocio').sort((a, b) => b.items.filter(p => p.imgs.length).length - a.items.filter(p => p.imgs.length).length || b.items.length - a.items.length).slice(0, 2);
+  const RIELES = rielDeptos.map((d, k) => `<section class="seccion${k % 2 === 1 ? ' gris' : ''}" aria-labelledby="t-r-${d.slug}"><div class="envoltura"><div class="titulo-sec"><div><h2 id="t-r-${d.slug}">${esc(d.nombre)}</h2>${conSubs(d) ? `<p class="mini-subs">${d.subs.slice(0, 5).map(s => `<a href="${urlSub(d, s)}">${esc(s.nombre)}</a>`).join('')}</p>` : ''}</div><a class="btn btn-ver" href="${d.url}">Ver todos (${d.items.length})</a></div>${riel(d.items.slice(0, 10), 'riel-' + d.slug)}</div></section>`).join('');
+
+  // "Así compras": cada paso con su imagen (producto real, conversación de WhatsApp, entrega)
+  const ejemplo = conFoto.find(p => p !== destacado && cuota(p)) || destacado;
+  const ejC = ejemplo && cuota(ejemplo);
+  const PASOS = `<ol class="pasos">
+    <li><div class="paso-vis paso-prod">${ejemplo ? `<img src="${esc(ejemplo.imgs[0])}" alt="" width="220" height="220" loading="lazy"><span class="paso-chip">${ejC ? `<b>${pesos(ejC)}</b> al mes` : `<b>${pesos(precioVigente(ejemplo))}</b>`}</span>` : icono('hogar', 'paso-ico')}</div>
+      <h3>Elige tus productos</h3><p>Agrégalos a tu cotización desde el catálogo. Puedes llevar varios.</p></li>
+    <li><div class="paso-vis paso-chat" aria-hidden="true"><span class="chat-cab"><svg class="ico"><use href="#i-wa"/></svg>Ventas · {{NOMBRE}}</span>
+      <span class="burbuja yo">Hola, quiero cotizar:<br>• 1 × ${esc(ejemplo ? ejemplo.nombre : 'Nevera')}${ejC ? `<br>${pesos(ejC)} x ${ejemplo.meses} meses` : ''}</span>
+      <span class="burbuja ellos">¡Hola! Con gusto te ayudamos con tu crédito.</span></div>
+      <h3>Envía tu cotización por WhatsApp</h3><p>Un asesor confirma precio, disponibilidad y el plan de cuotas que te sirve.</p></li>
+    <li><div class="paso-vis paso-entrega"><!-- FOTO: aquí va una foto real del camión entregando (cuando la tengas, reemplaza este bloque por <img>) --><svg class="camion" aria-hidden="true"><use href="#i-camion"/></svg><span class="ruta" aria-hidden="true"></span><span class="paso-chip">Sucre y Córdoba</span></div>
+      <h3>Recíbelo en tu casa</h3><p>Te lo llevamos a tu casa en Sincelejo y en gran parte de Sucre y Córdoba (sujeto a cobertura), o lo recoges en la tienda.</p></li>
+  </ol>`;
 
   const faqHTML = FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
   const schemaInicio = {
@@ -387,7 +397,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
       { '@type': 'ItemList', name: 'Departamentos', itemListElement: arbol.map((d, n) => ({ '@type': 'ListItem', position: n + 1, url: DOM + d.url, name: d.nombre })) }
     ]
   };
-  escribir('index.html', fichas(PLANTILLA, { SCHEMA_ORG: ld(schemaInicio), SLIDER, DEPTOS: DEPTOS_HTML, OFERTAS, NEGOCIO, RIELES, FAQ_HTML: faqHTML }));
+  escribir('index.html', fichas(PLANTILLA, { SCHEMA_ORG: ld(schemaInicio), SLIDER, DEPTOS: DEPTOS_HTML, OFERTAS, NEGOCIO, RIELES, PASOS, FAQ_HTML: faqHTML }));
 
   /* --- Departamentos y categorías (con paginación) --- */
   const urlsListado = [];

@@ -17,17 +17,21 @@ window.MS = (function () {
     return '<span class="sin-foto"><svg aria-hidden="true"><use href="#d-' + esc(p.icono || 'hogar') + '"/></svg><span>Foto disponible por WhatsApp</span></span>';
   }
 
+  // Etiqueta de precio: la cuota manda, el contado va debajo
+  function etiqueta(p, cls) {
+    var c = cuota(p), d = enOferta(p);
+    return '<span class="etiqueta' + (cls ? ' ' + cls : '') + '">' + (c
+      ? '<span class="et-cuota"><b>' + pesos(c) + '</b><span>al mes × ' + p.meses + '</span></span><span class="et-contado">Contado ' + (d ? '<s>' + pesos(p.contado) + '</s> ' : '') + '<b>' + pesos(precioVigente(p)) + '</b></span>'
+      : '<span class="et-cuota"><b>' + pesos(precioVigente(p)) + '</b><span>de contado</span></span>' + (d ? '<span class="et-contado">Antes <s>' + pesos(p.contado) + '</s></span>' : '')) + '</span>';
+  }
+
   function tarjeta(p) {
-    var c = cuota(p), d = descuento(p);
-    var precio = c
-      ? '<p class="cuota"><span class="valor">' + pesos(c) + '</span><span class="por">al mes × ' + p.meses + '</span></p>' +
-        '<p class="contado">' + (d ? '<s>' + pesos(p.contado) + '</s> ' : '') + '<span class="nw">Contado <b>' + pesos(precioVigente(p)) + '</b></span></p>'
-      : '<p class="cuota"><span class="valor">' + pesos(precioVigente(p)) + '</span><span class="por">de contado</span></p>' + (d ? '<p class="contado">Antes <s>' + pesos(p.contado) + '</s></p>' : '');
+    var d = descuento(p);
     return '<article class="tarjeta">' +
       '<a class="foto' + (p.imgs && p.imgs[0] ? ' conf' : '') + '" href="' + esc(p.url) + '" data-ver="' + esc(p.slug) + '" tabindex="-1" aria-hidden="true"' + fondo(p.imgs && p.imgs[0]) + '>' + foto(p, 400) + (d ? '<span class="dto">-' + d + '%</span>' : '') + '</a>' +
       '<div class="cuerpo"><p class="meta">' + esc(p.marca || p.sub) + '</p>' +
       '<h3><a href="' + esc(p.url) + '" data-ver="' + esc(p.slug) + '">' + esc(p.nombre) + '</a></h3>' +
-      '<div class="precios">' + precio + '</div>' +
+      '<div class="precios">' + etiqueta(p) + '</div>' +
       '<button class="agregar" type="button" data-agregar="' + esc(p.slug) + '"><span class="lg">Agregar a cotización</span><span class="ct">Agregar</span></button></div></article>';
   }
 
@@ -49,5 +53,5 @@ window.MS = (function () {
   ];
   function enRango(p, id) { for (var i = 0; i < RANGOS.length; i++) if (RANGOS[i].id === id) { var v = precioVigente(p); return v >= RANGOS[i].min && v < RANGOS[i].max; } return true; }
 
-  return { fondo: fondo, esc: esc, pesos: pesos, sinTilde: sinTilde, slug: slug, enOferta: enOferta, precioVigente: precioVigente, cuota: cuota, descuento: descuento, foto: foto, tarjeta: tarjeta, ORDENES: ORDENES, RANGOS: RANGOS, enRango: enRango };
+  return { etiqueta: etiqueta, fondo: fondo, esc: esc, pesos: pesos, sinTilde: sinTilde, slug: slug, enOferta: enOferta, precioVigente: precioVigente, cuota: cuota, descuento: descuento, foto: foto, tarjeta: tarjeta, ORDENES: ORDENES, RANGOS: RANGOS, enRango: enRango };
 })();

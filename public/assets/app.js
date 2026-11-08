@@ -238,6 +238,7 @@
     if (alcance.buscar) {
       var h1 = $('h1', raiz); if (L.estado.q && h1) { h1.textContent = 'Resultados para “' + L.estado.q + '”'; document.title = 'Resultados para ' + L.estado.q + ' | ' + T.nombreCorto; }
       var inp = $('#q'); if (inp) inp.value = L.estado.q;
+      if (!L.estado.q && L.estado.ofertas && h1) { h1.textContent = 'Ofertas de hoy'; document.title = 'Ofertas de hoy | ' + T.nombreCorto; }
     }
     var sel = $('[data-orden]', raiz); if (sel) sel.value = L.estado.orden;
     // Interacciones
@@ -326,10 +327,31 @@
   var COT = [];
   try { COT = JSON.parse(localStorage.getItem('ms_cotizacion') || '[]'); } catch (e) { COT = []; }
   function guardarCot() { try { localStorage.setItem('ms_cotizacion', JSON.stringify(COT)); } catch (e) {} pintarCot(); }
-  function agregar(p) {
+  // La foto del producto vuela hasta "Mi cotización" y el contador da un salto
+  function saltar(dest) {
+    if (reducirMovimiento || !dest || !dest.animate) return;
+    dest.animate([{ transform: 'scale(1)' }, { transform: 'scale(.92)' }, { transform: 'scale(1)' }], { duration: 260, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+    var c = $('[data-contador]', dest); if (c) c.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.4)' }, { transform: 'scale(1)' }], { duration: 320, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+  }
+  function volar(desde) {
+    var dest = $$('[data-abrir-cotizacion]').filter(function (b) { return b.offsetParent; })[0];
+    var caja = desde && desde.closest('.tarjeta, .pagina-producto, [data-ficha-caja]');
+    var img = caja && $('img', caja);
+    if (reducirMovimiento || !dest || !img || !img.animate) { saltar(dest); return false; }
+    var r = img.getBoundingClientRect(), t = dest.getBoundingClientRect();
+    if (!r.width || r.bottom < 0 || r.top > window.innerHeight) { saltar(dest); return false; }
+    var c = img.cloneNode(false); c.removeAttribute('loading'); c.className = 'volando'; c.setAttribute('aria-hidden', 'true');
+    c.style.cssText = 'left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px';
+    document.body.appendChild(c);
+    var dx = t.left + t.width / 2 - (r.left + r.width / 2), dy = t.top + t.height / 2 - (r.top + r.height / 2), k = Math.max(.08, Math.min(.3, 44 / r.width));
+    var a = c.animate([{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + k + ')', opacity: .5 }], { duration: 560, easing: 'cubic-bezier(0.77, 0, 0.175, 1)' });
+    a.onfinish = a.oncancel = function () { c.remove(); saltar(dest); };
+    return true;
+  }
+  function agregar(p, desde) {
     var it = COT.filter(function (x) { return x.slug === p.slug; })[0];
     if (it) it.cant++; else COT.push({ slug: p.slug, nombre: p.nombre, marca: p.marca, precio: M.precioVigente(p), cuota: M.cuota(p), meses: p.meses, img: p.imgs[0] || '', url: p.url, cant: 1 });
-    guardarCot(); aviso('Agregado a tu cotización');
+    guardarCot(); if (!volar(desde)) aviso('Agregado a tu cotización');
     medir('add_to_cart', { item_id: p.slug, item_name: p.nombre, value: M.precioVigente(p), currency: 'COP' });
   }
   function pintarCot() {
@@ -371,7 +393,7 @@
     });
     document.addEventListener('click', function (e) {
       var a = e.target.closest('[data-agregar]');
-      if (a) { var p = buscarProducto(a.getAttribute('data-agregar')); if (p) { agregar(p); if (!a.classList.contains('listo')) { var orig = a.innerHTML; a.classList.add('listo'); a.textContent = 'Agregado ✓'; setTimeout(function () { a.classList.remove('listo'); a.innerHTML = orig; }, 1600); } } return; }
+      if (a) { var p = buscarProducto(a.getAttribute('data-agregar')); if (p) { agregar(p, a); if (!a.classList.contains('listo')) { var orig = a.innerHTML; a.classList.add('listo'); a.textContent = 'Agregado ✓'; setTimeout(function () { a.classList.remove('listo'); a.innerHTML = orig; }, 1600); } } return; }
       var v = e.target.closest('[data-ver]');
       if (v && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0 && window.innerWidth > 760) { var pv = buscarProducto(v.getAttribute('data-ver')); if (pv) { e.preventDefault(); abrirFicha(pv); } }
     });

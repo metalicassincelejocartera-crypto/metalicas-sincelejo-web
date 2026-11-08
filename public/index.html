@@ -103,11 +103,10 @@
   <section class="portada" aria-label="Destacados">{{SLIDER}}</section>
 
   <section class="confianza" aria-label="Por qué comprar aquí">
-    <ul>
-      <li><span class="circ"><svg class="ico"><use href="#i-cuota"/></svg></span><div><strong>Crédito directo</strong><span>Lo estudiamos en el almacén y pagas en cuotas.</span></div></li>
-      <li><span class="circ"><svg class="ico"><use href="#i-camion"/></svg></span><div><strong>Domicilio en Sucre y Córdoba</strong><span>Llegamos a gran parte de los municipios. Sujeto a cobertura.</span></div></li>
-      <li><span class="circ"><svg class="ico"><use href="#i-sello"/></svg></span><div><strong>Más de {{ANIOS}} años</strong><span>{{LEMA}}, desde siempre en Sincelejo.</span></div></li>
-      <li><span class="circ"><svg class="ico"><use href="#i-tienda"/></svg></span><div><strong>Tienda física</strong><span>{{DIR}}.</span></div></li>
+    <ul class="envoltura">
+      <li><svg class="ico"><use href="#i-cuota"/></svg><span><b>Crédito directo</b> con el almacén</span></li>
+      <li><svg class="ico"><use href="#i-camion"/></svg><span><b>Domicilio</b> en Sucre y Córdoba</span></li>
+      <li><svg class="ico"><use href="#i-tienda"/></svg><span><b>Tienda física</b> en la Avenida Okola</span></li>
     </ul>
   </section>
 
@@ -125,11 +124,7 @@
 <section class="seccion" aria-labelledby="t-pasos">
     <div class="envoltura">
       <div class="titulo-sec"><div><h2 id="t-pasos">Así compras</h2><p>Sin formularios largos ni registros.</p></div></div>
-      <ol class="pasos">
-        <li><h3>Elige tus productos</h3><p>Agrégalos a tu cotización desde el catálogo. Puedes llevar varios.</p></li>
-        <li><h3>Envía tu cotización por WhatsApp</h3><p>Un asesor confirma precio, disponibilidad y el plan de cuotas que te sirve.</p></li>
-        <li><h3>Recíbelo en tu casa</h3><p>Te lo llevamos a tu casa en Sincelejo y en gran parte de Sucre y Córdoba (sujeto a cobertura), o lo recoges en la tienda.</p></li>
-      </ol>
+      {{PASOS}}
     </div>
   </section>
 
@@ -167,22 +162,25 @@
     </div>
   </section>
 
-  <section class="seccion gris" id="tienda" aria-labelledby="t-tienda">
-    <div class="envoltura visita">
-      <div class="datos">
-        <img class="fachada" src="/img/fachada.jpg" alt="Fachada de {{NOMBRE}} en la Avenida Okola, Sincelejo" width="647" height="400" loading="lazy">
-        <h2 id="t-tienda">Visítanos en la Avenida Okola</h2>
-        <dl>
-          <div><dt>Dirección</dt><dd>{{DIR}}, {{CIUDAD}}, {{DEPTO}}</dd></div>
-          <div><dt>Teléfono</dt><dd><a href="tel:{{TEL_LINK}}" style="color:#fff">{{TEL}}</a></dd></div>
-          <div data-si="{{HORARIO}}"><dt>Horario</dt><dd>{{HORARIO}}</dd></div>
-        </dl>
-        <div class="btns">
-          <a class="btn btn-rojo" href="https://www.google.com/maps/dir/?api=1&destination={{MAPA_Q}}" target="_blank" rel="noopener" data-evento="como_llegar">Cómo llegar</a>
-          <a class="btn btn-borde" href="https://wa.me/{{WA_VENTAS}}" target="_blank" rel="noopener" data-wa="ventas" data-origen="tienda">WhatsApp</a>
+  <section class="seccion visita-sec" id="tienda" aria-labelledby="t-tienda">
+    <div class="envoltura">
+      <h2 class="momento" id="t-tienda">Más de {{ANIOS}} años<br>en la <span class="linea-roja">Avenida Okola.</span></h2>
+      <div class="visita">
+        <img class="fachada" src="/img/fachada-recorte.jpg" alt="Fachada de {{NOMBRE}} en la Avenida Okola, Sincelejo" width="592" height="360" loading="lazy">
+        <div class="datos">
+          <p class="datos-lema">{{LEMA}}, desde siempre en Sincelejo. Ven a ver los productos en persona.</p>
+          <dl>
+            <div><dt>Dirección</dt><dd>{{DIR}}, {{CIUDAD}}, {{DEPTO}}</dd></div>
+            <div><dt>Teléfono</dt><dd><a href="tel:{{TEL_LINK}}">{{TEL}}</a></dd></div>
+            <div data-si="{{HORARIO}}"><dt>Horario</dt><dd>{{HORARIO}}</dd></div>
+          </dl>
+          <div class="btns">
+            <a class="btn btn-rojo" href="https://www.google.com/maps/dir/?api=1&destination={{MAPA_Q}}" target="_blank" rel="noopener" data-evento="como_llegar">Cómo llegar</a>
+            <a class="btn btn-borde" href="https://wa.me/{{WA_VENTAS}}" target="_blank" rel="noopener" data-wa="ventas" data-origen="tienda">WhatsApp</a>
+          </div>
         </div>
+        <div class="mapa"><iframe title="Mapa de {{NOMBRE}}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={{MAPA_Q}}&output=embed"></iframe></div>
       </div>
-      <div class="mapa"><iframe title="Mapa de {{NOMBRE}}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={{MAPA_Q}}&output=embed"></iframe></div>
     </div>
   </section>
 
