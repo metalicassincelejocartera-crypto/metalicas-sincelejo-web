@@ -536,6 +536,7 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
   .visita{grid-template-columns:1fr}
   .visita .fachada{grid-row:auto;min-height:0;aspect-ratio:16/10}
   .resenas{grid-template-columns:1fr}
+  .resenas>*,.visita>*{min-width:0}
   .pasos{grid-template-columns:1fr 1fr}
 }
 @media (max-width:760px){
@@ -570,7 +571,7 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
   .depto:nth-child(-n+2) .depto-img img{height:132px;max-width:100%}
   .depto:nth-child(odd):last-child:not(:nth-child(-n+2)){grid-column:span 2}
   .ofertas .titulo-sec{margin-bottom:16px}
-  .pasos{grid-template-columns:1fr}
+  .pasos,.canales{grid-template-columns:1fr}
   .paso-vis{height:180px}
   .momento{font-size:clamp(40px,12vw,56px);margin-bottom:24px}
   /* Ficha de producto: precio y botón visibles sin bajar */
@@ -591,4 +592,11 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
   .menu-canales{right:14px;bottom:78px}
   .toast{bottom:84px;width:max-content;max-width:calc(100% - 32px);text-align:center}
   .tarjeta .et-contado s{display:none}
+}
+@media (max-width:380px){
+  .ctas .btn{padding:0 13px;font-size:14px}
+}
+@media (max-width:340px){
+  .ctas{flex-wrap:wrap}
+  .ctas .btn{flex:1 1 auto}
 }
