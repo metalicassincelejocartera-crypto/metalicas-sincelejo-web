@@ -74,6 +74,29 @@ async function leerFirestore() {
   return out;
 }
 
+// Entregas reales (panel → colección 'entregas'). Solo las marcadas para publicar.
+async function leerEntregas() {
+  const url = `https://firestore.googleapis.com/v1/projects/${T.firebase.projectId}/databases/(default)/documents:runQuery?key=${T.firebase.apiKey}`;
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ structuredQuery: { from: [{ collectionId: 'entregas' }], where: { fieldFilter: { field: { fieldPath: 'publicar' }, op: 'EQUAL', value: { booleanValue: true } } }, limit: 60 } }) });
+  if (!r.ok) throw new Error(`Firestore respondió ${r.status}: ${await r.text()}`);
+  return (await r.json()).filter(x => x.document).map(x => {
+    const f = {}; for (const [k, v] of Object.entries(x.document.fields || {})) f[k] = decodificar(v);
+    return { id: x.document.name.split('/').pop(), ...f };
+  });
+}
+function linkInstagram(u) {
+  try { const x = new URL(String(u || '').trim()); return /^https:$/.test(x.protocol) && /(^|\.)instagram\.com$/i.test(x.hostname) ? x.origin + x.pathname : ''; } catch (e) { return ''; }
+}
+function normalizarEntregas(docs) {
+  return docs.filter(e => e.publicar && e.foto && e.municipio)
+    .sort((a, b) => String(b.fecha || '').localeCompare(String(a.fecha || '')) || String(b.creado || '').localeCompare(String(a.creado || '')))
+    .slice(0, 12)
+    .map(e => ({ municipio: String(e.municipio).trim(), producto: String(e.producto || '').trim(), fecha: String(e.fecha || ''), instagram: linkInstagram(e.instagram), foto: guardarFoto(e.foto, 'entrega-' + slug(e.id) + '-' + require('crypto').createHash('md5').update(String(e.foto)).digest('hex').slice(0, 6)) }))
+    .filter(e => e.foto);
+}
+const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const mesAnio = f => { const m = /^(\d{4})-(\d{2})/.exec(f || ''); return m ? `${MESES[+m[2] - 1]} ${m[1]}` : ''; };
+
 /* ---------- Taxonomía ---------- */
 const DEPTOS = T.departamentos.map(d => ({ ...d, claves: new Set(d.categorias.map(c => sinTilde(c).trim())) }));
 const ALIAS = {}; for (const [k, v] of Object.entries(T.aliasCategorias || {})) ALIAS[sinTilde(k).trim()] = v;
@@ -314,9 +337,19 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
     }
   }
 
+  let docsEntregas = [];
+  const ie = process.argv.indexOf('--entregas');
+  if (ie > -1) docsEntregas = JSON.parse(fs.readFileSync(process.argv[ie + 1], 'utf8'));
+  else if (i === -1) {
+    try { docsEntregas = await leerEntregas(); }
+    catch (e) { console.error('⚠️  No se pudieron leer las entregas (revisa firestore.rules):', e.message); }
+  }
+
   fs.rmSync(DIST, { recursive: true, force: true });
   copiar(PUB, DIST);
   const productos = normalizar(docs).sort(ORDENES.relevancia);
+  const entregas = normalizarEntregas(docsEntregas);
+  console.log(`✔ ${entregas.length} entregas publicadas`);
   console.log(`✔ ${productos.length} productos activos`);
 
   /* --- Árbol departamento → categorías --- */
@@ -384,9 +417,23 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
       <span class="burbuja yo">Hola, quiero cotizar:<br>• 1 × ${esc(ejemplo ? ejemplo.nombre : 'Nevera')}${ejC ? `<br>${pesos(ejC)} x ${ejemplo.meses} meses` : ''}</span>
       <span class="burbuja ellos">¡Hola! Con gusto te ayudamos con tu crédito.</span></div>
       <h3>Envía tu cotización por WhatsApp</h3><p>Un asesor confirma precio, disponibilidad y el plan de cuotas que te sirve.</p></li>
-    <li><div class="paso-vis paso-entrega"><!-- FOTO: aquí va una foto real del camión entregando (cuando la tengas, reemplaza este bloque por <img>) --><svg class="camion" aria-hidden="true"><use href="#i-camion"/></svg><span class="ruta" aria-hidden="true"></span><span class="paso-chip">Sucre y Córdoba</span></div>
+    <li>${entregas[0] ? `<div class="paso-vis paso-foto"><img src="${esc(entregas[0].foto)}" alt="Entrega en ${esc(entregas[0].municipio)}" width="420" height="300" loading="lazy"><span class="paso-chip">${esc(entregas[0].municipio)}</span></div>` : `<div class="paso-vis paso-entrega"><svg class="camion" aria-hidden="true"><use href="#i-camion"/></svg><span class="ruta" aria-hidden="true"></span><span class="paso-chip">Sucre y Córdoba</span></div>`}
       <h3>Recíbelo en tu casa</h3><p>Te lo llevamos a tu casa en Sincelejo y en gran parte de Sucre y Córdoba (sujeto a cobertura), o lo recoges en la tienda.</p></li>
   </ol>`;
+
+  // Entregas reales: foto + municipio; el video vive en Instagram
+  const IG = (T.redes || {}).instagram || '';
+  const ENTREGAS = entregas.length ? `<section class="seccion entregas" id="entregas" aria-labelledby="t-entregas"><div class="envoltura">
+    <div class="titulo-sec"><div><h2 id="t-entregas">Entregas reales</h2><p>Clientes que ya recibieron su producto en Sucre y Córdoba.</p></div>${IG ? `<a class="btn btn-ig" href="${esc(IG)}" target="_blank" rel="noopener" data-evento="ver_instagram"><svg class="ico"><use href="#i-ig"/></svg>Síguenos en Instagram</a>` : ''}</div>
+    <div class="riel" data-riel><button class="riel-btn ant" type="button" data-riel-ant aria-label="Anteriores" aria-controls="riel-entregas"><svg class="ico"><use href="#i-flecha"/></svg></button>
+    <div class="carril carril-entregas" id="riel-entregas">${entregas.map(e => {
+      const cuerpo = `<img src="${esc(e.foto)}" alt="Entrega${e.producto ? ' de ' + esc(e.producto) : ''} en ${esc(e.municipio)}" width="360" height="450" loading="lazy"><span class="ent-info"><strong>${esc(e.municipio)}</strong>${e.producto || e.fecha ? `<small>${esc([e.producto, mesAnio(e.fecha)].filter(Boolean).join(' · '))}</small>` : ''}</span>`;
+      return e.instagram
+        ? `<a class="entrega" href="${esc(e.instagram)}" target="_blank" rel="noopener" data-evento="ver_video_entrega">${cuerpo}<span class="ent-play"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>Ver video</span></a>`
+        : `<figure class="entrega">${cuerpo}</figure>`;
+    }).join('')}</div>
+    <button class="riel-btn sig" type="button" data-riel-sig aria-label="Siguientes" aria-controls="riel-entregas"><svg class="ico"><use href="#i-flecha"/></svg></button></div>
+  </div></section>` : '';
 
   const faqHTML = FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
   const schemaInicio = {
@@ -397,7 +444,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
       { '@type': 'ItemList', name: 'Departamentos', itemListElement: arbol.map((d, n) => ({ '@type': 'ListItem', position: n + 1, url: DOM + d.url, name: d.nombre })) }
     ]
   };
-  escribir('index.html', fichas(PLANTILLA, { SCHEMA_ORG: ld(schemaInicio), SLIDER, DEPTOS: DEPTOS_HTML, OFERTAS, NEGOCIO, RIELES, PASOS, FAQ_HTML: faqHTML }));
+  escribir('index.html', fichas(PLANTILLA, { SCHEMA_ORG: ld(schemaInicio), SLIDER, DEPTOS: DEPTOS_HTML, OFERTAS, NEGOCIO, RIELES, PASOS, ENTREGAS, FAQ_HTML: faqHTML }));
 
   /* --- Departamentos y categorías (con paginación) --- */
   const urlsListado = [];

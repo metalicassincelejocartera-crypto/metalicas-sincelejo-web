@@ -600,3 +600,27 @@ a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip:auto;z-
   .ctas{flex-wrap:wrap}
   .ctas .btn{flex:1 1 auto}
 }
+
+/* ---------- Entregas reales (fotos del panel, video en Instagram) ---------- */
+.paso-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.btn-ig{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--linea);min-height:42px;font-size:14px}
+.btn-ig .ico{color:#D62976}
+.btn-ig:hover{box-shadow:inset 0 0 0 1.5px #D62976}
+.carril-entregas{grid-auto-columns:calc((100% - 3*14px)/4)}
+.entrega{position:relative;display:block;margin:0;aspect-ratio:4/5;border-radius:var(--r-l);overflow:hidden;background:var(--azul-900);color:#fff;text-decoration:none;isolation:isolate}
+.entrega img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s var(--ease-out)}
+.entrega::after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(10,12,40,.82));z-index:0}
+.ent-info{position:absolute;left:16px;right:16px;bottom:14px;z-index:1;display:grid;gap:2px}
+.ent-info strong{font-family:var(--f-disp);font-size:22px;letter-spacing:-.02em;line-height:1.05}
+.ent-info small{font-size:13px;color:#E3E4F7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ent-play{position:absolute;top:12px;left:12px;z-index:1;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.94);color:var(--ink);font-weight:800;font-size:13px;padding:6px 12px 6px 8px;border-radius:999px;box-shadow:0 6px 16px -8px rgba(0,0,0,.5)}
+.ent-play svg{width:18px;height:18px;color:#D62976}
+@media (hover:hover) and (pointer:fine){
+  a.entrega:hover img{transform:scale(1.03)}
+  a.entrega:hover .ent-play{background:#fff}
+}
+@media (max-width:1100px){.carril-entregas{grid-auto-columns:calc((100% - 2*14px)/3)}}
+@media (max-width:760px){
+  .carril-entregas{grid-auto-columns:calc((100% - 10px)/1.6)}
+  .ent-info strong{font-size:19px}
+}

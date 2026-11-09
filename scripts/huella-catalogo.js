@@ -26,6 +26,14 @@ const ARCHIVO = path.join(RAIZ, '.catalogo-version');
     for (const d of j.documents || []) items.push(d.name.split('/').pop() + '@' + d.updateTime);
     token = j.nextPageToken || '';
   } while (token);
+  // Entregas publicadas: si cambian (nueva foto, ocultar, borrar) también se republica la web
+  try {
+    const r = await fetch(`https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:runQuery?key=${apiKey}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ structuredQuery: { select: { fields: [{ fieldPath: 'publicar' }] }, from: [{ collectionId: 'entregas' }], where: { fieldFilter: { field: { fieldPath: 'publicar' }, op: 'EQUAL', value: { booleanValue: true } } } } })
+    });
+    if (r.ok) for (const x of await r.json()) if (x.document) items.push('entrega:' + x.document.name.split('/').pop() + '@' + x.document.updateTime);
+  } catch (e) { console.error('Aviso: no se pudieron revisar las entregas:', e.message); }
   items.sort();
   const huella = crypto.createHash('sha256').update(items.join('\n')).digest('hex');
   const anterior = fs.existsSync(ARCHIVO) ? fs.readFileSync(ARCHIVO, 'utf8').split('\n')[0].trim() : '';
