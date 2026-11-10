@@ -32,13 +32,16 @@ const ARCHIVO = path.join(RAIZ, '.catalogo-version');
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ structuredQuery: { select: { fields: [{ fieldPath: 'publicar' }] }, from: [{ collectionId: 'entregas' }], where: { fieldFilter: { field: { fieldPath: 'publicar' }, op: 'EQUAL', value: { booleanValue: true } } } } })
     });
-    if (r.ok) for (const x of await r.json()) if (x.document) items.push('entrega:' + x.document.name.split('/').pop() + '@' + x.document.updateTime);
+    if (!r.ok) throw new Error(`Firestore respondió ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    let n = 0;
+    for (const x of await r.json()) if (x.document) { n++; items.push('entrega:' + x.document.name.split('/').pop() + '@' + x.document.updateTime); }
+    console.log(`${n} entregas marcadas para publicar`);
   } catch (e) { console.error('Aviso: no se pudieron revisar las entregas:', e.message); }
   items.sort();
   const huella = crypto.createHash('sha256').update(items.join('\n')).digest('hex');
   const anterior = fs.existsSync(ARCHIVO) ? fs.readFileSync(ARCHIVO, 'utf8').split('\n')[0].trim() : '';
   const cambio = huella !== anterior;
   if (cambio) fs.writeFileSync(ARCHIVO, `${huella}\n${items.length} productos\n`);
-  console.log(`${items.length} productos · huella ${huella.slice(0, 12)} · ${cambio ? 'CAMBIÓ' : 'sin cambios'}`);
+  console.log(`${items.length} elementos (productos y entregas) · huella ${huella.slice(0, 12)} · ${cambio ? 'CAMBIÓ' : 'sin cambios'}`);
   if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `cambio=${cambio ? 1 : 0}\n`);
 })().catch(e => { console.error('No se pudo leer el catálogo:', e.message); process.exit(1); });
