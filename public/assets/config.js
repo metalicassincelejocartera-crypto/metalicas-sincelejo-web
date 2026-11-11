@@ -57,6 +57,17 @@ window.TIENDA = {
 
   nit: '901.159.954-3',
 
+  // Política de tratamiento de datos (/politica-de-privacidad/, enlace corto /datos).
+  // Si cambias el texto de la política, sube la versión y la fecha.
+  datosPersonales: {
+    razonSocial: 'Almacenes Metálicas Sincelejo S.A.S.',
+    correo: 'carterametalicassincelejo@gmail.com',
+    telefono: '305 239 9487 (WhatsApp de Cartera)',
+    area: 'Departamento de Cartera, en la tienda de la Avenida Okola',
+    version: '2',
+    vigenteDesde: '11 de noviembre de 2026'
+  },
+
   /* ---------------------------------------------------------------
      DEPARTAMENTOS — agrupan las categorías que escribes en el panel.
      'categorias' usa el nombre de la categoría tal como está en el panel,

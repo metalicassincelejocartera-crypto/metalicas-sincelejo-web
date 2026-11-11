@@ -209,13 +209,22 @@ function headExtra() {
   if (T.metaVerificacion) h += `<meta name="facebook-domain-verification" content="${esc(T.metaVerificacion)}">`;
   return h;
 }
+function datosPolitica() {
+  const d = T.datosPersonales || {}, wa = T.whatsapp || {};
+  const bonito = n => String(n || '').replace(/^57/, '').replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+  return {
+    RAZON_SOCIAL: esc(d.razonSocial || T.nombre), CORREO_DATOS: esc(d.correo || T.correo || ''), TEL_DATOS: esc(d.telefono || T.telefono),
+    AREA_DATOS: esc(d.area || 'Administración'), POLITICA_VERSION: esc(d.version || '1'), POLITICA_FECHA: esc(d.vigenteDesde || ''),
+    WA_VENTAS_TXT: bonito(wa.ventas), WA_CARTERA_TXT: bonito(wa.cartera), WA_SOPORTE_TXT: bonito(wa.soporte)
+  };
+}
 function fichas(html, extra) {
   const mapaQ = encodeURIComponent(`${T.nombre}, ${T.direccion.calle}, ${T.direccion.ciudad}, ${T.direccion.departamento}`);
   const t = Object.assign({
     NOMBRE: esc(T.nombre), LEMA: esc(T.lema), ANIOS: T.anios, TEL: esc(T.telefono), TEL_LINK: T.telefono.replace(/[^\d+]/g, ''),
     DIR: esc(T.direccion.calle), CIUDAD: esc(T.direccion.ciudad), DEPTO: esc(T.direccion.departamento), DOMINIO: DOM,
     WA_VENTAS: (T.whatsapp || {}).ventas || '', HORARIO: esc(T.horarioTexto || ''), NIT: esc(T.nit || ''), ANIO: new Date().getFullYear(),
-    GOOGLE_PERFIL: esc(T.googlePerfil || ''), MAPA_Q: mapaQ, HEAD_EXTRA: headExtra(), MARCA: marcaHTML(), REDES: redesHTML()
+    GOOGLE_PERFIL: esc(T.googlePerfil || ''), MAPA_Q: mapaQ, ...datosPolitica(), HEAD_EXTRA: headExtra(), MARCA: marcaHTML(), REDES: redesHTML()
   }, COMUNES, extra || {});
   // dos pasadas: algunos fragmentos contienen fichas
   let out = html;
@@ -532,6 +541,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
   const nuevas = new Set(['/', ...urlsListado.map(u => u[0])]);
   const redir = new Map();
   productos.forEach(p => { const vieja = `/categoria/${slug(p.categoriaOriginal || 'General')}/`; if (!nuevas.has(vieja) && !redir.has(vieja)) redir.set(vieja, p.subUrl); });
+  redir.set('/datos', '/politica-de-privacidad/');   // enlace corto para WhatsApp y recibos
   escribir('_redirects', [...redir].map(([a, b]) => `${a} ${b} 301`).join('\n') + '\n');
 
   /* --- Sitemap y robots --- */
