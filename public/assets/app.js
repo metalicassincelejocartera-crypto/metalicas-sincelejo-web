@@ -384,7 +384,8 @@
     $('[data-vaciar]').addEventListener('click', function () { COT = []; guardarCot(); });
     $('[data-enviar-cotizacion]').addEventListener('click', function () {
       if (!COT.length) return;
-      var lineas = COT.map(function (x) { return '• ' + x.cant + ' × ' + x.nombre + (x.marca ? ' (' + x.marca + ')' : '') + ' — ' + pesos(x.precio) + ' contado' + (x.cuota ? ' / ' + pesos(x.cuota) + ' x ' + x.meses + ' meses' : ''); });
+      // "· cód." = código del producto en el catálogo: el bot de Ventas lo cruza exacto (lib/cotizacionWeb.js del bot).
+      var lineas = COT.map(function (x) { return '• ' + x.cant + ' × ' + x.nombre + (x.marca ? ' (' + x.marca + ')' : '') + ' — ' + pesos(x.precio) + ' contado' + (x.cuota ? ' / ' + pesos(x.cuota) + ' x ' + x.meses + ' meses' : '') + (x.slug ? ' · cód. ' + x.slug : ''); });
       var total = COT.reduce(function (t, x) { return t + x.precio * x.cant; }, 0);
       var url = linkWa('ventas', 'Hola, quiero cotizar estos productos de la página web:\n' + lineas.join('\n') + '\n\nTotal de contado: ' + pesos(total) + '\n¿Me ayudan con disponibilidad y plan de crédito?');
       if (!url) return aviso('WhatsApp de ventas no configurado');
