@@ -18,7 +18,7 @@ Esencia: tienda de barrio con más de 30 años, crédito directo, cuota mensual 
 - Texto: Figtree 400–800.
 
 ## Estructura (rediseño nov 2026, con impeccable + taste-skill + Emil Kowalski)
-- Inicio: portada única (sin carrusel) con el producto en oferta en grande y su etiqueta de cuota → franja de confianza en una línea → mosaico de departamentos (2 grandes + resto) → ofertas en franja roja → banda negocio → 2 vitrinas por departamento → así compras (producto real, chat de WhatsApp, entrega) → canales → opiniones → momento "Más de 30 años en la Avenida Okola" con fachada y mapa → preguntas.
+- Inicio: portada única (sin carrusel) con el producto en oferta en grande, su etiqueta de cuota, el sello rojo "Más de 30 años en Sucre" y "Cuotas desde" → cinta de entregas reales que desfila → franja de confianza en una línea → mosaico de departamentos (2 grandes + resto) → ofertas en franja roja → banda negocio → 2 vitrinas por departamento → así compras (producto real, chat de WhatsApp, entrega) → canales → opiniones → momento "Más de 30 años en Sucre" con fachada y mapa (la Avenida Okola queda como dirección) → preguntas.
 - Departamentos (config.js) → categorías → producto. 24 productos por página, cada página con su URL.
 - Tarjeta: marca, nombre (2 líneas), etiqueta de precio (fondo azul-50 con "ojal": cuota grande en azul, contado debajo), -% en rojo con forma de etiqueta, botón "Agregar a cotización".
 - Ficha de producto en celular: barra fija abajo con la cuota y "Lo quiero"; sin botón flotante.

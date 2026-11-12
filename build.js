@@ -91,11 +91,40 @@ function normalizarEntregas(docs) {
   return docs.filter(e => e.publicar && e.foto && e.municipio)
     .sort((a, b) => String(b.fecha || '').localeCompare(String(a.fecha || '')) || String(b.creado || '').localeCompare(String(a.creado || '')))
     .slice(0, 12)
-    .map(e => ({ municipio: String(e.municipio).trim(), producto: String(e.producto || '').trim(), fecha: String(e.fecha || ''), instagram: linkInstagram(e.instagram), foto: guardarFoto(e.foto, 'entrega-' + slug(e.id) + '-' + require('crypto').createHash('md5').update(String(e.foto)).digest('hex').slice(0, 6)) }))
+    .map(e => ({ municipio: municipioBonito(e.municipio), producto: oracion(e.producto), fecha: String(e.fecha || ''), instagram: linkInstagram(e.instagram), foto: guardarFoto(e.foto, 'entrega-' + slug(e.id) + '-' + require('crypto').createHash('md5').update(String(e.foto)).digest('hex').slice(0, 6)) }))
     .filter(e => e.foto);
 }
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 const mesAnio = f => { const m = /^(\d{4})-(\d{2})/.exec(f || ''); return m ? `${MESES[+m[2] - 1]} ${m[1]}` : ''; };
+
+
+/* ---------- Limpieza de textos que vienen del panel ---------- */
+// Corrige errores frecuentes al escribir el nombre (no cambia el slug ni la URL).
+const CORRECCIONES = [
+  [/\bno\s*fro[st]{1,2}s?\b/gi, 'No Frost'], [/\bhisence\b/gi, 'Hisense'], [/\bhorizonta\b/gi, 'Horizontal'],
+  [/\bsemiautom[aá]tic[ao]s?\b/gi, 'semiautomática'], [/\bsmar\s?tv\b/gi, 'Smart TV'], [/\bsmart\s?tv\b/gi, 'Smart TV']
+];
+function limpiarNombre(n) {
+  let s = String(n || '').trim().replace(/\s+/g, ' ');
+  s = s.replace(/\s*-\s*(?=[A-Za-zÁÉÍÓÚáéíóúÑñ(])/g, ' ')      // "11 Kilos-Semiautomatica" → "11 Kilos Semiautomatica"
+       .replace(/\s+-\s*$/, '');
+  for (const [re, v] of CORRECCIONES) s = s.replace(re, v);
+  return s.replace(/\s+/g, ' ').trim();
+}
+// "TUCHIN" / "corozal" → "Tuchín" / "Corozal"
+const TILDES = { tuchin: 'Tuchín', 'san andres': 'San Andrés', 'san andres de sotavento': 'San Andrés de Sotavento', sampues: 'Sampués', since: 'Sincé', chinu: 'Chinú', sahagun: 'Sahagún', monteria: 'Montería', cerete: 'Cereté', covenas: 'Coveñas', tolu: 'Tolú', 'santiago de tolu': 'Santiago de Tolú', 'cienaga de oro': 'Ciénaga de Oro', purisima: 'Purísima', 'san onofre': 'San Onofre', 'san marcos': 'San Marcos', 'san pedro': 'San Pedro', 'la union': 'La Unión', 'san benito abad': 'San Benito Abad', 'caimito': 'Caimito', 'el roble': 'El Roble', 'buenavista': 'Buenavista', 'momil': 'Momil', 'chima': 'Chimá', 'cotorra': 'Cotorra', 'san antero': 'San Antero', 'lorica': 'Lorica', 'santa cruz de lorica': 'Santa Cruz de Lorica' };
+const PEQ = new Set(['de', 'del', 'la', 'las', 'los', 'y', 'el']);
+function municipioBonito(m) {
+  const k = sinTilde(m).replace(/\s+/g, ' ').trim();
+  if (TILDES[k]) return TILDES[k];
+  return k.split(' ').map((w, i) => i && PEQ.has(w) ? w : w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+function oracion(t) {   // "TELEVISOR SMARTV" → "Televisor Smart TV"
+  let s = String(t || '').trim(); if (!s) return '';
+  if (s === s.toUpperCase()) s = s.toLowerCase();
+  s = limpiarNombre(s);
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 /* ---------- Taxonomía ---------- */
 const DEPTOS = T.departamentos.map(d => ({ ...d, claves: new Set(d.categorias.map(c => sinTilde(c).trim())) }));
@@ -131,7 +160,7 @@ function normalizar(docs) {
     const c = clasificar(d.categoria || 'General');
     const marca = String(d.marca || '').trim();
     return {
-      id: d.id, slug: s, nombre: String(d.nombre).trim().replace(/\s+/g, ' '),
+      id: d.id, slug: s, nombre: limpiarNombre(d.nombre),
       categoriaOriginal: d.categoria || '', dept: c.d.nombre, deptSlug: c.d.slug, icono: c.d.icono, sub: c.sub, subSlug: c.subSlug,
       marca: marca ? marca.charAt(0).toUpperCase() + marca.slice(1) : '', color: d.color || '',
       contado: num(d.contado) || 0, credito: num(d.credito), meses: num(d.mesesCredito),
@@ -388,15 +417,24 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
   // Portada: una sola, con el producto destacado en grande (sin carrusel)
   const destacado = ofertas.find(p => p.imgs.length) || conFoto[0];
   const etiqueta = MS.etiqueta;
+  const cuotaMin = Math.min(...productos.map(cuota).filter(Boolean)) || 0;
   const heroVisual = destacado
     ? `<a class="hero-prod" href="${destacado.url}" data-entrar="2"><span class="hero-foto"><img src="${esc(destacado.imgs[0])}" alt="${esc(destacado.nombre)}" width="560" height="560" fetchpriority="high"></span>
       <span class="hero-info">${enOferta(destacado) ? `<span class="dto-tag">-${descuento(destacado)}% hoy</span>` : ''}<span class="hero-nombre">${esc(destacado.nombre)}</span>${etiqueta(destacado, 'grande')}<span class="hero-ver">Ver producto <svg class="ico"><use href="#i-flecha"/></svg></span></span></a>`
-    : `<div class="hero-prod hero-tienda" data-entrar="2"><img src="/img/fachada-recorte.jpg" alt="Fachada de {{NOMBRE}} en la Avenida Okola" width="592" height="360" fetchpriority="high"></div>`;
+    : `<div class="hero-prod hero-tienda" data-entrar="2"><img src="/img/fachada-recorte.jpg" alt="Fachada de {{NOMBRE}} en Sincelejo, Sucre" width="592" height="360" fetchpriority="high"></div>`;
   const SLIDER = `<div class="hero envoltura">
     <div class="hero-txt"><h1 data-entrar="0">Llévalo hoy,<br><span class="linea-roja">págalo en cuotas.</span></h1>
     <p data-entrar="1">Electrodomésticos y muebles con crédito directo del almacén y domicilio en Sucre y Córdoba.</p>
-    <div class="ctas" data-entrar="1"><a class="btn btn-rojo" href="#departamentos">Ver productos</a><a class="btn btn-borde-claro" href="https://wa.me/{{WA_VENTAS}}?text=Hola%2C%20quiero%20saber%20c%C3%B3mo%20sacar%20un%20cr%C3%A9dito" target="_blank" rel="noopener" data-wa="ventas" data-origen="portada">Pregunta por tu crédito</a></div></div>
-    ${heroVisual}</div>`;
+    <div class="ctas" data-entrar="1"><a class="btn btn-rojo" href="#departamentos">Ver productos</a><a class="btn btn-borde-claro" href="https://wa.me/{{WA_VENTAS}}?text=Hola%2C%20quiero%20saber%20c%C3%B3mo%20sacar%20un%20cr%C3%A9dito" target="_blank" rel="noopener" data-wa="ventas" data-origen="portada">Pregunta por tu crédito</a></div>
+    ${cuotaMin ? `<p class="hero-desde" data-entrar="2">Cuotas desde <b>${pesos(cuotaMin)}</b> al mes</p>` : ''}</div>
+    <div class="hero-vis">${heroVisual}<span class="sello" aria-label="Más de {{ANIOS}} años en Sucre"><span class="sello-in"><small>Más de</small><b>{{ANIOS}}</b><small>años en Sucre</small></span></span></div></div>`;
+
+  // Cinta de entregas reales bajo la portada: prueba social apenas entra el cliente
+  const TICKER = entregas.length >= 3 ? (() => {
+    const chip = e => `<li><img src="${esc(e.foto)}" alt="" width="40" height="40" loading="lazy"><span><b>${esc(e.municipio)}</b>${e.producto ? ' · ' + esc(e.producto) : ''}</span></li>`;
+    const lista = entregas.map(chip).join('');
+    return `<section class="cinta" aria-label="Entregas recientes"><div class="cinta-cab"><span class="cinta-punto" aria-hidden="true"></span>Entregado hace poco en</div><div class="cinta-vista"><ul class="cinta-pista">${lista}<li class="cinta-fin"><a href="#entregas">Ver entregas</a></li></ul><ul class="cinta-pista" aria-hidden="true">${lista}<li class="cinta-fin"><a href="#entregas" tabindex="-1">Ver entregas</a></li></ul></div></section>`;
+  })() : '';
 
   const DEPTOS_HTML = arbol.map(d => {
     const conImg = d.items.find(p => p.imgs.length);
@@ -413,8 +451,13 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
     <div class="bn-fotos">${negocioD.items.filter(p => p.imgs.length).slice(0, 3).map(p => `<a class="conf" href="${p.url}"${fondo(p.imgs[0])}><img src="${esc(p.imgs[0])}" alt="${esc(p.nombre)}" width="200" height="200" loading="lazy"></a>`).join('')}</div>
   </div></div></section>` : '';
 
-  const rielDeptos = [...arbol].filter(d => d.slug !== 'equipos-para-negocio').sort((a, b) => b.items.filter(p => p.imgs.length).length - a.items.filter(p => p.imgs.length).length || b.items.length - a.items.length).slice(0, 2);
-  const RIELES = rielDeptos.map((d, k) => `<section class="seccion${k % 2 === 1 ? ' gris' : ''}" aria-labelledby="t-r-${d.slug}"><div class="envoltura"><div class="titulo-sec"><div><h2 id="t-r-${d.slug}">${esc(d.nombre)}</h2>${conSubs(d) ? `<p class="mini-subs">${d.subs.slice(0, 5).map(s => `<a href="${urlSub(d, s)}">${esc(s.nombre)}</a>`).join('')}</p>` : ''}</div><a class="btn btn-ver" href="${d.url}">Ver todos (${d.items.length})</a></div>${riel(d.items.slice(0, 10), 'riel-' + d.slug)}</div></section>`).join('');
+  // No repetir en las vitrinas lo que ya se vio en "Ofertas de hoy": antes salían las mismas lavadoras dos veces seguidas.
+  const yaVistos = new Set(ofertas.slice(0, 12).map(p => p.slug));
+  const restantes = d => d.items.filter(p => !yaVistos.has(p.slug));
+  const conFotoNuevas = d => restantes(d).filter(p => p.imgs.length).length;
+  const rielDeptos = [...arbol].filter(d => d.slug !== 'equipos-para-negocio' && conFotoNuevas(d) >= 4).sort((a, b) => conFotoNuevas(b) - conFotoNuevas(a) || b.items.length - a.items.length).slice(0, 2)
+    .map(d => ({ ...d, vitrina: [...restantes(d).filter(p => p.imgs.length), ...restantes(d).filter(p => !p.imgs.length)].slice(0, 10) }));
+  const RIELES = rielDeptos.map((d, k) => `<section class="seccion${k % 2 === 1 ? ' gris' : ''}" aria-labelledby="t-r-${d.slug}"><div class="envoltura"><div class="titulo-sec"><div><h2 id="t-r-${d.slug}">${esc(d.nombre)}</h2>${conSubs(d) ? `<p class="mini-subs">${d.subs.slice(0, 5).map(s => `<a href="${urlSub(d, s)}">${esc(s.nombre)}</a>`).join('')}</p>` : ''}</div><a class="btn btn-ver" href="${d.url}">Ver todos (${d.items.length})</a></div>${riel(d.vitrina, 'riel-' + d.slug)}</div></section>`).join('');
 
   // "Así compras": cada paso con su imagen (producto real, conversación de WhatsApp, entrega)
   const ejemplo = conFoto.find(p => p !== destacado && cuota(p)) || destacado;
@@ -453,7 +496,7 @@ function htmlListado({ h1, intro, chips, items, actual, base, alcance }) {
       { '@type': 'ItemList', name: 'Departamentos', itemListElement: arbol.map((d, n) => ({ '@type': 'ListItem', position: n + 1, url: DOM + d.url, name: d.nombre })) }
     ]
   };
-  escribir('index.html', fichas(PLANTILLA, { SCHEMA_ORG: ld(schemaInicio), SLIDER, DEPTOS: DEPTOS_HTML, OFERTAS, NEGOCIO, RIELES, PASOS, ENTREGAS, FAQ_HTML: faqHTML }));
+  escribir('index.html', fichas(PLANTILLA, { SCHEMA_ORG: ld(schemaInicio), SLIDER, DEPTOS: DEPTOS_HTML, OFERTAS, NEGOCIO, RIELES, PASOS, ENTREGAS, FAQ_HTML: faqHTML, TICKER }));
 
   /* --- Departamentos y categorías (con paginación) --- */
   const urlsListado = [];
