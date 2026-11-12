@@ -44,7 +44,7 @@ window.TIENDA = {
   googlePerfil: 'https://share.google/iZpN5yipGssH2x0Dc',
 
   // Medición (se activan solo si el visitante acepta cookies)
-  ga4: '',                     // ej: 'G-XXXXXXXXXX'
+  ga4: 'G-Q7FW6P5V07',                   // ej: 'G-XXXXXXXXXX'
   metaPixel: '',               // ej: '123456789012345'
   googleVerificacion: '',      // contenido de la meta "google-site-verification"
   metaVerificacion: '',        // contenido de la meta "facebook-domain-verification"
